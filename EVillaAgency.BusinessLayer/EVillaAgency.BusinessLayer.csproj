@@ -19,4 +19,9 @@
     </PackageReference>
   </ItemGroup>
 
+  <ItemGroup>
+    <ProjectReference Include="..\EVillaAgency.DataAccessLayer\EVillaAgency.DataAccessLayer.csproj" />
+    <ProjectReference Include="..\EVillaAgency.EntityLayer\EVillaAgency.EntityLayer.csproj" />
+  </ItemGroup>
+
 </Project>
