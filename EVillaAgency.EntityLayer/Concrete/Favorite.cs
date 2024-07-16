@@ -8,7 +8,7 @@ namespace EVillaAgency.EntityLayer.Concrete
 {
     public class Favorite
     {
-        public int Id { get; set; }
+        public int FavoriteId { get; set; }
         public int UserId { get; set; }
         public int HouseId { get; set; }
 

@@ -12,11 +12,11 @@ namespace EVillaAgency.DataAccessLayer.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server= ABYSSISS\\SQLEXPRESS; initial catalog = EVillaAgencyDb;integrated security = true; TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("server= localhost; initial catalog = EVillaAgencyDb;integrated security = true; TrustServerCertificate=True");
         }
         public DbSet<User> Users { get; set; }
         public DbSet<House> Houses { get; set; }
-        public DbSet<Message> Messages { get; set; }
+        //public DbSet<Message> Messages { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
         public DbSet<Image> Images { get; set; }
         public DbSet<HouseImage> HouseImages { get; set; }
@@ -36,6 +36,30 @@ namespace EVillaAgency.DataAccessLayer.Context
                 .HasOne(cb => cb.Image)
                 .WithMany(c => c.HouseImages)
                 .HasForeignKey(cb => cb.HouseId);
+
+
+            //modelBuilder.Entity<Favorite>()
+            //    .HasKey(f => new { f.UserId, f.HouseId });
+
+            //modelBuilder.Entity<Favorite>()
+            //    .HasOne(f => f.User)
+            //    .WithMany(u => u.Favorites)
+            //    .HasForeignKey(f => f.UserId)
+            //    .OnDelete(DeleteBehavior.Restrict); // Silme davranışını ayarlayabilirsiniz
+
+            //modelBuilder.Entity<Favorite>()
+            //    .HasOne(f => f.House)
+            //    .WithMany(h => h.Favorites)
+            //    .HasForeignKey(f => f.HouseId)
+            //    .OnDelete(DeleteBehavior.Restrict); // Silme davranışını ayarlayabilirsiniz
+            // ApplicationDbContext içindeki OnModelCreating metodu
+
+            modelBuilder.Entity<Favorite>()
+    .HasOne(f => f.User)
+    .WithMany(u => u.Favorites)
+    .HasForeignKey(f => f.UserId)
+    .OnDelete(DeleteBehavior.Restrict); // veya .OnDelete(DeleteBehavior.NoAction);
+
 
 
         }
