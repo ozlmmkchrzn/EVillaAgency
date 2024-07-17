@@ -55,7 +55,7 @@ namespace EVillaAgency.WebAPI.Controllers
         [HttpPut]
         public async Task<IActionResult> UpdateHouseType(UpdateHouseTypeDto dto)
         {
-            var existingImage = await _houseTypeService.GetByIDAsync(dto.Id);
+            var existingImage = await _houseTypeService.GetByIDAsync(dto.HouseTypeId);
 
             if (existingImage == null)
             {
