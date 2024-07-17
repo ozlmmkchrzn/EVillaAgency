@@ -29,9 +29,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 .Select(z => new ResultHouseNameAndUsernameByFavoriteIdDto
                 {
                     FavoriteId = id,
-                    HouseId = z.HouseId,
                     HouseName = z.House.Title,
-                    UserId = z.UserId,
                     UserName = z.User.Username
                 }).FirstOrDefaultAsync();
             return values;
