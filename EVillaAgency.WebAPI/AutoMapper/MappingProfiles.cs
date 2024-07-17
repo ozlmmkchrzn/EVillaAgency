@@ -26,6 +26,7 @@ namespace EVillaAgency.WebAPI.AutoMapper
             CreateMap<User, UpdateUserDto>().ReverseMap();
 
             CreateMap<House, ResultHouseDto>().ReverseMap();
+            CreateMap<House, ResultHouseWithHouseTypeDto>().ReverseMap();
             CreateMap<House, CreateHouseDto>().ReverseMap();
             CreateMap<House, UpdateHouseDto>().ReverseMap();
 
@@ -34,6 +35,7 @@ namespace EVillaAgency.WebAPI.AutoMapper
             CreateMap<HouseImage, UpdateHouseImageDto>().ReverseMap();
 
             CreateMap<Favorite, ResultFavoriteDto>().ReverseMap();
+            CreateMap<Favorite, ResultHouseNameAndUsernameByFavoriteIdDto>().ReverseMap();
             CreateMap<Favorite, CreateFavoriteDto>().ReverseMap();
             CreateMap<Favorite, UpdateFavoriteDto>().ReverseMap();
         }

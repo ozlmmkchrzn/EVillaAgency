@@ -97,5 +97,13 @@ namespace EVillaAgency.WebAPI.Controllers
                 }
             }
         }
+
+        [HttpGet("GetHouseNameAndUsernameByFavoriteId/{id}")]
+        public async Task<IActionResult> GetHouseNameAndUsernameByFavoriteId(int id)
+        {
+            var values = await _favoriteService.GetHouseNameAndUserNameByFavoriteIdAsync(id);
+            return Ok(values);
+        }
+
     }
 }

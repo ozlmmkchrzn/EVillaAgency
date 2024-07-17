@@ -1,4 +1,5 @@
-﻿using EVillaAgency.EntityLayer.Concrete;
+﻿using EVillaAgency.DtoLayer.FavoriteDtos;
+using EVillaAgency.EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
 {
     public interface IFavoriteService : IGenericService<Favorite>
     {
+        Task<ResultHouseNameAndUsernameByFavoriteIdDto> GetHouseNameAndUserNameByFavoriteIdAsync(int id);
     }
+
 }

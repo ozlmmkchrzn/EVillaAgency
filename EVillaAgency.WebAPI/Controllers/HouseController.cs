@@ -99,5 +99,12 @@ namespace EVillaAgency.WebAPI.Controllers
                 }
             }
         }
+
+        [HttpGet("GetHouseWithHouseType")]
+        public async Task<IActionResult> GetHouseWithHouseType()
+        {
+            var values = await _houseService.GetHouseWithHouseTypeAsync();
+            return Ok(values);
+        }
     }
 }

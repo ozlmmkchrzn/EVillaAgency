@@ -1,4 +1,5 @@
-﻿using EVillaAgency.EntityLayer.Concrete;
+﻿using EVillaAgency.DtoLayer.HouseDtos;
+using EVillaAgency.EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -9,5 +10,6 @@ namespace EVillaAgency.BusinessLayer.Abstract
 {
     public interface IHouseService : IGenericService<House>
     {
+        Task<List<ResultHouseWithHouseTypeDto>> GetHouseWithHouseTypeAsync();
     }
 }
