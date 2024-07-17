@@ -12,7 +12,7 @@ namespace EVillaAgency.DataAccessLayer.Context
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
-            optionsBuilder.UseSqlServer("server= localhost; initial catalog = EVillaAgencyDb;integrated security = true; TrustServerCertificate=True");
+            optionsBuilder.UseSqlServer("server= ABYSSISS\\SQLEXPRESS; initial catalog = EVillaAgencyDb;integrated security = true; TrustServerCertificate=True");
         }
         public DbSet<User> Users { get; set; }
         public DbSet<House> Houses { get; set; }

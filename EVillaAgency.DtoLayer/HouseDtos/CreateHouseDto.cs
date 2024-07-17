@@ -4,11 +4,10 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EVillaAgency.EntityLayer.Concrete
+namespace EVillaAgency.DtoLayer.HouseDtos
 {
-    public class House
+    public class CreateHouseDto
     {
-        public int HouseId { get; set; }
         public string Title { get; set; }
         public string Description { get; set; }
         public decimal Price { get; set; }
@@ -24,13 +23,5 @@ namespace EVillaAgency.EntityLayer.Concrete
         public int YearBuilt { get; set; }
         public string HeatingType { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime? UpdatedAt { get; set; }
-
-        public User Owner { get; set; }
-        public ICollection<HouseImage> HouseImages { get; set; }
-        public HouseType HouseTypes { get; set; }
-        //public ICollection<Message> Messages { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
-
     }
 }
