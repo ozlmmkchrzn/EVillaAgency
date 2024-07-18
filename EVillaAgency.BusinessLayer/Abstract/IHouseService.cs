@@ -10,6 +10,8 @@ namespace EVillaAgency.BusinessLayer.Abstract
 {
     public interface IHouseService : IGenericService<House>
     {
-        Task<List<ResultHouseWithHouseTypeDto>> GetHouseWithHouseTypeAsync();
+        Task<List<ResultHousesWithNames>> GetHouseWithNamesAsync();
+        Task<ResultHousesWithNames> GetHouseWithNamesByIdAsync(int id);
+        Task<List<ResultHousesWithNames>> GetHousesByHouseTypeId(int id);
     }
 }

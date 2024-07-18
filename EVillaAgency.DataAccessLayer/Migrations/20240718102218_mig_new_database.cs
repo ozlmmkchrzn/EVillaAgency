@@ -6,7 +6,7 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class mig1 : Migration
+    public partial class mig_new_database : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
@@ -76,7 +76,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     YearBuilt = table.Column<int>(type: "int", nullable: false),
                     HeatingType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: false)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
                 },
                 constraints: table =>
                 {
@@ -125,22 +125,23 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 name: "HouseImages",
                 columns: table => new
                 {
-                    HouseId = table.Column<int>(type: "int", nullable: false),
-                    ImageId = table.Column<int>(type: "int", nullable: false),
                     Id = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    HouseId = table.Column<int>(type: "int", nullable: false),
+                    ImageId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_HouseImages", x => new { x.HouseId, x.ImageId });
+                    table.PrimaryKey("PK_HouseImages", x => x.Id);
                     table.ForeignKey(
-                        name: "FK_HouseImages_Houses_ImageId",
-                        column: x => x.ImageId,
+                        name: "FK_HouseImages_Houses_HouseId",
+                        column: x => x.HouseId,
                         principalTable: "Houses",
                         principalColumn: "HouseId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
-                        name: "FK_HouseImages_Images_HouseId",
-                        column: x => x.HouseId,
+                        name: "FK_HouseImages_Images_ImageId",
+                        column: x => x.ImageId,
                         principalTable: "Images",
                         principalColumn: "Id",
                         onDelete: ReferentialAction.Cascade);
@@ -155,6 +156,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 name: "IX_Favorites_UserId",
                 table: "Favorites",
                 column: "UserId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_HouseImages_HouseId",
+                table: "HouseImages",
+                column: "HouseId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_HouseImages_ImageId",

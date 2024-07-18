@@ -18,7 +18,7 @@ builder.Services.AddScoped<AppDbContext>();
 builder.Services.AddScoped<IImageService,ImageManager>();
 builder.Services.AddScoped<IFavoriteService,FavoriteManager>();
 builder.Services.AddScoped<IHouseService,HouseManager>();
-builder.Services.AddScoped<IHouseImageService,HouseImageManager>();
+builder.Services.AddScoped<IHouseImageService, HouseImageManager>();
 builder.Services.AddScoped<IHouseTypeService,HouseTypeManager>();
 builder.Services.AddScoped<IUserService,UserManager>();
 

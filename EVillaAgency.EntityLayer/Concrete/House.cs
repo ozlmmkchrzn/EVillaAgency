@@ -14,7 +14,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         public decimal Price { get; set; }
         public string Location { get; set; }
         public int HouseTypeId { get; set; }
-        public int OwnerId { get; set; }
+        public int OwnerId{ get; set; }
         public int Size { get; set; }
         public int Bedrooms { get; set; }
         public bool Pool { get; set; }

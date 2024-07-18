@@ -97,5 +97,19 @@ namespace EVillaAgency.WebAPI.Controllers
                 }
             }
         }
+
+        [HttpGet("GetImagesWithNames")]
+        public async Task<IActionResult> GetImagesWithNames()
+        {
+            var values = await _houseImageService.GetImagesWithNames();
+            return Ok(values);
+        }
+
+        [HttpGet("GetHouseAndImageNameWithHouseImageId/{id}")]
+        public async Task<IActionResult> GetHouseAndImageNameWithHouseImageId(int id)
+        {
+            var values = await _houseImageService.GetHouseAndImageNamesByHouseImageId(id);
+            return Ok(values);
+        }
     }
 }

@@ -100,10 +100,17 @@ namespace EVillaAgency.WebAPI.Controllers
             }
         }
 
-        [HttpGet("GetHouseWithHouseType")]
-        public async Task<IActionResult> GetHouseWithHouseType()
+        [HttpGet("GetHousesWithNames")]
+        public async Task<IActionResult> GetHousesWithNames()
         {
-            var values = await _houseService.GetHouseWithHouseTypeAsync();
+            var values = await _houseService.GetHouseWithNamesAsync();
+            return Ok(values);
+        }
+
+        [HttpGet("GetHousesByHouseTypeId")]
+        public async Task<IActionResult> GetHousesByHouseTypeId(int id)
+        {
+            var values = await _houseService.GetHousesByHouseTypeId(id);
             return Ok(values);
         }
     }

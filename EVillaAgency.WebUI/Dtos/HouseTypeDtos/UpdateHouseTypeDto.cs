@@ -1,4 +1,4 @@
-﻿namespace EVillaAgency.WebUI.Dtos
+﻿namespace EVillaAgency.WebUI.Dtos.HouseTypeDtos
 {
     public class UpdateHouseTypeDto
     {

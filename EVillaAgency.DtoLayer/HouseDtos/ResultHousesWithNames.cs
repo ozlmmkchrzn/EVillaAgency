@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.DtoLayer.HouseDtos
 {
-    public class ResultHouseWithHouseTypeDto
+    public class ResultHousesWithNames
     {
         public int HouseId { get; set; }
         public string Title { get; set; }
@@ -14,6 +14,7 @@ namespace EVillaAgency.DtoLayer.HouseDtos
         public decimal Price { get; set; }
         public string Location { get; set; }
         public string HouseTypeName { get; set; }
+        public string OwnerName { get; set; }
         public int Size { get; set; }
         public int Bedrooms { get; set; }
         public bool Pool { get; set; }
@@ -23,6 +24,6 @@ namespace EVillaAgency.DtoLayer.HouseDtos
         public int YearBuilt { get; set; }
         public string HeatingType { get; set; }
         public DateTime CreatedAt { get; set; }
-        public DateTime UpdatedAt { get; set; }
+        public DateTime? UpdatedAt { get; set; }
     }
 }

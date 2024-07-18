@@ -26,11 +26,12 @@ namespace EVillaAgency.WebAPI.AutoMapper
             CreateMap<User, UpdateUserDto>().ReverseMap();
 
             CreateMap<House, ResultHouseDto>().ReverseMap();
-            CreateMap<House, ResultHouseWithHouseTypeDto>().ReverseMap();
+            CreateMap<House, ResultHousesWithNames>().ReverseMap();
             CreateMap<House, CreateHouseDto>().ReverseMap();
             CreateMap<House, UpdateHouseDto>().ReverseMap();
 
             CreateMap<HouseImage, ResultHouseImageDto>().ReverseMap();
+            CreateMap<HouseImage, ResultHouseImageWithNamesDto>().ReverseMap();
             CreateMap<HouseImage, CreateHouseImageDto>().ReverseMap();
             CreateMap<HouseImage, UpdateHouseImageDto>().ReverseMap();
 

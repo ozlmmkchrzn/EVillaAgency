@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240717094851_mig_house_update_can_be_null")]
-    partial class mig_house_update_can_be_null
+    [Migration("20240718102218_mig_new_database")]
+    partial class mig_new_database
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -119,16 +119,21 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.HouseImage", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("HouseId")
                         .HasColumnType("int");
 
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("HouseId", "ImageId");
+                    b.HasIndex("HouseId");
 
                     b.HasIndex("ImageId");
 
@@ -245,13 +250,13 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.HouseImage", b =>
                 {
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Image", "Image")
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
                         .WithMany("HouseImages")
                         .HasForeignKey("HouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Image", "Image")
                         .WithMany("HouseImages")
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)

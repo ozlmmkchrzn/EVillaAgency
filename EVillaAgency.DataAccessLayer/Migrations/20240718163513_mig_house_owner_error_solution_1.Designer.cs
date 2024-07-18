@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240716215211_mig1")]
-    partial class mig1
+    [Migration("20240718163513_mig_house_owner_error_solution_1")]
+    partial class mig_house_owner_error_solution_1
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -86,9 +86,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<int>("OwnerId")
-                        .HasColumnType("int");
-
                     b.Property<bool>("Pool")
                         .HasColumnType("bit");
 
@@ -102,8 +99,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<DateTime>("UpdatedAt")
+                    b.Property<DateTime?>("UpdatedAt")
                         .HasColumnType("datetime2");
+
+                    b.Property<int>("UserIs")
+                        .HasColumnType("int");
 
                     b.Property<int>("YearBuilt")
                         .HasColumnType("int");
@@ -112,23 +112,26 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
                     b.HasIndex("HouseTypeId");
 
-                    b.HasIndex("OwnerId");
-
                     b.ToTable("Houses");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.HouseImage", b =>
                 {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
+
                     b.Property<int>("HouseId")
                         .HasColumnType("int");
 
                     b.Property<int>("ImageId")
                         .HasColumnType("int");
 
-                    b.Property<int>("Id")
-                        .HasColumnType("int");
+                    b.HasKey("Id");
 
-                    b.HasKey("HouseId", "ImageId");
+                    b.HasIndex("HouseId");
 
                     b.HasIndex("ImageId");
 
@@ -232,26 +235,18 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.User", "Owner")
-                        .WithMany("Houses")
-                        .HasForeignKey("OwnerId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
                     b.Navigation("HouseTypes");
-
-                    b.Navigation("Owner");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.HouseImage", b =>
                 {
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Image", "Image")
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
                         .WithMany("HouseImages")
                         .HasForeignKey("HouseId")
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Image", "Image")
                         .WithMany("HouseImages")
                         .HasForeignKey("ImageId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -282,8 +277,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.User", b =>
                 {
                     b.Navigation("Favorites");
-
-                    b.Navigation("Houses");
                 });
 #pragma warning restore 612, 618
         }

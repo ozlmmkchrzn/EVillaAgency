@@ -19,12 +19,13 @@ namespace EVillaAgency.BusinessLayer.Concrete
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<List<ResultHouseWithHouseTypeDto>> GetHouseWithHouseTypeAsync()
+        public async Task<List<ResultHousesWithNames>> GetHousesByHouseTypeId(int id)
         {
-
             var values = await _appDbContext.Houses
-            .Include(h => h.HouseTypes) // İlişkili HouseType bilgilerini dahil ediyoruz
-            .Select(h => new ResultHouseWithHouseTypeDto
+            .Include(x => x.HouseTypes)
+            .Include(y => y.Owner)
+            .Where(z => z.HouseTypeId == id)
+            .Select(h => new ResultHousesWithNames
             {
                 Bathrooms = h.Bathrooms,
                 Bedrooms = h.Bedrooms,
@@ -35,6 +36,37 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 HeatingType = h.HeatingType,
                 HouseId = h.HouseId,
                 HouseTypeName = h.HouseTypes.Name,
+                OwnerName = h.Owner.Username,
+                Location = h.Location,
+                Pool = h.Pool,
+                Price = h.Price,
+                Size = h.Size,
+                Title = h.Title,
+                YearBuilt = h.YearBuilt,
+            }).ToListAsync();
+
+
+            return values;
+        }
+
+        public async Task<List<ResultHousesWithNames>> GetHouseWithNamesAsync()
+        {
+
+            var values = await _appDbContext.Houses
+            .Include(x=>x.HouseTypes)
+            .Include(y => y.Owner)
+            .Select(h => new ResultHousesWithNames
+            {
+                Bathrooms = h.Bathrooms,
+                Bedrooms = h.Bedrooms,
+                CreatedAt = h.CreatedAt,
+                Description = h.Description,
+                Garage = h.Garage,
+                Garden = h.Garden,
+                HeatingType = h.HeatingType,
+                HouseId = h.HouseId,
+                HouseTypeName = h.HouseTypes.Name,
+                OwnerName = h.Owner.Username,
                 Location = h.Location,
                 Pool = h.Pool,
                 Price = h.Price,
@@ -44,6 +76,35 @@ namespace EVillaAgency.BusinessLayer.Concrete
             }).ToListAsync();
             
 
+            return values;
+        }
+
+        public async Task<ResultHousesWithNames> GetHouseWithNamesByIdAsync(int id)
+        {
+            var values = await _appDbContext.Houses
+                .Include(x => x.HouseTypes)
+                .Include(y => y.Owner)
+                .Where(z => z.HouseId == id)
+                .Select(h => new ResultHousesWithNames
+                {
+                    HouseId = id,
+                    Bathrooms = h.Bathrooms,
+                    Bedrooms = h.Bedrooms,
+                    CreatedAt = h.CreatedAt,
+                    Description = h.Description,
+                    Garage = h.Garage,
+                    Garden = h.Garden,
+                    HeatingType = h.HeatingType,
+                    HouseTypeName = h.HouseTypes.Name,
+                    OwnerName = h.Owner.Username,
+                    Location = h.Location,
+                    Pool = h.Pool,
+                    Price = h.Price,
+                    Size = h.Size,
+                    Title = h.Title,
+                    YearBuilt = h.YearBuilt,
+                    UpdatedAt = h.UpdatedAt
+                }).FirstOrDefaultAsync();
             return values;
         }
     }

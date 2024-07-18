@@ -25,17 +25,19 @@ namespace EVillaAgency.DataAccessLayer.Context
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
             modelBuilder.Entity<HouseImage>()
-                .HasKey(cb => new { cb.HouseId, cb.ImageId });
+                .HasKey(cb => cb.Id); // HouseImage tablosunun Id sütunu birincil anahtar olarak tanımlandı.
 
             modelBuilder.Entity<HouseImage>()
                 .HasOne(cb => cb.House)
                 .WithMany(c => c.HouseImages)
-                .HasForeignKey(cb => cb.ImageId);
+                .HasForeignKey(cb => cb.HouseId); // HouseId yabancı anahtar olarak tanımlandı ve House tablosuyla ilişkilendirildi.
 
             modelBuilder.Entity<HouseImage>()
                 .HasOne(cb => cb.Image)
                 .WithMany(c => c.HouseImages)
-                .HasForeignKey(cb => cb.HouseId);
+                .HasForeignKey(cb => cb.ImageId); // ImageId yabancı anahtar olarak tanımlandı ve Image tablosuyla ilişkilendirildi.
+
+
 
 
             //modelBuilder.Entity<Favorite>()
@@ -55,10 +57,10 @@ namespace EVillaAgency.DataAccessLayer.Context
             // ApplicationDbContext içindeki OnModelCreating metodu
 
             modelBuilder.Entity<Favorite>()
-    .HasOne(f => f.User)
-    .WithMany(u => u.Favorites)
-    .HasForeignKey(f => f.UserId)
-    .OnDelete(DeleteBehavior.Restrict); // veya .OnDelete(DeleteBehavior.NoAction);
+                .HasOne(f => f.User)
+                .WithMany(u => u.Favorites)
+                .HasForeignKey(f => f.UserId)
+                .OnDelete(DeleteBehavior.Restrict); // veya .OnDelete(DeleteBehavior.NoAction);
 
 
 
