@@ -20,6 +20,20 @@ namespace EVillaAgency.BusinessLayer.Concrete
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public async Task<List<ResultAllFavoritesWithNamesDto>> GetAllFavoritesWithNamesAsync()
+        {
+            var values = await _appDbContext.Favorites
+                .Include(x => x.House)
+                .Include(y => y.User)
+                .Select(z => new ResultAllFavoritesWithNamesDto
+                {
+                    FavoriteId = z.FavoriteId,
+                    HouseTitle = z.House.Title,
+                    Username = z.User.Username
+                }).ToListAsync();
+            return values;
+        }
+
         public async Task<ResultHouseNameAndUsernameByFavoriteIdDto> GetHouseNameAndUserNameByFavoriteIdAsync(int id)
         {
             var values = await _appDbContext.Favorites

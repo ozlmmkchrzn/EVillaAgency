@@ -11,6 +11,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
     public interface IFavoriteService : IGenericService<Favorite>
     {
         Task<ResultHouseNameAndUsernameByFavoriteIdDto> GetHouseNameAndUserNameByFavoriteIdAsync(int id);
+        Task<List<ResultAllFavoritesWithNamesDto>> GetAllFavoritesWithNamesAsync();
     }
 
 }

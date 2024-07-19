@@ -27,6 +27,7 @@
   </ItemGroup>
 
   <ItemGroup>
+    <ProjectReference Include="..\EVillaAgency.BusinessLayer\EVillaAgency.BusinessLayer.csproj" />
     <ProjectReference Include="..\EVillaAgency.DataAccessLayer\EVillaAgency.DataAccessLayer.csproj" />
     <ProjectReference Include="..\EVillaAgency.DtoLayer\EVillaAgency.DtoLayer.csproj" />
   </ItemGroup>
