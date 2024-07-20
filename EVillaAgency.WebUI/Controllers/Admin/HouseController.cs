@@ -19,6 +19,8 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             _httpClientFactory = httpClientFactory;
         }
 
+        
+
         [HttpGet]
         public async Task<IActionResult> Index(int? houseTypeId)
         {
@@ -41,6 +43,13 @@ namespace EVillaAgency.WebUI.Controllers.Admin
                 Text = ht.Name
             }).ToList();
 
+            // "Bütün Evler" seçeneğini ekle
+            houseTypeSelectList.Insert(0, new SelectListItem
+            {
+                Value = "",
+                Text = "Bütün Evler"
+            });
+
             ViewBag.HouseTypes = houseTypeSelectList;
 
             // Evleri Getir
@@ -57,6 +66,8 @@ namespace EVillaAgency.WebUI.Controllers.Admin
 
             return View(new List<ResultHousesWithNamesDto>());
         }
+
+
 
 
 

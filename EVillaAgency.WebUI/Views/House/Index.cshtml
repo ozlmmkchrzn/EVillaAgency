@@ -3,10 +3,23 @@
 @{
     Layout = null;
     ViewBag.Title = "Houses";
+    var selectedHouseTypeId = ViewBag.SelectedHouseTypeId?.ToString() ?? "";
 }
 
 <head>
     <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+    <script>
+        document.addEventListener("DOMContentLoaded", function () {
+            var selectedHouseTypeId = '@selectedHouseTypeId';
+            var houseTypeSelect = document.getElementById("houseType");
+
+            if (houseTypeSelect) {
+                if (selectedHouseTypeId) {
+                    houseTypeSelect.value = selectedHouseTypeId;
+                }
+            }
+        });
+    </script>
 </head>
 <div class="content">
     <div class="container-fluid">
@@ -20,7 +33,7 @@
                             <form method="get" asp-action="Index">
                                 <select id="houseType" name="houseTypeId" class="form-control" onchange="this.form.submit()">
                                     <option value="">--Ev Tipi Seç--</option>
-                                    @foreach (var item in ViewBag.HouseTypes)
+                                    @foreach (var item in ViewBag.HouseTypes as List<SelectListItem>)
                                     {
                                         <option value="@item.Value">@item.Text</option>
                                     }
@@ -68,14 +81,7 @@
                                         <td>@item.Bedrooms</td>
                                         <td>@item.Bathrooms</td>
                                         <td>@item.CreatedAt</td>
-                                        @if(!item.UpdatedAt.HasValue)
-                                        {
-                                            <td>Güncellenmedi</td>
-                                        }
-                                        else
-                                        {
-                                            <td>@item.UpdatedAt</td>
-                                        }
+                                        <td>@(item.UpdatedAt?.ToString("yyyy-MM-dd") ?? "Güncellenmedi")</td>
                                         <td><a href="/House/UpdateHouse/@item.HouseId" class="btn btn-outline-success">Güncelle</a></td>
                                         <td><a href="/House/DeleteHouse/@item.HouseId" class="btn btn-outline-danger">Sil</a></td>
                                     </tr>
