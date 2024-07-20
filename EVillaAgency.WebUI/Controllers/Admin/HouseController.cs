@@ -200,6 +200,15 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             return View(updateHouseDto);
         }
 
-
+        public async Task<IActionResult> DeleteHouse(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.DeleteAsync($"https://localhost:7037/api/House/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return RedirectToAction("Index");
+            }
+            return View();
+        }
     }
 }

@@ -1,4 +1,4 @@
-﻿@model List<ResultHouseImageDto>
+﻿@model List<ResultFavoriteDto>
 @{
     Layout = null;
 }
@@ -8,24 +8,24 @@
 </head>
 <div class="content">
     <div class="container-fluid">
-        <h4 class="page-title">Ev Resim İşlemleri</h4>
+        <h4 class="page-title">Ev Favori İşlemleri</h4>
         <div class="row">
             <div class="col-md-12">
 
                 <div class="card">
                     <div class="card-header">
-                        <div class="card-title">Ev Resimleri Listesi</div>
+                        <div class="card-title">Ev Favori Listesi</div>
                     </div>
                     <div class="card-body">
                         <div class="card-sub">
-                            Ev Resim alanıyla ilgili işlemleri yapabilirsiniz.
+                            Favori alanıyla ilgili işlemleri yapabilirsiniz.
                         </div>
                         <table class="table mt-3">
                             <thead>
                                 <tr>
                                     <th scope="col">#</th>
                                     <th scope="col">Evin Başlığı</th>
-                                    <th scope="col">Resim Bağlantısı</th>
+                                    <th scope="col">Kullanıcının Adı</th>
                                     <th scope="col">Güncelle</th>
                                     <th scope="col">Sil</th>
                                 </tr>
@@ -34,16 +34,16 @@
                                 @foreach (var item in Model)
                                 {
                                     <tr>
-                                        <td>@item.Id</td>
-                                        <td>@item.HouseName</td>
-                                        <td>@item.ImageUrl</td>
-                                        <td><a href="/HouseImage/UpdateHouseImage/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
-                                        <td><a href="/HouseImage/DeleteHouseImage/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                        <td>@item.FavoriteId</td>
+                                        <td>@item.HouseTitle</td>
+                                        <td>@item.Username</td>
+                                        <td><a href="/Favorite/UpdateFavorite/@item.FavoriteId" class="btn btn-outline-success">Güncelle</a></td>
+                                        <td><a href="/Favorite/DeleteFavorite/@item.FavoriteId" class="btn btn-outline-danger">Sil</a></td>
                                     </tr>
                                 }
                             </tbody>
                         </table>
-                        <a href="/HouseImage/CreateHouseImage/" class="btn btn-outline-primary">Yeni Ev Resmi Girişi</a>
+                        <a href="/Favorite/CreateFavorite/" class="btn btn-outline-primary">Yeni Favori Girişi</a>
                     </div>
                 </div>
             </div>

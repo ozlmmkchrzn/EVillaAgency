@@ -1,0 +1,57 @@
+﻿@model CreateFavoriteDto
+@{
+    Layout = null;
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Ev Favori İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Yeni Favori Girişi</div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="houseid">Evi Seçiniz</label>
+                                <select id="houseid" asp-for="HouseId" class="form-control">
+                                    <option value="">--Evi Seç--</option>
+                                    @if (ViewBag.Houses != null)
+                                    {
+                                        @foreach (var item in ViewBag.Houses)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="imageid">Kullanıcıyı Seçiniz</label>
+                                <select id="imageid" asp-for="UserId" class="form-control">
+                                    <option value="">--Resim Seç--</option>
+                                    @if (ViewBag.Users != null)
+                                    {
+                                        @foreach (var item in ViewBag.Users)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-action">
+                            <button class="btn btn-primary">Yeni Favori Ekle</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
