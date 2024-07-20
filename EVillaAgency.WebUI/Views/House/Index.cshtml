@@ -68,7 +68,14 @@
                                         <td>@item.Bedrooms</td>
                                         <td>@item.Bathrooms</td>
                                         <td>@item.CreatedAt</td>
-                                        <td>@item.UpdatedAt</td>
+                                        @if(!item.UpdatedAt.HasValue)
+                                        {
+                                            <td>Güncellenmedi</td>
+                                        }
+                                        else
+                                        {
+                                            <td>@item.UpdatedAt</td>
+                                        }
                                         <td><a href="/House/UpdateHouse/@item.HouseId" class="btn btn-outline-success">Güncelle</a></td>
                                         <td><a href="/House/DeleteHouse/@item.HouseId" class="btn btn-outline-danger">Sil</a></td>
                                     </tr>

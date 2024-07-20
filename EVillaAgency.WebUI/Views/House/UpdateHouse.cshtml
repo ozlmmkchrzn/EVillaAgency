@@ -1,0 +1,136 @@
+﻿@model UpdateHouseDto
+@{
+    Layout = null;
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Ev İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+                <form method="post">
+                    <div class="card">
+                        <div class="card-header">
+                            <div class="card-title">Ev Bilgisi Güncelleme Sayfası</div>
+                        </div>
+                        <input type="hidden" asp-for="HouseId" />
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="Title">Ev Başlığını Giriniz...</label>
+                                <input type="text" class="form-control" asp-for="Title" id="Title">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="description">Evin Açıklamasını Giriniz</label>
+                                <input type="text" class="form-control" asp-for="Description" id="description">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="location">Evin Konumunu Giriniz</label>
+                                <input type="text" class="form-control" asp-for="Location" id="location">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="houseType">Ev Tipi Seçiniz</label>
+                                <select id="houseType" asp-for="HouseTypeId" class="form-control">
+                                    <option value="">--Ev Tipi Seç--</option>
+                                    @if (ViewBag.HouseTypes != null)
+                                    {
+                                        @foreach (var item in ViewBag.HouseTypes)
+                                        {
+                                            <option value="@item.Value">@item.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="ownerId">Ev Sahibini Seçiniz</label>
+                                <select id="ownerId" asp-for="OwnerId" class="form-control">
+                                    <option value="">--Ev Sahibi Seç--</option>
+                                    @if (ViewBag.Users != null)
+                                    {
+                                        @foreach (var user in ViewBag.Users)
+                                        {
+                                            <option value="@user.Value">@user.Text</option>
+                                        }
+                                    }
+                                </select>
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="size">Evin Metrekaresini Giriniz</label>
+                                <input type="text" class="form-control" asp-for="Size" id="size">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="price">Evin Fiyatını Giriniz</label>
+                                <input type="text" class="form-control" asp-for="Price" id="prize">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="bedroom">Yatak Odası Sayısını Giriniz</label>
+                                <input type="number" class="form-control" asp-for="Bedrooms" id="bedroom">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="bathroom">Banyo Sayısını Giriniz</label>
+                                <input type="number" class="form-control" asp-for="Bathrooms" id="bathroom">
+                            </div>
+                        </div>
+
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="year">Binanın Yapım Yılını Giriniz</label>
+                                <input type="text" class="form-control" asp-for="YearBuilt" id="year">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-group">
+                                <label for="heating">Isıtma Sistemini Giriniz</label>
+                                <input type="text" class="form-control" asp-for="HeatingType" id="heating">
+                            </div>
+                        </div>
+                        <div class="card-body">
+                            <div class="form-row">
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" asp-for="Pool" id="pool">
+                                        <label class="custom-control-label" for="pool">Havuzu var mı?</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" asp-for="Garage" id="garage">
+                                        <label class="custom-control-label" for="garage">Garajı var mı?</label>
+                                    </div>
+                                </div>
+                                <div class="form-group col-md-4">
+                                    <div class="custom-control custom-checkbox">
+                                        <input type="checkbox" class="custom-control-input" asp-for="Garden" id="garden">
+                                        <label class="custom-control-label" for="garden">Bahçesi var mı?</label>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+
+                        <div class="card-action">
+                            <button class="btn btn-primary">Ev Bilgisini Güncelle</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>

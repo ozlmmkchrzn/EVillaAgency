@@ -1,0 +1,52 @@
+﻿@model List<ResultHouseImageDto>
+@{
+    Layout = null;
+}
+
+<head>
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@4.3.1/dist/css/bootstrap.min.css" integrity="sha384-ggOyR0iXCbMQv3Xipma34MD+dH/1fQ784/j6cY/iJTQUOhcWr7x9JvoRxT2MZw1T" crossorigin="anonymous">
+</head>
+<div class="content">
+    <div class="container-fluid">
+        <h4 class="page-title">Ev Resim İşlemleri</h4>
+        <div class="row">
+            <div class="col-md-12">
+
+                <div class="card">
+                    <div class="card-header">
+                        <div class="card-title">Ev Resimleri Listesi</div>
+                    </div>
+                    <div class="card-body">
+                        <div class="card-sub">
+                            Ev Resim alanıyla ilgili işlemleri yapabilirsiniz.
+                        </div>
+                        <table class="table mt-3">
+                            <thead>
+                                <tr>
+                                    <th scope="col">#</th>
+                                    <th scope="col">Evin Başlığı</th>
+                                    <th scope="col">Evin Başlığı</th>
+                                    <th scope="col">Resim Bağlantısı</th>
+                                    <th scope="col">Güncelle</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                @foreach (var item in Model)
+                                {
+                                    <tr>
+                                        <td>@item.Id</td>
+                                        <td>@item.HouseName</td>
+                                        <td>@item.ImageUrl</td>
+                                        <td><a href="/HouseImage/UpdateHouseImage/@item.Id" class="btn btn-outline-success">Güncelle</a></td>
+                                        <td><a href="/HouseImage/DeleteHouseImage/@item.Id" class="btn btn-outline-danger">Sil</a></td>
+                                    </tr>
+                                }
+                            </tbody>
+                        </table>
+                        <a href="/HouseImage/CreateHouseImage/" class="btn btn-outline-primary">Yeni Ev Resmi Girişi</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
