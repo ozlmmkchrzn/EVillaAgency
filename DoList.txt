@@ -1,0 +1,6 @@
+0.1 Ev listesinde il,ilçe,ýsýtma tipi girilecek
+1.Son eklenen 6 ev
+2.En çok favorilenen ilk 3 ev
+3.SignalR ile anasayfadaki ilk 3 istatistik
+4.Admin paneli Entegre edilecek
+

@@ -21,6 +21,9 @@ namespace EVillaAgency.DataAccessLayer.Context
         public DbSet<Image> Images { get; set; }
         public DbSet<HouseImage> HouseImages { get; set; }
         public DbSet<HouseType> HouseTypes { get; set; }
+        public DbSet<City> Cities { get; set; }
+        public DbSet<District> Districts { get; set; }
+        public DbSet<HeatingType> HeatingTypes { get; set; }    
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {

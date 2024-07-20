@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240718102218_mig_new_database")]
-    partial class mig_new_database
+    [Migration("20240720200521_mig2")]
+    partial class mig2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -24,6 +24,45 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
+                {
+                    b.Property<int>("CityId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CityId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("CityId");
+
+                    b.ToTable("Cities");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
+                {
+                    b.Property<int>("DistrictId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("DistrictId"));
+
+                    b.Property<int>("CityId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("DistrictId");
+
+                    b.HasIndex("CityId");
+
+                    b.ToTable("Districts");
+                });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Favorite", b =>
                 {
@@ -48,6 +87,23 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.ToTable("Favorites");
                 });
 
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.HeatingType", b =>
+                {
+                    b.Property<int>("HeatingTypeId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("HeatingTypeId"));
+
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("HeatingTypeId");
+
+                    b.ToTable("HeatingTypes");
+                });
+
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.House", b =>
                 {
                     b.Property<int>("HouseId")
@@ -69,15 +125,17 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
 
+                    b.Property<int>("DistrictId")
+                        .HasColumnType("int");
+
                     b.Property<bool>("Garage")
                         .HasColumnType("bit");
 
                     b.Property<bool>("Garden")
                         .HasColumnType("bit");
 
-                    b.Property<string>("HeatingType")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("HeatingTypeId")
+                        .HasColumnType("int");
 
                     b.Property<int>("HouseTypeId")
                         .HasColumnType("int");
@@ -109,6 +167,10 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("HouseId");
+
+                    b.HasIndex("DistrictId");
+
+                    b.HasIndex("HeatingTypeId");
 
                     b.HasIndex("HouseTypeId");
 
@@ -210,6 +272,17 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.ToTable("Users");
                 });
 
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
+                {
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.City", "City")
+                        .WithMany("Districts")
+                        .HasForeignKey("CityId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("City");
+                });
+
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Favorite", b =>
                 {
                     b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
@@ -231,7 +304,19 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.House", b =>
                 {
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.HouseType", "HouseTypes")
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.District", "District")
+                        .WithMany("Houses")
+                        .HasForeignKey("DistrictId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.HeatingType", "HeatingType")
+                        .WithMany("Houses")
+                        .HasForeignKey("HeatingTypeId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.HouseType", "HouseType")
                         .WithMany("Houses")
                         .HasForeignKey("HouseTypeId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -243,7 +328,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.Navigation("HouseTypes");
+                    b.Navigation("District");
+
+                    b.Navigation("HeatingType");
+
+                    b.Navigation("HouseType");
 
                     b.Navigation("Owner");
                 });
@@ -265,6 +354,21 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Navigation("House");
 
                     b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
+                {
+                    b.Navigation("Districts");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
+                {
+                    b.Navigation("Houses");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.HeatingType", b =>
+                {
+                    b.Navigation("Houses");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.House", b =>

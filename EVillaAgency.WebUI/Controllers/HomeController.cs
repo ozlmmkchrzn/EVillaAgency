@@ -1,21 +1,34 @@
+using EVillaAgency.WebUI.Dtos.HouseDtos;
 using EVillaAgency.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Newtonsoft.Json;
 using System.Diagnostics;
+using System.Net.Http;
 
 namespace EVillaAgency.WebUI.Controllers
 {
     public class HomeController : Controller
     {
-        private readonly ILogger<HomeController> _logger;
+        private readonly IHttpClientFactory _httpClientFactory;
 
-        public HomeController(ILogger<HomeController> logger)
+        public HomeController(IHttpClientFactory httpClientFactory)
         {
-            _logger = logger;
+            _httpClientFactory = httpClientFactory;
         }
 
-        public IActionResult Index()
+       
+
+        [HttpGet]
+        public async Task<IActionResult> Index()
         {
-            return View();
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync("https://localhost:7037/api/House");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var values = JsonConvert.DeserializeObject<List<ResultHouseDto>>(jsonData); return View(values);
+            }
+            return View(null);
         }
 
         public IActionResult Privacy()

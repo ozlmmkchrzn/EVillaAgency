@@ -6,11 +6,24 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class mig_new_database : Migration
+    public partial class addTables : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
+            migrationBuilder.CreateTable(
+                name: "City",
+                columns: table => new
+                {
+                    CityId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_City", x => x.CityId);
+                });
+
             migrationBuilder.CreateTable(
                 name: "HouseTypes",
                 columns: table => new
@@ -56,6 +69,26 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
+                name: "District",
+                columns: table => new
+                {
+                    DistrictId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    CityId = table.Column<int>(type: "int", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_District", x => x.DistrictId);
+                    table.ForeignKey(
+                        name: "FK_District_City_CityId",
+                        column: x => x.CityId,
+                        principalTable: "City",
+                        principalColumn: "CityId",
+                        onDelete: ReferentialAction.Cascade);
+                });
+
+            migrationBuilder.CreateTable(
                 name: "Houses",
                 columns: table => new
                 {
@@ -76,11 +109,18 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     YearBuilt = table.Column<int>(type: "int", nullable: false),
                     HeatingType = table.Column<string>(type: "nvarchar(max)", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true)
+                    UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
+                    DistrictId = table.Column<int>(type: "int", nullable: false)
                 },
                 constraints: table =>
                 {
                     table.PrimaryKey("PK_Houses", x => x.HouseId);
+                    table.ForeignKey(
+                        name: "FK_Houses_District_DistrictId",
+                        column: x => x.DistrictId,
+                        principalTable: "District",
+                        principalColumn: "DistrictId",
+                        onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Houses_HouseTypes_HouseTypeId",
                         column: x => x.HouseTypeId,
@@ -148,6 +188,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
+                name: "IX_District_CityId",
+                table: "District",
+                column: "CityId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Favorites_HouseId",
                 table: "Favorites",
                 column: "HouseId");
@@ -166,6 +211,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 name: "IX_HouseImages_ImageId",
                 table: "HouseImages",
                 column: "ImageId");
+
+            migrationBuilder.CreateIndex(
+                name: "IX_Houses_DistrictId",
+                table: "Houses",
+                column: "DistrictId");
 
             migrationBuilder.CreateIndex(
                 name: "IX_Houses_HouseTypeId",
@@ -194,10 +244,16 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
+                name: "District");
+
+            migrationBuilder.DropTable(
                 name: "HouseTypes");
 
             migrationBuilder.DropTable(
                 name: "Users");
+
+            migrationBuilder.DropTable(
+                name: "City");
         }
     }
 }

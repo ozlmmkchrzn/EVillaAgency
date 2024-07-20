@@ -1,12 +1,8 @@
-﻿using System;
-using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
+﻿
 
-namespace EVillaAgency.EntityLayer.Concrete
+namespace EVillaAgency.WebUI.Dtos.HouseDtos
 {
-    public class House
+    public class ResultHouseDto
     {
         public int HouseId { get; set; }
         public string Title { get; set; }
@@ -22,20 +18,11 @@ namespace EVillaAgency.EntityLayer.Concrete
         public bool Garage { get; set; }
         public bool Garden { get; set; }
         public int YearBuilt { get; set; }
-        public int HeatingTypeId { get; set; }  
+        public int HeatingTypeId { get; set; }
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         // Sadece DistrictId tutulur
         public int DistrictId { get; set; }
-
-        public User Owner { get; set; }
-
-        public HeatingType HeatingType { get; set; }
-        public ICollection<HouseImage> HouseImages { get; set; }
-        public HouseType HouseType { get; set; }
-        public District District { get; set; }
-        public ICollection<Favorite> Favorites { get; set; }
-
     }
 }

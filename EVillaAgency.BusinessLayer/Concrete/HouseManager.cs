@@ -22,7 +22,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
         public async Task<List<ResultHousesWithNames>> GetHousesByHouseTypeId(int id)
         {
             var values = await _appDbContext.Houses
-            .Include(x => x.HouseTypes)
+            .Include(x => x.HouseType)
             .Include(y => y.Owner)
             .Where(z => z.HouseTypeId == id)
             .Select(h => new ResultHousesWithNames
@@ -33,9 +33,9 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Description = h.Description,
                 Garage = h.Garage,
                 Garden = h.Garden,
-                HeatingType = h.HeatingType,
+                HeatingType = h.HeatingType.Name,
                 HouseId = h.HouseId,
-                HouseTypeName = h.HouseTypes.Name,
+                HouseTypeName = h.HouseType.Name,
                 OwnerName = h.Owner.Username,
                 Location = h.Location,
                 Pool = h.Pool,
@@ -53,7 +53,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
         {
 
             var values = await _appDbContext.Houses
-            .Include(x=>x.HouseTypes)
+            .Include(x=>x.HouseType)
             .Include(y => y.Owner)
             .Select(h => new ResultHousesWithNames
             {
@@ -63,9 +63,9 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Description = h.Description,
                 Garage = h.Garage,
                 Garden = h.Garden,
-                HeatingType = h.HeatingType,
+                HeatingType = h.HeatingType.Name,
                 HouseId = h.HouseId,
-                HouseTypeName = h.HouseTypes.Name,
+                HouseTypeName = h.HouseType.Name,
                 OwnerName = h.Owner.Username,
                 Location = h.Location,
                 Pool = h.Pool,
@@ -82,7 +82,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
         public async Task<ResultHousesWithNames> GetHouseWithNamesByIdAsync(int id)
         {
             var values = await _appDbContext.Houses
-                .Include(x => x.HouseTypes)
+                .Include(x => x.HouseType)
                 .Include(y => y.Owner)
                 .Where(z => z.HouseId == id)
                 .Select(h => new ResultHousesWithNames
@@ -94,8 +94,8 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     Description = h.Description,
                     Garage = h.Garage,
                     Garden = h.Garden,
-                    HeatingType = h.HeatingType,
-                    HouseTypeName = h.HouseTypes.Name,
+                    HeatingType = h.HeatingType.Name,
+                    HouseTypeName = h.HouseType.Name,
                     OwnerName = h.Owner.Username,
                     Location = h.Location,
                     Pool = h.Pool,
