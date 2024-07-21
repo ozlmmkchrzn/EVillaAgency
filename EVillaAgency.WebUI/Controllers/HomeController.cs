@@ -1,3 +1,5 @@
+
+using EVillaAgency.WebUI.Dtos.FovariteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
 using EVillaAgency.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -22,13 +24,25 @@ namespace EVillaAgency.WebUI.Controllers
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7037/api/House");
+            var houseViewModel = new IndexHouseFavoriteModel();
+
+            // Get Last 6 Houses
+            var responseMessage = await client.GetAsync("https://localhost:7037/api/House/GetLast6Houses");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var values = JsonConvert.DeserializeObject<List<ResultHouseDto>>(jsonData); return View(values);
+                houseViewModel.LastSixHouses = JsonConvert.DeserializeObject<List<ResultHousesWithNamesDto>>(jsonData);
             }
-            return View(null);
+
+            // Get Top 3 Favorited Houses
+            responseMessage = await client.GetAsync("https://localhost:7037/api/Favorites/GetTop3FavoritedHouses");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData1 = await responseMessage.Content.ReadAsStringAsync();
+                houseViewModel.TopFavoritedHouses = JsonConvert.DeserializeObject<List<ResultTop3FavoritedHousesDto>>(jsonData1);
+            }
+
+            return View(houseViewModel);
         }
 
         public IActionResult Privacy()

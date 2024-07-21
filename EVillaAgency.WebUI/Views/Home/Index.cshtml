@@ -1,4 +1,4 @@
-﻿@model List<ResultHouseDto>
+﻿@model IndexHouseFavoriteModel
 
 @{
     ViewData["Title"] = "Index";
@@ -8,24 +8,15 @@
 
 <div class="main-banner">
     <div class="owl-carousel owl-banner">
-        <div class="item item-1">
-            <div class="header-text">
-                <span class="category">Toronto, <em>Canada</em></span>
-                <h2>Hurry!<br>Get the Best Villa for you</h2>
+        @foreach (var house in Model.TopFavoritedHouses)
+        {
+            <div class="item item-1">
+                <div class="header-text">
+                <span class="category">@house.DictrictName, <em>@house.CityName</em></span>
+                <h2>@house.Title<br>@house.Description</h2>
             </div>
         </div>
-        <div class="item item-2">
-            <div class="header-text">
-                <span class="category">Melbourne, <em>Australia</em></span>
-                <h2>Be Quick!<br>Get the best villa in town</h2>
-            </div>
-        </div>
-        <div class="item item-3">
-            <div class="header-text">
-                <span class="category">Miami, <em>South Florida</em></span>
-                <h2>Act Now!<br>Get the highest level penthouse</h2>
-            </div>
-        </div>
+        }
     </div>
 </div>
 
@@ -291,14 +282,14 @@
         </div>
         <div class="row">
 
-            @foreach (var house in Model)
+            @foreach (var house in Model.LastSixHouses)
             {
                 <div class="col-lg-4 col-md-6">
                     <div class="item">
                         <a href="property-details.html"><img src="~/VillaAgency-1.0.0/assets/images/property-01.jpg" alt=""></a>
                         <span class="category">Luxury Villa</span>
                         <h6>@house.Price </h6>
-                        <h4><a href="property-details.html">@house.Description</a></h4>
+                        <h4><a href="property-details.html">@house.Title</a></h4>
                         <ul>
                             <li>Bedrooms: <span>@house.Bedrooms</span></li>
                             <li>Bathrooms: <span>@house.Bathrooms</span></li>
