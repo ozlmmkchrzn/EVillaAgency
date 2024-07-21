@@ -38,6 +38,7 @@ namespace EVillaAgency.WebAPI.AutoMapper
             CreateMap<Favorite, ResultFavoriteDto>().ReverseMap();
             CreateMap<Favorite, ResultHouseNameAndUsernameByFavoriteIdDto>().ReverseMap();
             CreateMap<Favorite, ResultAllFavoritesWithNamesDto>().ReverseMap();
+            CreateMap<Favorite, ResultTop3FavoritedHousesDto>().ReverseMap();
             CreateMap<Favorite, CreateFavoriteDto>().ReverseMap();
             CreateMap<Favorite, UpdateFavoriteDto>().ReverseMap();
         }

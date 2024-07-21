@@ -6,13 +6,13 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class addTables : Migration
+    public partial class mig_1 : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "City",
+                name: "Cities",
                 columns: table => new
                 {
                     CityId = table.Column<int>(type: "int", nullable: false)
@@ -21,7 +21,20 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_City", x => x.CityId);
+                    table.PrimaryKey("PK_Cities", x => x.CityId);
+                });
+
+            migrationBuilder.CreateTable(
+                name: "HeatingTypes",
+                columns: table => new
+                {
+                    HeatingTypeId = table.Column<int>(type: "int", nullable: false)
+                        .Annotation("SqlServer:Identity", "1, 1"),
+                    Name = table.Column<string>(type: "nvarchar(max)", nullable: false)
+                },
+                constraints: table =>
+                {
+                    table.PrimaryKey("PK_HeatingTypes", x => x.HeatingTypeId);
                 });
 
             migrationBuilder.CreateTable(
@@ -69,7 +82,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateTable(
-                name: "District",
+                name: "Districts",
                 columns: table => new
                 {
                     DistrictId = table.Column<int>(type: "int", nullable: false)
@@ -79,11 +92,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_District", x => x.DistrictId);
+                    table.PrimaryKey("PK_Districts", x => x.DistrictId);
                     table.ForeignKey(
-                        name: "FK_District_City_CityId",
+                        name: "FK_Districts_Cities_CityId",
                         column: x => x.CityId,
-                        principalTable: "City",
+                        principalTable: "Cities",
                         principalColumn: "CityId",
                         onDelete: ReferentialAction.Cascade);
                 });
@@ -107,7 +120,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     Garage = table.Column<bool>(type: "bit", nullable: false),
                     Garden = table.Column<bool>(type: "bit", nullable: false),
                     YearBuilt = table.Column<int>(type: "int", nullable: false),
-                    HeatingType = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    HeatingTypeId = table.Column<int>(type: "int", nullable: false),
                     CreatedAt = table.Column<DateTime>(type: "datetime2", nullable: false),
                     UpdatedAt = table.Column<DateTime>(type: "datetime2", nullable: true),
                     DistrictId = table.Column<int>(type: "int", nullable: false)
@@ -116,10 +129,16 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 {
                     table.PrimaryKey("PK_Houses", x => x.HouseId);
                     table.ForeignKey(
-                        name: "FK_Houses_District_DistrictId",
+                        name: "FK_Houses_Districts_DistrictId",
                         column: x => x.DistrictId,
-                        principalTable: "District",
+                        principalTable: "Districts",
                         principalColumn: "DistrictId",
+                        onDelete: ReferentialAction.Cascade);
+                    table.ForeignKey(
+                        name: "FK_Houses_HeatingTypes_HeatingTypeId",
+                        column: x => x.HeatingTypeId,
+                        principalTable: "HeatingTypes",
+                        principalColumn: "HeatingTypeId",
                         onDelete: ReferentialAction.Cascade);
                     table.ForeignKey(
                         name: "FK_Houses_HouseTypes_HouseTypeId",
@@ -188,8 +207,8 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 });
 
             migrationBuilder.CreateIndex(
-                name: "IX_District_CityId",
-                table: "District",
+                name: "IX_Districts_CityId",
+                table: "Districts",
                 column: "CityId");
 
             migrationBuilder.CreateIndex(
@@ -218,6 +237,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 column: "DistrictId");
 
             migrationBuilder.CreateIndex(
+                name: "IX_Houses_HeatingTypeId",
+                table: "Houses",
+                column: "HeatingTypeId");
+
+            migrationBuilder.CreateIndex(
                 name: "IX_Houses_HouseTypeId",
                 table: "Houses",
                 column: "HouseTypeId");
@@ -244,7 +268,10 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 name: "Images");
 
             migrationBuilder.DropTable(
-                name: "District");
+                name: "Districts");
+
+            migrationBuilder.DropTable(
+                name: "HeatingTypes");
 
             migrationBuilder.DropTable(
                 name: "HouseTypes");
@@ -253,7 +280,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 name: "Users");
 
             migrationBuilder.DropTable(
-                name: "City");
+                name: "Cities");
         }
     }
 }

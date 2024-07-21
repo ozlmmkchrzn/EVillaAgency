@@ -1,5 +1,6 @@
 ﻿using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.DataAccessLayer.Context;
+using EVillaAgency.DtoLayer.FavoriteDtos;
 using EVillaAgency.DtoLayer.HouseDtos;
 using EVillaAgency.EntityLayer.Concrete;
 using Microsoft.EntityFrameworkCore;
@@ -55,6 +56,9 @@ namespace EVillaAgency.BusinessLayer.Concrete
             var values = await _appDbContext.Houses
             .Include(x=>x.HouseType)
             .Include(y => y.Owner)
+            .Include(z => z.HeatingType)
+            .Include(a => a.District)
+            .ThenInclude(b => b.City)
             .Select(h => new ResultHousesWithNames
             {
                 Bathrooms = h.Bathrooms,
@@ -67,6 +71,8 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 HouseId = h.HouseId,
                 HouseTypeName = h.HouseType.Name,
                 OwnerName = h.Owner.Username,
+                CityName = h.District.City.Name,
+                DictrictName = h.District.Name,
                 Location = h.Location,
                 Pool = h.Pool,
                 Price = h.Price,
@@ -97,14 +103,51 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     HeatingType = h.HeatingType.Name,
                     HouseTypeName = h.HouseType.Name,
                     OwnerName = h.Owner.Username,
+                    CityName = h.District.City.Name,
+                    DictrictName = h.District.Name,
                     Location = h.Location,
                     Pool = h.Pool,
                     Price = h.Price,
                     Size = h.Size,
                     Title = h.Title,
                     YearBuilt = h.YearBuilt,
-                    UpdatedAt = h.UpdatedAt
                 }).FirstOrDefaultAsync();
+            return values;
+        }
+
+        public async Task<List<ResultHousesWithNames>> GetLast6Houses()
+        {
+            var values = await _appDbContext.Houses
+            .OrderByDescending(k =>k.HouseId)
+            .Take(6)
+            .Include(x => x.HouseType)
+            .Include(y => y.Owner)
+            .Include(z => z.HeatingType)
+            .Include(a => a.District)
+            .ThenInclude(b => b.City)
+            .Select(h => new ResultHousesWithNames
+            {
+                Bathrooms = h.Bathrooms,
+                Bedrooms = h.Bedrooms,
+                CreatedAt = h.CreatedAt,
+                Description = h.Description,
+                Garage = h.Garage,
+                Garden = h.Garden,
+                HeatingType = h.HeatingType.Name,
+                HouseId = h.HouseId,
+                HouseTypeName = h.HouseType.Name,
+                OwnerName = h.Owner.Username,
+                CityName = h.District.City.Name,
+                DictrictName = h.District.Name,
+                Location = h.Location,
+                Pool = h.Pool,
+                Price = h.Price,
+                Size = h.Size,
+                Title = h.Title,
+                YearBuilt = h.YearBuilt,
+            }).ToListAsync();
+
+
             return values;
         }
     }

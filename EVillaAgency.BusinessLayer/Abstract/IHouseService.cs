@@ -1,4 +1,5 @@
-﻿using EVillaAgency.DtoLayer.HouseDtos;
+﻿using EVillaAgency.DtoLayer.FavoriteDtos;
+using EVillaAgency.DtoLayer.HouseDtos;
 using EVillaAgency.EntityLayer.Concrete;
 using System;
 using System.Collections.Generic;
@@ -13,5 +14,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
         Task<List<ResultHousesWithNames>> GetHouseWithNamesAsync();
         Task<ResultHousesWithNames> GetHouseWithNamesByIdAsync(int id);
         Task<List<ResultHousesWithNames>> GetHousesByHouseTypeId(int id);
+        Task<List<ResultHousesWithNames>> GetLast6Houses();
+        
     }
 }
