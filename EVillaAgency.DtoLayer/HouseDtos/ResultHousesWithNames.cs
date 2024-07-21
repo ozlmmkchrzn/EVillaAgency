@@ -17,6 +17,7 @@ namespace EVillaAgency.DtoLayer.HouseDtos
         public string OwnerName { get; set; }
         public string DictrictName { get; set; }
         public string CityName { get; set; }
+        public string ImageUrl { get; set; }
         public int Size { get; set; }
         public int Bedrooms { get; set; }
         public bool Pool { get; set; }

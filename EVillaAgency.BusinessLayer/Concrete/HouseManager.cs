@@ -25,6 +25,8 @@ namespace EVillaAgency.BusinessLayer.Concrete
             var values = await _appDbContext.Houses
             .Include(x => x.HouseType)
             .Include(y => y.Owner)
+            .Include(a => a.HouseImages)
+            .ThenInclude(ai => ai.Image)
             .Where(z => z.HouseTypeId == id)
             .Select(h => new ResultHousesWithNames
             {
@@ -38,6 +40,9 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 HouseId = h.HouseId,
                 HouseTypeName = h.HouseType.Name,
                 OwnerName = h.Owner.Username,
+                CityName = h.District.City.Name,
+                DictrictName = h.District.Name,
+                ImageUrl = h.HouseImages.Select(hi => hi.Image.Url).FirstOrDefault(),
                 Location = h.Location,
                 Pool = h.Pool,
                 Price = h.Price,
@@ -54,8 +59,10 @@ namespace EVillaAgency.BusinessLayer.Concrete
         {
 
             var values = await _appDbContext.Houses
-            .Include(x=>x.HouseType)
+            .Include(x => x.HouseType)
             .Include(y => y.Owner)
+            .Include(h => h.HouseImages)
+            .ThenInclude(a => a.Image)
             .Include(z => z.HeatingType)
             .Include(a => a.District)
             .ThenInclude(b => b.City)
@@ -73,6 +80,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 OwnerName = h.Owner.Username,
                 CityName = h.District.City.Name,
                 DictrictName = h.District.Name,
+                ImageUrl = h.HouseImages.Select(hi => hi.Image.Url).FirstOrDefault(),
                 Location = h.Location,
                 Pool = h.Pool,
                 Price = h.Price,
@@ -80,7 +88,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Title = h.Title,
                 YearBuilt = h.YearBuilt,
             }).ToListAsync();
-            
+
 
             return values;
         }
@@ -89,11 +97,13 @@ namespace EVillaAgency.BusinessLayer.Concrete
         {
             var values = await _appDbContext.Houses
                 .Include(x => x.HouseType)
-                .Include(y => y.Owner)
+            .Include(y => y.Owner)
+            .Include(z => z.HeatingType)
+            .Include(a => a.District)
+            .ThenInclude(b => b.City)
                 .Where(z => z.HouseId == id)
                 .Select(h => new ResultHousesWithNames
                 {
-                    HouseId = id,
                     Bathrooms = h.Bathrooms,
                     Bedrooms = h.Bedrooms,
                     CreatedAt = h.CreatedAt,
@@ -101,10 +111,12 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     Garage = h.Garage,
                     Garden = h.Garden,
                     HeatingType = h.HeatingType.Name,
+                    HouseId = h.HouseId,
                     HouseTypeName = h.HouseType.Name,
                     OwnerName = h.Owner.Username,
                     CityName = h.District.City.Name,
                     DictrictName = h.District.Name,
+                    ImageUrl = h.HouseImages.Select(hi => hi.Image.Url).FirstOrDefault(),
                     Location = h.Location,
                     Pool = h.Pool,
                     Price = h.Price,
@@ -118,7 +130,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
         public async Task<List<ResultHousesWithNames>> GetLast6Houses()
         {
             var values = await _appDbContext.Houses
-            .OrderByDescending(k =>k.HouseId)
+            .OrderByDescending(k => k.HouseId)
             .Take(6)
             .Include(x => x.HouseType)
             .Include(y => y.Owner)
@@ -139,6 +151,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 OwnerName = h.Owner.Username,
                 CityName = h.District.City.Name,
                 DictrictName = h.District.Name,
+                ImageUrl = h.HouseImages.Select(hi => hi.Image.Url).FirstOrDefault(),
                 Location = h.Location,
                 Pool = h.Pool,
                 Price = h.Price,

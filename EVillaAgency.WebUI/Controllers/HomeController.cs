@@ -45,6 +45,20 @@ namespace EVillaAgency.WebUI.Controllers
             return View(houseViewModel);
         }
 
+        [HttpGet]
+        public async Task<IActionResult> HouseSingle(int id)
+        {
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.GetAsync($"https://localhost:7037/api/House/GetHousesWithNamesById/{id}");
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonData = await responseMessage.Content.ReadAsStringAsync();
+                var houseDetail = JsonConvert.DeserializeObject <ResultHousesWithNamesDto>(jsonData);
+                return View(houseDetail);
+            }
+            return View("Error");
+        }
+
         public IActionResult Privacy()
         {
             return View();

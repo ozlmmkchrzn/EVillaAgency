@@ -13,14 +13,12 @@
             <div class="item item-1">
                 <div class="header-text">
                 <span class="category">@house.DictrictName, <em>@house.CityName</em></span>
-                <h2>@house.Title<br>@house.Description</h2>
+                <h2>@house.Title</h2>
             </div>
         </div>
         }
     </div>
 </div>
-
-
 
 <div class="featured section">
     <div class="container">
@@ -286,10 +284,10 @@
             {
                 <div class="col-lg-4 col-md-6">
                     <div class="item">
-                        <a href="property-details.html"><img src="~/VillaAgency-1.0.0/assets/images/property-01.jpg" alt=""></a>
+                        <a href="/Home/HouseSingle/@house.HouseId"><img src="@house.ImageUrl" alt=""></a>
                         <span class="category">Luxury Villa</span>
                         <h6>@house.Price </h6>
-                        <h4><a href="property-details.html">@house.Title</a></h4>
+                        <h4><a href="/Home/HouseSingle/@house.HouseId">@house.Title</a></h4>
                         <ul>
                             <li>Banyo: <span>@house.Bedrooms</span></li>
                             <li>Yatak Odası: <span>@house.Bathrooms</span></li>
@@ -298,7 +296,7 @@
                             <li>Yıl: <span>@house.YearBuilt</span></li>
                         </ul>
                         <div class="main-button">
-                            <a href="property-details.html">Schedule a visit</a>
+                            <a href="/Home/HouseSingle/@house.HouseId">Schedule a visit</a>
                         </div>
                     </div>
                 </div>
