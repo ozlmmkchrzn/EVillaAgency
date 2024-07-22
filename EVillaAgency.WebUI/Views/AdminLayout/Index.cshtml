@@ -31,8 +31,8 @@
                     $("#housecount").text(value);
                 });
 
-                connection.on("ReceiveProductCount", (value2) => {
-                    $("#productcount").text(value2);
+                connection.on("GetMostFavoritedHouse", (value2) => {
+                    $("#MostFavoritedHouse").text(value2);
                 });
 
                 connection.on("ReceiveActiveCategoryCount", (value3) => {
@@ -127,8 +127,8 @@
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
-                                    <p class="card-category">Ürün Sayısı</p>
-                                    <h4 class="card-title" id="productcount"></h4>
+                                    <p class="card-category">En Çok Favorilenen Ev</p>
+                                    <h4 class="card-title" id="MostFavoritedHouse"></h4>
                                 </div>
                             </div>
                         </div>

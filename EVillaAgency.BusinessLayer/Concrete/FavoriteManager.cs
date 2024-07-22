@@ -49,6 +49,29 @@ namespace EVillaAgency.BusinessLayer.Concrete
             return values;
         }
 
+        public async Task<ResultTop3FavoritedHousesDto> GetMostFavoritedHouseAsync()
+        {
+            var topHouses = await _appDbContext.Favorites
+            .GroupBy(f => f.HouseId)
+            .Select(group => new
+            {
+                HouseId = group.Key,
+                FavoriteCount = group.Count()
+            })
+            .OrderByDescending(g => g.FavoriteCount)
+            .Take(1)
+            .Join(_appDbContext.Houses,
+                  g => g.HouseId,
+                  h => h.HouseId,
+                  (g, h) => new ResultTop3FavoritedHousesDto
+                  {
+                      Title = h.Title,
+                  })
+            .FirstOrDefaultAsync();
+
+            return topHouses;
+        }
+
         public async Task<List<ResultTop3FavoritedHousesDto>> GetTopFavoritedHousesAsync()
         {
             var topHouses = await _appDbContext.Favorites

@@ -119,5 +119,12 @@ namespace EVillaAgency.WebAPI.Controllers
             return Ok(values);
         }
 
+        [HttpGet("GetMostFavoritedHouse")]
+        public async Task<IActionResult> GetMostFavoritedHouse()
+        {
+            var values = await _favoriteService.GetMostFavoritedHouseAsync();
+            return Ok(values);
+        }
+
     }
 }
