@@ -15,6 +15,8 @@ namespace EVillaAgency.BusinessLayer.Abstract
         Task<ResultHousesWithNames> GetHouseWithNamesByIdAsync(int id);
         Task<List<ResultHousesWithNames>> GetHousesByHouseTypeId(int id);
         Task<List<ResultHousesWithNames>> GetLast6Houses();
-        
+        Task<int> GetTotalHousesCountAsync();
+
+
     }
 }

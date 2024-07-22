@@ -16,7 +16,10 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             return View();
         }
 
-		
 
-	}
+        public IActionResult Index1()
+        {
+            return View();
+        }
+    }
 }

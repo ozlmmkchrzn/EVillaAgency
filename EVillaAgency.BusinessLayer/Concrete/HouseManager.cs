@@ -163,5 +163,17 @@ namespace EVillaAgency.BusinessLayer.Concrete
 
             return values;
         }
+
+        public async Task<int> GetTotalHousesCountAsync()
+        {
+            try
+            {
+                return await _appDbContext.Houses.CountAsync();
+            }
+            catch (Exception ex)
+            {
+                throw new Exception($"Error getting total houses count: {ex.Message}", ex);
+            }
+        }
     }
 }
