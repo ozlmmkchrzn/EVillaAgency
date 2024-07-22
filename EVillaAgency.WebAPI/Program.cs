@@ -2,10 +2,23 @@ using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.BusinessLayer.Concrete;
 using EVillaAgency.DataAccessLayer.Context;
 using EVillaAgency.WebAPI.AutoMapper;
+using EVillaAgency.WebAPI.Hubs;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
 
+builder.Services.AddCors(opt =>
+{
+	opt.AddPolicy("CorsPolicy", builder =>
+	{
+		builder.AllowAnyHeader()
+		.AllowAnyMethod()
+		.SetIsOriginAllowed((host) => true)
+		.AllowCredentials();
+	});
+});
+
+builder.Services.AddSignalR();
 // Add services to the container.
 
 builder.Services.AddControllers();
@@ -31,10 +44,18 @@ if (app.Environment.IsDevelopment())
     app.UseSwaggerUI();
 }
 
+app.UseCors("CorsPolicy");
+
 app.UseHttpsRedirection();
 
 app.UseAuthorization();
 
+app.MapHub<SignalRHub>("/signalrhub");
+
+
 app.MapControllers();
 
 app.Run();
+
+//localhost://1234/swagger/category/index
+//localhost://1234/signalrhub
