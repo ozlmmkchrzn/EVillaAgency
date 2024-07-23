@@ -3,5 +3,4 @@
 3.En çok favorilenen ilk 3 ev (Tamamlandı)
 4.SignalR ile anasayfadaki ilk 3 istatistik
 5.Admin paneli Entegre edilecek
-skajkadjklsajkdakl
 
