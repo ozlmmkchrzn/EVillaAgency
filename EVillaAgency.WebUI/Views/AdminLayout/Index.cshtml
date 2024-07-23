@@ -27,7 +27,7 @@
                 }).catch((err) => { console.log(err) });
 
 
-                connection.on("GetAllHouseCount", (value) => {
+                connection.on("GetTotalHousesCount", (value) => {
                     $("#housecount").text(value);
                 });
 
