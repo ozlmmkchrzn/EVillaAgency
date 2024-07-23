@@ -23,6 +23,9 @@ namespace EVillaAgency.WebAPI.Hubs
 
             var value2 = await _userService.GetTotalUserCount(); // Await the async call
             await Clients.All.SendAsync("GetTotalUsersCount", value2);
+
+            var value3 = await _houseService.GetTotalHouseOwnerCount(); // Await the async call
+            await Clients.All.SendAsync("GetTotalOwnerCount", value3);
         }
 
         //var value2 = _favoriteService.GetMostFavoritedHouseAsync();
