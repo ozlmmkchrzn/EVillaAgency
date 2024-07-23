@@ -5,6 +5,10 @@
     Layout = "~/Views/Shared/_UILayout.cshtml";
 }
 
+<script src="~/lib/jquery/dist/jquery.min.js"></script>
+<script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
+<script src="~/js/site.js" asp-append-version="true"></script>
+<script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
 
 <div class="main-banner">
     <div class="owl-carousel owl-banner">
@@ -131,22 +135,50 @@
             <div class="col-lg-12">
                 <div class="wrapper">
                     <div class="row">
+                        <script type="text/javascript">
+
+                            $(document).ready(() => {
+
+                                var connection = new signalR.HubConnectionBuilder().withUrl("https://localhost:7037/SignalRHub").build();
+                                $("#connstatus").text(connection.state);
+                                connection.start().then(() => {
+                                    $("#connstatus").text(connection.state);
+                                    setInterval(() => {
+                                        connection.invoke("SendStatistic");
+                                    }, 1000);
+                                }).catch((err) => { console.log(err) });
+
+
+                                connection.on("GetTotalHousesCount", (value) => {
+                                    $("#housecount").text(value);
+                                });
+
+                                connection.on("GetTotalUsersCount", (value2) => {
+                                    $("#usercount").text(value2);
+                                });
+
+                                connection.on("GetTotalOwnerCount", (value2) => {
+                                    $("#ownercount").text(value2);
+                                });
+                            });
+
+                        </script>
                         <div class="col-lg-4">
                             <div class="counter">
-                                <h2 class="timer count-title count-number" data-to="34" data-speed="1000"></h2>
-                                <p class="count-text ">Buildings<br>Finished Now</p>
+                                <h2 class="timer count-title count-number" id="housecount"></h2>
+                                <p class="count-text ">Toplam<br>Ev Sayımız</p>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="counter">
-                                <h2 class="timer count-title count-number" data-to="12" data-speed="1000"></h2>
-                                <p class="count-text ">Years<br>Experience</p>
+                                <h2 class="timer count-title count-number" id="usercount"></h2>
+                                <p class="count-text ">Toplam<br>Kullanıcı Sayımız</p>
                             </div>
                         </div>
                         <div class="col-lg-4">
                             <div class="counter">
-                                <h2 class="timer count-title count-number" data-to="24" data-speed="1000"></h2>
-                                <p class="count-text ">Awwards<br>Won 2023</p>
+                                <h2 class="timer count-title count-number" id="ownercount"></h2>
+                                <p class="count-text ">Toplam<br>Ev Sahiplerimiz</p>
                             </div>
                         </div>
                     </div>
