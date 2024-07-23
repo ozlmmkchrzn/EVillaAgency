@@ -164,6 +164,15 @@ namespace EVillaAgency.BusinessLayer.Concrete
             return values;
         }
 
+        public async Task<int> GetTotalHouseOwnerCount()
+        {
+            var values = await _appDbContext.Houses
+                .Select(h => h.OwnerId)
+                .Distinct()
+                .CountAsync();
+            return values;
+        }
+
         public async Task<int> GetTotalHousesCountAsync()
         {
             try
