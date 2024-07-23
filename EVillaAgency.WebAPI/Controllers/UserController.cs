@@ -98,5 +98,12 @@ namespace EVillaAgency.WebAPI.Controllers
                 }
             }
         }
+
+        [HttpGet("GetTotalUserCount")]
+        public async Task<IActionResult> GetTotalUserCount()
+        {
+            var values = await _userService.GetTotalUserCount();
+            return Ok(values);
+        }
     }
 }
