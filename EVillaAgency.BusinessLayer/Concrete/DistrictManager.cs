@@ -10,25 +10,20 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.BusinessLayer.Concrete
 {
-    public class UserManager : GenericRepository<User>, IUserService
+    public class DistrictManager : GenericRepository<District>, IDistrictService
     {
         private readonly AppDbContext _appDbContext;
-
-        public UserManager(AppDbContext dbContext) : base(dbContext)
+        public DistrictManager(AppDbContext dbContext, AppDbContext appDbContext) : base(dbContext)
         {
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<int> GetTotalUserCountAsync()
+        public async Task<int> GetDistrictCountAsync()
         {
-            try
-            {
-                return await _appDbContext.Users.CountAsync();
-            }
-            catch (Exception ex)
-            {
-                throw new Exception($"Error getting total users count: {ex.Message}", ex);
-            }
+            var count = await _appDbContext.Districts
+                .CountAsync();
+            return count;
+
         }
     }
 }

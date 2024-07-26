@@ -9,6 +9,7 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
 
 <div class="main-banner">
     <div class="owl-carousel owl-banner">
@@ -16,10 +17,10 @@
         {
             <div class="item item-1">
                 <div class="header-text">
-                <span class="category">@house.DictrictName, <em>@house.CityName</em></span>
-                <h2>@house.Title</h2>
+                    <span class="category">@house.DictrictName, <em>@house.CityName</em></span>
+                    <h2>@house.Title</h2>
+                </div>
             </div>
-        </div>
         }
     </div>
 </div>
@@ -200,96 +201,33 @@
             <div class="col-lg-12">
                 <div class="tabs-content">
                     <div class="row">
-                        <div class="nav-wrapper ">
+                        <div class="nav-wrapper">
                             <ul class="nav nav-tabs" role="tablist">
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link active" id="appartment-tab" data-bs-toggle="tab" data-bs-target="#appartment" type="button" role="tab" aria-controls="appartment" aria-selected="true">Appartment</button>
+                                    <button class="nav-link active" id="appartment-tab" data-bs-toggle="tab" data-bs-target="#appartment" type="button" role="tab" aria-controls="appartment" aria-selected="true" data-house-type-id="1">Apartment</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="villa-tab" data-bs-toggle="tab" data-bs-target="#villa" type="button" role="tab" aria-controls="villa" aria-selected="false">Villa House</button>
+                                    <button class="nav-link" id="villa-tab" data-bs-toggle="tab" data-bs-target="#villa" type="button" role="tab" aria-controls="villa" aria-selected="false" data-house-type-id="2">Villa</button>
                                 </li>
                                 <li class="nav-item" role="presentation">
-                                    <button class="nav-link" id="penthouse-tab" data-bs-toggle="tab" data-bs-target="#penthouse" type="button" role="tab" aria-controls="penthouse" aria-selected="false">Penthouse</button>
+                                    <button class="nav-link" id="penthouse-tab" data-bs-toggle="tab" data-bs-target="#penthouse" type="button" role="tab" aria-controls="penthouse" aria-selected="false" data-house-type-id="3">Penthouse</button>
                                 </li>
                             </ul>
                         </div>
                         <div class="tab-content" id="myTabContent">
                             <div class="tab-pane fade show active" id="appartment" role="tabpanel" aria-labelledby="appartment-tab">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="info-table">
-                                            <ul>
-                                                <li>Total Flat Space <span>185 m2</span></li>
-                                                <li>Floor number <span>26th</span></li>
-                                                <li>Number of rooms <span>4</span></li>
-                                                <li>Parking Available <span>Yes</span></li>
-                                                <li>Payment Process <span>Bank</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <img src="assets/images/deal-01.jpg" alt="">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <h4>Extra Info About Property</h4>
-                                        <p>
-                                            Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod tempor pack incididunt ut labore et dolore magna aliqua quised ipsum suspendisse.
-                                            <br><br>When you need free CSS templates, you can simply type TemplateMo in any search engine website. In addition, you can type TemplateMo Portfolio, TemplateMo One Page Layouts, etc.
-                                        </p>
-                                        <div class="icon-button">
-                                            <a href="property-details.html"><i class="fa fa-calendar"></i> Schedule a visit</a>
-                                        </div>
-                                    </div>
+                                <div class="row" id="appartment-content" data-house-type-id="1">
+                                    <!-- AJAX content will be loaded here -->
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="villa" role="tabpanel" aria-labelledby="villa-tab">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="info-table">
-                                            <ul>
-                                                <li>Total Flat Space <span>250 m2</span></li>
-                                                <li>Floor number <span>26th</span></li>
-                                                <li>Number of rooms <span>5</span></li>
-                                                <li>Parking Available <span>Yes</span></li>
-                                                <li>Payment Process <span>Bank</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <img src="assets/images/deal-02.jpg" alt="">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <h4>Detail Info About Villa</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod tempor pack incididunt ut labore et dolore magna aliqua quised ipsum suspendisse. <br><br>Swag fanny pack lyft blog twee. JOMO ethical copper mug, succulents typewriter shaman DIY kitsch twee taiyaki fixie hella venmo after messenger poutine next level humblebrag swag franzen.</p>
-                                        <div class="icon-button">
-                                            <a href="property-details.html"><i class="fa fa-calendar"></i> Schedule a visit</a>
-                                        </div>
-                                    </div>
+                                <div class="row" id="villa-content" data-house-type-id="2">
+                                    <!-- AJAX content will be loaded here -->
                                 </div>
                             </div>
                             <div class="tab-pane fade" id="penthouse" role="tabpanel" aria-labelledby="penthouse-tab">
-                                <div class="row">
-                                    <div class="col-lg-3">
-                                        <div class="info-table">
-                                            <ul>
-                                                <li>Total Flat Space <span>320 m2</span></li>
-                                                <li>Floor number <span>34th</span></li>
-                                                <li>Number of rooms <span>6</span></li>
-                                                <li>Parking Available <span>Yes</span></li>
-                                                <li>Payment Process <span>Bank</span></li>
-                                            </ul>
-                                        </div>
-                                    </div>
-                                    <div class="col-lg-6">
-                                        <img src="assets/images/deal-03.jpg" alt="">
-                                    </div>
-                                    <div class="col-lg-3">
-                                        <h4>Extra Info About Penthouse</h4>
-                                        <p>Lorem ipsum dolor sit amet, consectetur adipiscing elit, do eiusmod tempor pack incididunt ut labore et dolore magna aliqua quised ipsum suspendisse. <br><br>Swag fanny pack lyft blog twee. JOMO ethical copper mug, succulents typewriter shaman DIY kitsch twee taiyaki fixie hella venmo after messenger poutine next level humblebrag swag franzen.</p>
-                                        <div class="icon-button">
-                                            <a href="property-details.html"><i class="fa fa-calendar"></i> Schedule a visit</a>
-                                        </div>
-                                    </div>
+                                <div class="row" id="penthouse-content" data-house-type-id="3">
+                                    <!-- AJAX content will be loaded here -->
                                 </div>
                             </div>
                         </div>
@@ -411,4 +349,73 @@
         </div>
     </div>
 </div>
+
+<script type="text/javascript">
+    $(document).ready(() => {
+        var connection = new signalR.HubConnectionBuilder()
+            .withUrl("https://localhost:7037/SignalRHub")
+            .build();
+
+        $("#connstatus").text(connection.state);
+        connection.start().then(() => {
+            $("#connstatus").text(connection.state);
+            setInterval(() => {
+                connection.invoke("SendLatestHouseByHouseType");
+            }, 1000);
+        }).catch((err) => { console.log(err) });
+
+            // Varsayılan olarak ilk ev tipini yükle
+            loadLatestHouse(1, 'appartment-content');
+
+            // Tablar arasında geçiş yapıldığında ilgili ev tipini yükle
+            $(".nav-link").click(function () {
+                var houseTypeId = $(this).data("house-type-id");
+                var targetContainerId = $(this).data("target-container-id");
+                loadLatestHouse(houseTypeId, targetContainerId);
+            });
+
+            // SignalR'dan veri alındığında güncelle
+            connection.on("GetLatestHouseByHouseType", (house) => {
+                var targetContainerId = $(".nav-link.active").data("target-container-id");
+                var houseContainer = $(`#${targetContainerId}`);
+                houseContainer.empty(); // Eski içeriği temizle
+
+                var houseHtml = `
+                        <div class="col-lg-3">
+                            <div class="info-table">
+                                <ul>
+                                    <li>Toplam Metrekare <span>${house.size} m2</span></li>
+                                    <li>Banyo Sayısı <span>${house.bathrooms}</span></li>
+                                    <li>Yatak Odası Sayısı <span>${house.bedrooms}</span></li>
+                                    <li>Isınma Tipi <span>${house.heatingType}</span></li>
+                                    <li>Fiyatı <span>${house.price} TL</span></li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-lg-6">
+                                <img src="https://www.baranselgrup.com/src/projeler/34/images/ffe841696f.jpg" alt="">
+                        </div>
+                        <div class="col-lg-3">
+                            <h4>${house.title}</h4>
+                            <p>${house.description}</p>
+                            <div class="icon-button">
+                                <a href="/House/HouseSingle/${house.houseId}"><i class="fa fa-calendar"></i> Daha fazla bilgi</a>
+                            </div>
+                        </div>
+                    `;
+
+                houseContainer.append(houseHtml);
+            });
+        }).catch((err) => {
+            console.log(err);
+        });
+
+        function loadLatestHouse(houseTypeId, targetContainerId) {
+            connection.invoke("SendLatestHouseByHouseType", houseTypeId).catch((err) => {
+                console.log(err);
+            });
+        }
+    });
+</script>
+
 

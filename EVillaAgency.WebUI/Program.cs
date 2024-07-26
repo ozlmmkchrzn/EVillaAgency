@@ -1,3 +1,5 @@
+using EVillaAgency.BusinessLayer.Abstract;
+using EVillaAgency.BusinessLayer.Concrete;
 using EVillaAgency.DataAccessLayer.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,6 +8,7 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddHttpClient();
 
 var app = builder.Build();

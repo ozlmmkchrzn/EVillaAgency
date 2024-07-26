@@ -7,8 +7,8 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.BusinessLayer.Abstract
 {
-    public interface IUserService : IGenericService<User>
+    public interface IDistrictService : IGenericService<District>
     {
-        Task<int> GetTotalUserCountAsync();
+        Task<int> GetDistrictCountAsync();
     }
 }

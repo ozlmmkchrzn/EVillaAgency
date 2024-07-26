@@ -31,24 +31,24 @@
                     $("#housecount").text(value);
                 });
 
-                connection.on("GetMostFavoritedHouse", (value2) => {
-                    $("#MostFavoritedHouse").text(value2);
+                // connection.on("GetMostFavoritedHouse", (value2) => {
+                //     $("#MostFavoritedHouse").text(value2);
+                // });
+
+                connection.on("GetTotalUsersCount", (value3) => {
+                    $("#totaluser").text(value3);
                 });
 
-                connection.on("ReceiveActiveCategoryCount", (value3) => {
-                    $("#activecategorycount").text(value3);
+                connection.on("GetFavoritedHouseCount", (value4) => {
+                    $("#favoritedhousecount").text(value4);
                 });
 
-                connection.on("ReceivePassiveCategoryCount", (value4) => {
-                    $("#passivecategorycount").text(value4);
+                connection.on("GetDistrictCount", (value5) => {
+                    $("#districtcount").text(value5);
                 });
 
-                connection.on("ReceiveProductCountByCategoryNameHamburger", (value5) => {
-                    $("#productcountbycategorynamehamburger").text(value5);
-                });
-
-                connection.on("ReceiveProductCountByCategoryNameDrink", (value6) => {
-                    $("#receiveproductcountbycategorynamedrink").text(value6);
+                connection.on("GetCityCount", (value6) => {
+                    $("#citycount").text(value6);
                 });
 
                 connection.on("ReceiveProductPriceAvg", (value7) => {
@@ -127,8 +127,8 @@
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
-                                    <p class="card-category">En Çok Favorilenen Ev</p>
-                                    <h4 class="card-title" id="MostFavoritedHouse"></h4>
+                                    <p class="card-category">Favorilenen Ev Sayısı</p>
+                                    <h4 class="card-title" id="favoritedhousecount"></h4>
                                 </div>
                             </div>
                         </div>
@@ -146,8 +146,8 @@
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
-                                    <p class="card-category">Aktif Kategori</p>
-                                    <h4 class="card-title" id="activecategorycount"></h4>
+                                    <p class="card-category">Toplam Kullanıcı</p>
+                                    <h4 class="card-title" id="totaluser"></h4>
                                 </div>
                             </div>
                         </div>
@@ -165,8 +165,8 @@
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
-                                    <p class="card-category">Pasif Kategori</p>
-                                    <h4 class="card-title" id="passivecategorycount"></h4>
+                                    <p class="card-category">İlçe Sayısı</p>
+                                    <h4 class="card-title" id="districtcount"></h4>
                                 </div>
                             </div>
                         </div>
@@ -188,8 +188,8 @@
                             </div>
                             <div class="col-7 d-flex align-items-center">
                                 <div class="numbers">
-                                    <p class="card-category">Hamburger</p>
-                                    <h4 class="card-title" id="productcountbycategorynamehamburger"></h4>
+                                    <p class="card-category">İl Sayısı</p>
+                                    <h4 class="card-title" id="citycount"></h4>
                                 </div>
                             </div>
                         </div>

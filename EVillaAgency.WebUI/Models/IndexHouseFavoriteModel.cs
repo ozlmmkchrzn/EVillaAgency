@@ -7,5 +7,6 @@ namespace EVillaAgency.WebUI.Models
     {
         public List<ResultHousesWithNamesDto> LastSixHouses { get; set; }
         public List<ResultTop3FavoritedHousesDto> TopFavoritedHouses { get; set; }
+
     }
 }
