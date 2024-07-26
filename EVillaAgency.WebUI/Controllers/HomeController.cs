@@ -86,7 +86,7 @@ namespace EVillaAgency.WebUI.Controllers
                     Password = model.Password,
                     Phone = model.Phone
                 };
-                _userService.InsertAsync(user);
+              await  _userService.InsertAsync(user);
                 
                 return RedirectToAction("Login");
             }
