@@ -3,6 +3,7 @@ using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebUI.Dtos.FovariteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
+using EVillaAgency.WebUI.Dtos.LoginDtos;
 using EVillaAgency.WebUI.Dtos.UserDtos;
 using EVillaAgency.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
@@ -86,12 +87,34 @@ namespace EVillaAgency.WebUI.Controllers
                     Password = model.Password,
                     Phone = model.Phone
                 };
-              await  _userService.InsertAsync(user);
+              await _userService.InsertAsync(user);
                 
                 return RedirectToAction("Login");
             }
             return View(model);
         }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        //// POST: /Account/Login
+        //[HttpPost]
+        //[ValidateAntiForgeryToken]
+        //public async Task<IActionResult> Login(LoginDto model)
+        //{
+        //    var user = _context.Users.SingleOrDefault(u => u.Username == your_name && u.Password == your_pass);
+        //    if (user != null)
+        //    {
+        //        // Baþarýlý giriþ
+        //        // Giriþ iþlemlerini yapabilirsiniz, örneðin: session ayarlamak
+        //        return RedirectToAction("Index", "Home");
+        //    }
+        //    // Baþarýsýz giriþ
+        //    ModelState.AddModelError("", "Geçersiz kullanýcý adý veya þifre.");
+        //    return View();
+        //}
 
         public IActionResult Privacy()
         {
