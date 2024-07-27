@@ -34,6 +34,8 @@ builder.Services.AddScoped<IHouseService,HouseManager>();
 builder.Services.AddScoped<IHouseImageService, HouseImageManager>();
 builder.Services.AddScoped<IHouseTypeService,HouseTypeManager>();
 builder.Services.AddScoped<IUserService,UserManager>();
+builder.Services.AddScoped<IDistrictService,DistrictManager>();
+builder.Services.AddScoped<ICityService,CityManager>();
 
 var app = builder.Build();
 

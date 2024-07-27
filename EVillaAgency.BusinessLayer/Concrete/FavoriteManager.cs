@@ -20,6 +20,15 @@ namespace EVillaAgency.BusinessLayer.Concrete
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public async Task<int> GetFavoritedHouseCountAsync()
+        {
+            var count = await _appDbContext.Favorites
+                .Select(x => x.HouseId)
+                .Distinct()
+                .CountAsync();
+            return count;
+        }
+
         public async Task<List<ResultAllFavoritesWithNamesDto>> GetAllFavoritesWithNamesAsync()
         {
             var values = await _appDbContext.Favorites
@@ -65,12 +74,32 @@ namespace EVillaAgency.BusinessLayer.Concrete
                   h => h.HouseId,
                   (g, h) => new ResultTop3FavoritedHousesDto
                   {
+                      HouseId = h.HouseId,
                       Title = h.Title,
+                      Description = h.Description,
+                      Price = h.Price,
+                      Location = h.Location,
+                      FavoriteCount = g.FavoriteCount,
+                      Bathrooms = h.Bathrooms,
+                      Bedrooms = h.Bedrooms,
+                      CityName = h.District.City.Name,
+                      DictrictName = h.District.Name,
+                      Garage = h.Garage,
+                      Garden = h.Garden,
+                      HeatingTypeName = h.HeatingType.Name,
+                      HouseTypeName = h.HouseType.Name,
+                      OwnerName = h.Owner.Username,
+                      Pool = h.Pool,
+                      Size = h.Size,
+                      YearBuilt = h.YearBuilt
+
                   })
             .FirstOrDefaultAsync();
 
             return topHouses;
         }
+
+        
 
         public async Task<List<ResultTop3FavoritedHousesDto>> GetTopFavoritedHousesAsync()
         {

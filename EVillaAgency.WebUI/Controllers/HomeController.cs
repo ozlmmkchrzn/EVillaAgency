@@ -1,8 +1,13 @@
 
+using EVillaAgency.BusinessLayer.Abstract;
+using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebUI.Dtos.FovariteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
+using EVillaAgency.WebUI.Dtos.LoginDtos;
+using EVillaAgency.WebUI.Dtos.UserDtos;
 using EVillaAgency.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http;
@@ -12,13 +17,15 @@ namespace EVillaAgency.WebUI.Controllers
     public class HomeController : Controller
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IUserService _userService;
 
-        public HomeController(IHttpClientFactory httpClientFactory)
+        public HomeController(IHttpClientFactory httpClientFactory, IUserService userService)
         {
             _httpClientFactory = httpClientFactory;
+            _userService = userService;
         }
 
-       
+
 
         [HttpGet]
         public async Task<IActionResult> Index()
@@ -57,6 +64,56 @@ namespace EVillaAgency.WebUI.Controllers
                 return View(houseDetail);
             }
             return View("Error");
+        }
+
+        public IActionResult Register()
+        {
+            return View();
+        }
+
+        // POST: /Account/Register
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Register(CreateUserDto model)
+        {
+            if (ModelState.IsValid)
+            {
+                User user = new User
+                {
+                    Username = model.Username,
+                    Email = model.Email,
+                    CreatedAt = DateTime.Now,
+                    ImageUrl = model.ImageUrl,
+                    Password = model.Password,
+                    Phone = model.Phone
+                };
+              await _userService.InsertAsync(user);
+                
+                return RedirectToAction("Login");
+            }
+            return View(model);
+        }
+
+        public IActionResult Login()
+        {
+            return View();
+        }
+
+        // POST: /Account/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginDto model)
+        {
+            var user = await _userService.ValidateUserAsync(model.Email, model.Password);
+            if (user != null)
+            {
+                // Baþarýlý giriþ
+                // Giriþ iþlemlerini yapabilirsiniz, örneðin: session ayarlamak
+                return RedirectToAction("Index", "Home");
+            }
+            // Baþarýsýz giriþ
+            ModelState.AddModelError("", "Geçersiz kullanýcý adý veya þifre.");
+            return View();
         }
 
         public IActionResult Privacy()

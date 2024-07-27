@@ -4,6 +4,7 @@ using EVillaAgency.DataAccessLayer.Context;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore.Infrastructure;
 using Microsoft.EntityFrameworkCore.Metadata;
+using Microsoft.EntityFrameworkCore.Migrations;
 using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 
 #nullable disable
@@ -11,9 +12,11 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    partial class AppDbContextModelSnapshot : ModelSnapshot
+    [Migration("20240727122315_mig_test")]
+    partial class mig_test
     {
-        protected override void BuildModel(ModelBuilder modelBuilder)
+        /// <inheritdoc />
+        protected override void BuildTargetModel(ModelBuilder modelBuilder)
         {
 #pragma warning disable 612, 618
             modelBuilder
@@ -21,35 +24,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                 .HasAnnotation("Relational:MaxIdentifierLength", 128);
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
-
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
-                {
-                    b.Property<int>("BasketId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BasketId"));
-
-                    b.Property<int>("Count")
-                        .HasColumnType("int");
-
-                    b.Property<int>("HouseId")
-                        .HasColumnType("int");
-
-                    b.Property<decimal>("TotalPrice")
-                        .HasColumnType("decimal(18,2)");
-
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
-                    b.HasKey("BasketId");
-
-                    b.HasIndex("HouseId");
-
-                    b.HasIndex("UserId");
-
-                    b.ToTable("Baskets");
-                });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
                 {
@@ -298,25 +272,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.ToTable("Users");
                 });
 
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
-                {
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
-                        .WithMany("Baskets")
-                        .HasForeignKey("HouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.User", "User")
-                        .WithMany("Baskets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
-                    b.Navigation("House");
-
-                    b.Navigation("User");
-                });
-
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
                 {
                     b.HasOne("EVillaAgency.EntityLayer.Concrete.City", "City")
@@ -418,8 +373,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.House", b =>
                 {
-                    b.Navigation("Baskets");
-
                     b.Navigation("Favorites");
 
                     b.Navigation("HouseImages");
@@ -437,8 +390,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.User", b =>
                 {
-                    b.Navigation("Baskets");
-
                     b.Navigation("Favorites");
 
                     b.Navigation("Houses");

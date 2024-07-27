@@ -19,7 +19,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<int> GetTotalUserCount()
+        public async Task<int> GetTotalUserCountAsync()
         {
             try
             {
@@ -29,6 +29,11 @@ namespace EVillaAgency.BusinessLayer.Concrete
             {
                 throw new Exception($"Error getting total users count: {ex.Message}", ex);
             }
+        }
+
+        public async Task<User> ValidateUserAsync(string email, string password)
+        {
+            return await _appDbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
         }
     }
 }
