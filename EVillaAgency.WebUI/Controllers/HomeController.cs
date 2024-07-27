@@ -99,22 +99,22 @@ namespace EVillaAgency.WebUI.Controllers
             return View();
         }
 
-        //// POST: /Account/Login
-        //[HttpPost]
-        //[ValidateAntiForgeryToken]
-        //public async Task<IActionResult> Login(LoginDto model)
-        //{
-        //    var user = _context.Users.SingleOrDefault(u => u.Username == your_name && u.Password == your_pass);
-        //    if (user != null)
-        //    {
-        //        // Baþarýlý giriþ
-        //        // Giriþ iþlemlerini yapabilirsiniz, örneðin: session ayarlamak
-        //        return RedirectToAction("Index", "Home");
-        //    }
-        //    // Baþarýsýz giriþ
-        //    ModelState.AddModelError("", "Geçersiz kullanýcý adý veya þifre.");
-        //    return View();
-        //}
+        // POST: /Account/Login
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Login(LoginDto model)
+        {
+            var user = await _userService.ValidateUserAsync(model.Email, model.Password);
+            if (user != null)
+            {
+                // Baþarýlý giriþ
+                // Giriþ iþlemlerini yapabilirsiniz, örneðin: session ayarlamak
+                return RedirectToAction("Index", "Home");
+            }
+            // Baþarýsýz giriþ
+            ModelState.AddModelError("", "Geçersiz kullanýcý adý veya þifre.");
+            return View();
+        }
 
         public IActionResult Privacy()
         {

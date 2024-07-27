@@ -30,5 +30,10 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 throw new Exception($"Error getting total users count: {ex.Message}", ex);
             }
         }
+
+        public async Task<User> ValidateUserAsync(string email, string password)
+        {
+            return await _appDbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
+        }
     }
 }
