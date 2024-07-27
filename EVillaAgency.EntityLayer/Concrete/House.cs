@@ -36,6 +36,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         public HouseType HouseType { get; set; }
         public District District { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
+        public ICollection<Basket> Baskets { get; set; }
 
     }
 }

@@ -23,7 +23,8 @@ namespace EVillaAgency.DataAccessLayer.Context
         public DbSet<HouseType> HouseTypes { get; set; }
         public DbSet<City> Cities { get; set; }
         public DbSet<District> Districts { get; set; }
-        public DbSet<HeatingType> HeatingTypes { get; set; }    
+        public DbSet<HeatingType> HeatingTypes { get; set; }
+        public DbSet<Basket> Baskets { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -40,32 +41,24 @@ namespace EVillaAgency.DataAccessLayer.Context
                 .WithMany(c => c.HouseImages)
                 .HasForeignKey(cb => cb.ImageId); // ImageId yabancı anahtar olarak tanımlandı ve Image tablosuyla ilişkilendirildi.
 
-
-
-
-            //modelBuilder.Entity<Favorite>()
-            //    .HasKey(f => new { f.UserId, f.HouseId });
-
-            //modelBuilder.Entity<Favorite>()
-            //    .HasOne(f => f.User)
-            //    .WithMany(u => u.Favorites)
-            //    .HasForeignKey(f => f.UserId)
-            //    .OnDelete(DeleteBehavior.Restrict); // Silme davranışını ayarlayabilirsiniz
-
-            //modelBuilder.Entity<Favorite>()
-            //    .HasOne(f => f.House)
-            //    .WithMany(h => h.Favorites)
-            //    .HasForeignKey(f => f.HouseId)
-            //    .OnDelete(DeleteBehavior.Restrict); // Silme davranışını ayarlayabilirsiniz
-            // ApplicationDbContext içindeki OnModelCreating metodu
-
             modelBuilder.Entity<Favorite>()
                 .HasOne(f => f.User)
                 .WithMany(u => u.Favorites)
                 .HasForeignKey(f => f.UserId)
                 .OnDelete(DeleteBehavior.Restrict); // veya .OnDelete(DeleteBehavior.NoAction);
 
+            //Basket
+            modelBuilder.Entity<Basket>()
+                .HasOne(b => b.House)
+                .WithMany(h => h.Baskets)
+                .HasForeignKey(b => b.HouseId)
+                .OnDelete(DeleteBehavior.Restrict); // Cascade yerine Restrict kullan
 
+            modelBuilder.Entity<Basket>()
+                .HasOne(b => b.User)
+                .WithMany(u => u.Baskets)
+                .HasForeignKey(b => b.UserId)
+                .OnDelete(DeleteBehavior.Restrict);
 
         }
 
