@@ -36,6 +36,7 @@ builder.Services.AddScoped<IHouseTypeService,HouseTypeManager>();
 builder.Services.AddScoped<IUserService,UserManager>();
 builder.Services.AddScoped<IDistrictService,DistrictManager>();
 builder.Services.AddScoped<ICityService,CityManager>();
+builder.Services.AddScoped<IBasketService,BasketManager>();
 
 var app = builder.Build();
 

@@ -46,8 +46,9 @@ namespace EVillaAgency.WebAPI.Controllers
             }
             else
             {
-                dto.CreatedAt = DateTime.Now;
+                
                 var value = _mapper.Map<House>(dto);
+                value.CreatedAt = DateTime.Now;
                 await _houseService.InsertAsync(value);
                 return Ok("Ev Başarıyla Eklendi.");
             }

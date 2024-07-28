@@ -1,6 +1,7 @@
 
 using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.EntityLayer.Concrete;
+using EVillaAgency.WebUI.Dtos.BasketDtos;
 using EVillaAgency.WebUI.Dtos.FovariteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
 using EVillaAgency.WebUI.Dtos.LoginDtos;
@@ -11,6 +12,7 @@ using Microsoft.EntityFrameworkCore;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http;
+using System.Text;
 
 namespace EVillaAgency.WebUI.Controllers
 {
@@ -115,6 +117,30 @@ namespace EVillaAgency.WebUI.Controllers
             ModelState.AddModelError("", "Geçersiz kullanýcý adý veya þifre.");
             return View();
         }
+
+        [HttpPost]
+        public async Task<IActionResult> AddBasket(int id)
+        {
+            CreateBasketDto createBasketDto = new CreateBasketDto
+            {
+                HouseId = id
+            };
+
+            var client = _httpClientFactory.CreateClient();
+            var jsonData = JsonConvert.SerializeObject(createBasketDto);
+            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
+            var responseMessage = await client.PostAsync("https://localhost:7037/api/Basket", stringContent);
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                return Json(new { success = true, message = "Sepet Baþarýyla Oluþturuldu." });
+            }
+            else
+            {
+                return Json(new { success = false, message = "Bir hata oluþtu." });
+            }
+        }
+
 
         public IActionResult Privacy()
         {

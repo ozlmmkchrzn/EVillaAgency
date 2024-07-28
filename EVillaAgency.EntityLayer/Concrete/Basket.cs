@@ -16,8 +16,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         public int UserId { get; set; }
         public User User { get; set; }
 
-        public int Count { get; set; }
+        public DateTime CreatedDate { get; set; }
 
-        public decimal TotalPrice { get; set; }
     }
 }

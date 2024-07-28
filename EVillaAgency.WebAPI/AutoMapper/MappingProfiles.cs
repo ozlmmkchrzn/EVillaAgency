@@ -1,4 +1,5 @@
 ﻿using AutoMapper;
+using EVillaAgency.DtoLayer.BasketDtos;
 using EVillaAgency.DtoLayer.FavoriteDtos;
 using EVillaAgency.DtoLayer.HouseDtos;
 using EVillaAgency.DtoLayer.HouseImageDtos;
@@ -41,6 +42,9 @@ namespace EVillaAgency.WebAPI.AutoMapper
             CreateMap<Favorite, ResultTop3FavoritedHousesDto>().ReverseMap();
             CreateMap<Favorite, CreateFavoriteDto>().ReverseMap();
             CreateMap<Favorite, UpdateFavoriteDto>().ReverseMap();
+
+            CreateMap<Basket, ResultBasketDto>().ReverseMap();
+            CreateMap<Basket, CreateBasketDto>().ReverseMap();
         }
     }
 }
