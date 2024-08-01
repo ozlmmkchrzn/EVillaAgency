@@ -20,6 +20,36 @@ namespace EVillaAgency.BusinessLayer.Concrete
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
+        public async Task CreateHouseAsync(CreateHouseDto dto)
+        {
+            // Yeni ev nesnesi oluştur
+            var house = new House
+            {
+                Bathrooms = dto.Bathrooms,
+                Bedrooms = dto.Bedrooms,
+                CreatedAt = DateTime.Now, // Evin oluşturulma tarihini şu anki tarih olarak ayarladık
+                Description = dto.Description,
+                Garage = dto.Garage,
+                Garden = dto.Garden,
+                HeatingTypeId = dto.HeatingTypeId, // Assuming HeatingTypeId is part of CreateHouseDto
+                HouseTypeId = dto.HouseTypeId,
+                OwnerId = dto.OwnerId,
+                DistrictId = dto.DistrictId,
+                Location = dto.Location,
+                Pool = dto.Pool,
+                Price = dto.Price,
+                Size = dto.Size,
+                Title = dto.Title,
+                YearBuilt = dto.YearBuilt,
+                Status = true // Yeni oluşturulan evin durumunu true olarak ayarladık
+            };
+
+            // Evi veritabanına ekle
+            await _appDbContext.Houses.AddAsync(house);
+            await _appDbContext.SaveChangesAsync();
+        }
+
+
         public async Task<List<ResultHousesWithNames>> GetHousesByHouseTypeId(int id)
         {
             var values = await _appDbContext.Houses
@@ -49,6 +79,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Size = h.Size,
                 Title = h.Title,
                 YearBuilt = h.YearBuilt,
+                Status = h.Status
             }).ToListAsync();
 
 
@@ -87,6 +118,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Size = h.Size,
                 Title = h.Title,
                 YearBuilt = h.YearBuilt,
+                Status = h.Status
             }).ToListAsync();
 
 
@@ -123,6 +155,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     Size = h.Size,
                     Title = h.Title,
                     YearBuilt = h.YearBuilt,
+                    Status = h.Status
                 }).FirstOrDefaultAsync();
             return values;
         }
@@ -158,6 +191,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Size = h.Size,
                 Title = h.Title,
                 YearBuilt = h.YearBuilt,
+                Status = h.Status
             }).ToListAsync();
 
 
@@ -196,6 +230,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                    Size = h.Size,
                    Title = h.Title,
                    YearBuilt = h.YearBuilt,
+                   Status = h.Status
                }).FirstOrDefaultAsync();
             return values;
         }

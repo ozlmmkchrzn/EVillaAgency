@@ -29,6 +29,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         // Sadece DistrictId tutulur
         public int DistrictId { get; set; }
 
+        public bool Status { get; set; }
         public User Owner { get; set; }
 
         public HeatingType HeatingType { get; set; }

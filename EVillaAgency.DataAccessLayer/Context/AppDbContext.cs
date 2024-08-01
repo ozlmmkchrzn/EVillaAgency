@@ -25,6 +25,7 @@ namespace EVillaAgency.DataAccessLayer.Context
         public DbSet<District> Districts { get; set; }
         public DbSet<HeatingType> HeatingTypes { get; set; }
         public DbSet<Basket> Baskets { get; set; }
+        public DbSet<Order> Orders { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -60,6 +61,10 @@ namespace EVillaAgency.DataAccessLayer.Context
                 .HasForeignKey(b => b.UserId)
                 .OnDelete(DeleteBehavior.Restrict);
 
+            modelBuilder.Entity<Basket>()
+                .HasOne(b => b.Order)
+                .WithOne(o => o.Basket)
+                .HasForeignKey<Order>(o => o.BasketId);modelBuilder.Entity<Basket>();
         }
 
     }

@@ -22,11 +22,12 @@ namespace EVillaAgency.DtoLayer.HouseDtos
         public bool Garden { get; set; }
         public int YearBuilt { get; set; }
         public int HeatingTypeId { get; set; }
-
         public DateTime CreatedAt { get; set; }
         public DateTime? UpdatedAt { get; set; }
 
         // Sadece DistrictId tutulur
         public int DistrictId { get; set; }
+
+        public bool Status { get; set; }
     }
 }

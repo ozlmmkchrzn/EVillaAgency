@@ -14,5 +14,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
         Task CreateBasket(CreateBasketDto dto);
 
         Task<ResultBasketDto> GetBasketById(int id);
+
+        Task<ResultBasketDto> GetLastBasketByUserId(int id);
     }
 }

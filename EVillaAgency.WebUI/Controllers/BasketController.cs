@@ -14,17 +14,12 @@ namespace EVillaAgency.WebUI.Controllers
             _httpClientFactory = httpClientFactory;
         }
 
-        public async Task<IActionResult> Index(int id)
+        public async Task<IActionResult> Index()
         {
-            var basketId = HttpContext.Session.GetInt32("BasketId");
-            if (!basketId.HasValue)
-            {
-                ViewBag.ErrorMessage = "Sepet ID'si bulunamadı.";
-                return View();
-            }
+           var userid = HttpContext.Session.GetInt32("UserId");
 
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7037/api/Basket/{basketId.Value}");
+            var responseMessage = await client.GetAsync($"https://localhost:7037/api/Basket/GetLastBasketbyUserId?id={userid}");
 
             if (responseMessage.IsSuccessStatusCode)
             {

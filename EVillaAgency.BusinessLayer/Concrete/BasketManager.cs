@@ -79,5 +79,25 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 }).FirstOrDefaultAsync();
             return values;
         }
+
+        public async Task<ResultBasketDto> GetLastBasketByUserId(int id)
+        {
+            var values = await _appDbContext.Baskets
+                .Include(x => x.House)
+                .Include(y => y.User)
+                .Where(z => z.UserId == id)
+                .OrderByDescending(z => z.BasketId)
+                .Take(1)
+                .Select(h => new ResultBasketDto
+                {
+                    BasketId = h.BasketId,
+                    HousePrice = h.House.Price,
+                    HouseTitle = h.House.Title,
+                    HouseTypeName = h.House.HouseType.Name,
+                    OwnerName = h.House.Owner.Username,
+                    UserName = h.User.Username
+                }).FirstOrDefaultAsync();
+            return values;
+        }
     }
 }

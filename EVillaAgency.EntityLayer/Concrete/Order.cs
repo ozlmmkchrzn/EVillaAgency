@@ -6,19 +6,13 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.EntityLayer.Concrete
 {
-    public class Basket
+    public class Order
     {
+        public int OrderID { get; set; }
         public int BasketId { get; set; }
-
-        public int HouseId { get; set; }
-        public House House { get; set; }
-
-        public int UserId { get; set; }
-        public User User { get; set; }
-
+        public bool Status { get; set; }
         public DateTime CreatedDate { get; set; }
 
-        public Order Order { get; set; }
-
+        public Basket Basket { get; set; }
     }
 }

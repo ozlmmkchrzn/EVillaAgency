@@ -29,5 +29,6 @@ namespace EVillaAgency.DtoLayer.HouseDtos
 
         // Sadece DistrictId tutulur
         public int DistrictId { get; set; }
+        public bool Status { get; set; }
     }
 }

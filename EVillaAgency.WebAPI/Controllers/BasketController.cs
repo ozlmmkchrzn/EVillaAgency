@@ -47,5 +47,12 @@ namespace EVillaAgency.WebAPI.Controllers
             var values = await _basketService.GetBasketById(id);
             return Ok(values);
         }
+
+        [HttpGet("GetLastBasketbyUserId")]
+        public async Task<IActionResult> GetLastBasketbyUserId(int id)
+        {
+            var values = await _basketService.GetLastBasketByUserId(id);
+            return Ok(values);
+        }
     }
 }

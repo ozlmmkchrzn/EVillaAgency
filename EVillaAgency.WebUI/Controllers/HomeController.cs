@@ -148,8 +148,7 @@ namespace EVillaAgency.WebUI.Controllers
                     var responseContent = await responseMessage.Content.ReadAsStringAsync();
                     var basketId = JsonConvert.DeserializeObject<int>(responseContent);
 
-                    // Sepet ID'sini Session'a ekleyin
-                    HttpContext.Session.SetInt32("BasketId", basketId);
+                    
 
                     return Json(new { basketId = basketId });
                 }
