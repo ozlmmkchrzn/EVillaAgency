@@ -12,5 +12,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
     {
         Task<List<ResultBasketDto>> GetAllBAskets();
         Task CreateBasket(CreateBasketDto dto);
+
+        Task<ResultBasketDto> GetBasketById(int id);
     }
 }

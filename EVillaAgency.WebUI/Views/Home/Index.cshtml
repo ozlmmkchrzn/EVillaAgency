@@ -329,12 +329,13 @@
                             <li>Yıl: <span>@house.YearBuilt</span></li>
                         </ul>
                         <div class="main-button">
-                            <a href="#" onclick="showproductid(@house.HouseId)">Sepete Ekle</a> @* ajax sepet *@
+                            <a href="#" onclick="showproductid(@house.HouseId)">Sepete Ekle</a>
                         </div>
                     </div>
                 </div>
 
             }
+            
         </div>
     </div>
 </div>
@@ -412,25 +413,7 @@
         </div>
     </div>
 </div>
-
-@* <script>
-    function showproductid(value) {
-        var id = value;
-        $.ajax({
-            type: 'POST',
-            url: "/Basket/CreateBasket/" + id, // API URL
-            contentType: 'application/json; charset=utf-8',
-            data: JSON.stringify({ houseId: id }), // JSON formatında gönderim
-            success: function () {
-                swal("Seçilen Ürün ID:" + id, "Seçtiğiniz Ürün Sepete Eklendi!", "success");
-            },
-            error: function (xhr, status, error) {
-                swal("Hata", "Bir hata oluştu: " + error, "error");
-            }
-        });
-    };
-</script> *@
-
+<a class="btn btn-outline-info" href="/Basket/Index/@ViewBag.BasketId"</a>
 <script>
     function showproductid(value) {
         var id = value;
@@ -450,6 +433,7 @@
 </script>
 
 <script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
 
 
 

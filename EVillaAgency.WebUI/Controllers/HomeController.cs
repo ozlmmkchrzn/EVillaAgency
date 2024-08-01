@@ -1,4 +1,4 @@
-
+ï»¿
 using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebUI.Dtos.BasketDtos;
@@ -8,7 +8,9 @@ using EVillaAgency.WebUI.Dtos.LoginDtos;
 using EVillaAgency.WebUI.Dtos.UserDtos;
 using EVillaAgency.WebUI.Models;
 using Microsoft.AspNetCore.Mvc;
+using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 using Microsoft.EntityFrameworkCore;
+using Microsoft.Extensions.Configuration.UserSecrets;
 using Newtonsoft.Json;
 using System.Diagnostics;
 using System.Net.Http;
@@ -109,37 +111,61 @@ namespace EVillaAgency.WebUI.Controllers
             var user = await _userService.ValidateUserAsync(model.Email, model.Password);
             if (user != null)
             {
-                // Baþarýlý giriþ
-                // Giriþ iþlemlerini yapabilirsiniz, örneðin: session ayarlamak
+                // BaÅŸarÄ±lÄ± giriÅŸ
+                // GiriÅŸ iÅŸlemlerini yapabilirsiniz, Ã¶rneÄŸin: session ayarlamak
+                HttpContext.Session.SetInt32("UserId", user.UserId);
                 return RedirectToAction("Index", "Home");
             }
-            // Baþarýsýz giriþ
-            ModelState.AddModelError("", "Geçersiz kullanýcý adý veya þifre.");
+            // BaÅŸarÄ±sÄ±z giriÅŸ
+            ModelState.AddModelError("", "GeÃ§ersiz kullanÄ±cÄ± adÄ± veya ÅŸifre.");
             return View();
         }
 
         [HttpPost]
         public async Task<IActionResult> AddBasket(int id)
         {
+            var userId = HttpContext.Session.GetInt32("UserId");
+            if (!userId.HasValue)
+            {
+                return Json(new { success = false, message = "KullanÄ±cÄ± kimliÄŸi bulunamadÄ±." });
+            }
+
             CreateBasketDto createBasketDto = new CreateBasketDto
             {
-                HouseId = id
+                HouseId = id,
+                UserId = userId.Value
             };
 
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(createBasketDto);
-            StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7037/api/Basket", stringContent);
+            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
 
-            if (responseMessage.IsSuccessStatusCode)
+            try
             {
-                return Json(new { success = true, message = "Sepet Baþarýyla Oluþturuldu." });
+                var responseMessage = await client.PostAsync("https://localhost:7037/api/Basket", stringContent);
+                if (responseMessage.IsSuccessStatusCode)
+                {
+                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
+                    var basketId = JsonConvert.DeserializeObject<int>(responseContent);
+
+                    // Sepet ID'sini Session'a ekleyin
+                    HttpContext.Session.SetInt32("BasketId", basketId);
+
+                    return Json(new { basketId = basketId });
+                }
+                else
+                {
+                    var errorMessage = await responseMessage.Content.ReadAsStringAsync();
+                    return Json(new { success = false, message = string.IsNullOrEmpty(errorMessage) ? "Bir hata oluÅŸtu." : errorMessage });
+                }
             }
-            else
+            catch (Exception ex)
             {
-                return Json(new { success = false, message = "Bir hata oluþtu." });
+                return Json(new { success = false, message = $"Bir hata oluÅŸtu: {ex.Message}" });
             }
         }
+
+
 
 
         public IActionResult Privacy()

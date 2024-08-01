@@ -27,7 +27,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 var basket = new Basket
                 {
                     HouseId = dto.HouseId,
-                    UserId = 1,
+                    UserId = dto.UserId,
                     CreatedDate = DateTime.Now
                 };
 
@@ -60,6 +60,23 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     OwnerName = h.House.Owner.Username,
                     UserName = h.User.Username,
                 }).ToListAsync();
+            return values;
+        }
+
+        public async Task<ResultBasketDto> GetBasketById(int id)
+        {
+            var values = await _appDbContext.Baskets
+                .Include( x=> x.House)
+                .Include( y => y.User)
+                .Where(z => z.BasketId == id)
+                .Select(h => new ResultBasketDto {
+                    BasketId = h.BasketId,
+                    HousePrice = h.House.Price,
+                    HouseTitle= h.House.Title,
+                    HouseTypeName= h.House.HouseType.Name,
+                    OwnerName= h.House.Owner.Username,
+                    UserName = h.User.Username
+                }).FirstOrDefaultAsync();
             return values;
         }
     }

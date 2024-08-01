@@ -3,5 +3,6 @@
     public class CreateBasketDto
     {
         public int HouseId { get; set; }
+        public int UserId { get; set; }
     }
 }

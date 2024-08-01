@@ -40,5 +40,12 @@ namespace EVillaAgency.WebAPI.Controllers
                 return Ok("Sepet Başarıyla Oluşturuldu.");
             }
         }
+
+        [HttpGet("{id}")]
+        public async Task<IActionResult> GetBasketById(int id)
+        {
+            var values = await _basketService.GetBasketById(id);
+            return Ok(values);
+        }
     }
 }
