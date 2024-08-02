@@ -66,11 +66,6 @@ namespace EVillaAgency.WebUI.Controllers.Admin
 
             return View(new List<ResultHousesWithNamesDto>());
         }
-
-
-
-
-
         [HttpGet]
         public async Task<IActionResult> CreateHouse()
         {

@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240727123839_mig_update_basket_table2")]
-    partial class mig_update_basket_table2
+    [Migration("20240802191937_addStatus")]
+    partial class addStatus
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,8 +33,14 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BasketId"));
 
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
                     b.Property<int>("HouseId")
                         .HasColumnType("int");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
 
                     b.Property<int>("UserId")
                         .HasColumnType("int");
@@ -179,6 +185,9 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Property<int>("Size")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -257,6 +266,28 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.HasKey("Id");
 
                     b.ToTable("Images");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+
+                    b.Property<int>("BasketId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.HasKey("OrderID");
+
+                    b.HasIndex("BasketId")
+                        .IsUnique();
+
+                    b.ToTable("Orders");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.User", b =>
@@ -396,6 +427,23 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Navigation("House");
 
                     b.Navigation("Image");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Order", b =>
+                {
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Basket", "Basket")
+                        .WithOne("Order")
+                        .HasForeignKey("EVillaAgency.EntityLayer.Concrete.Order", "BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>

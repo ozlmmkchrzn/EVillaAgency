@@ -5,7 +5,7 @@
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class mig_test : Migration
+    public partial class addStatus : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
