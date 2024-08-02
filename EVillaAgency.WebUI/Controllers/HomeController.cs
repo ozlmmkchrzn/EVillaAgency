@@ -2,7 +2,7 @@
 using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebUI.Dtos.BasketDtos;
-using EVillaAgency.WebUI.Dtos.FovariteDtos;
+using EVillaAgency.WebUI.Dtos.FavoriteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
 using EVillaAgency.WebUI.Dtos.LoginDtos;
 using EVillaAgency.WebUI.Dtos.UserDtos;

@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EVillaAgency.DtoLayer.BasketDtos;
+using EVillaAgency.DtoLayer.CouponDtos;
 using EVillaAgency.DtoLayer.FavoriteDtos;
 using EVillaAgency.DtoLayer.HouseDtos;
 using EVillaAgency.DtoLayer.HouseImageDtos;
@@ -49,6 +50,10 @@ namespace EVillaAgency.WebAPI.AutoMapper
 
             CreateMap<Order, ResultOrderDto>().ReverseMap();
             CreateMap<Order, CreateOrderDto>().ReverseMap();
+
+            CreateMap<Coupon, ResultCouponDto>().ReverseMap();
+            CreateMap<Coupon, CreateCouponDto>().ReverseMap();
+            CreateMap<Coupon, UpdateCouponDto>().ReverseMap();
         }
     }
 }

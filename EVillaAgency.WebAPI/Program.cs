@@ -40,6 +40,7 @@ builder.Services.AddScoped<IDistrictService,DistrictManager>();
 builder.Services.AddScoped<ICityService,CityManager>();
 builder.Services.AddScoped<IBasketService,BasketManager>();
 builder.Services.AddScoped<IOrderService,OrderManager>();
+builder.Services.AddScoped<ICouponService,CouponManager>();
 
 var app = builder.Build();
 

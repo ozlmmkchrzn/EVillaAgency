@@ -1,4 +1,4 @@
-﻿using EVillaAgency.WebUI.Dtos.FovariteDtos;
+﻿using EVillaAgency.WebUI.Dtos.FavoriteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
 
 namespace EVillaAgency.WebUI.Models

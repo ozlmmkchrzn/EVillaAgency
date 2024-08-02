@@ -4,7 +4,7 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EVillaAgency.WebUI.Dtos.FovariteDtos
+namespace EVillaAgency.WebUI.Dtos.FavoriteDtos
 {
     public class ResultTop3FavoritedHousesDto
     {
