@@ -13,5 +13,7 @@ namespace EVillaAgency.DtoLayer.BasketDtos
 
         public int UserId { get; set; }
 
+        public bool Status { get; set; }
+
     }
 }

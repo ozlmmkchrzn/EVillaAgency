@@ -31,12 +31,12 @@ namespace EVillaAgency.BusinessLayer.Concrete
             {
                 BasketId = dto.BasketId,
                 CreatedDate = DateTime.Now,
-                Status = true
             };
 
             basket.House.OwnerId = basket.UserId;
 
             basket.House.Status = false;
+            basket.Status = false;
 
             _appDbContext.Houses.Update(basket.House);
 

@@ -16,6 +16,8 @@ namespace EVillaAgency.EntityLayer.Concrete
         public int UserId { get; set; }
         public User User { get; set; }
 
+        public bool Status { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public Order Order { get; set; }
