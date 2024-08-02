@@ -1,3 +1,5 @@
+using EVillaAgency.BusinessLayer.Abstract;
+using EVillaAgency.BusinessLayer.Concrete;
 using EVillaAgency.DataAccessLayer.Context;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -6,7 +8,17 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>();
+builder.Services.AddScoped<IUserService, UserManager>();
 builder.Services.AddHttpClient();
+
+builder.Services.AddDistributedMemoryCache();
+
+builder.Services.AddSession(options =>
+{
+    options.IdleTimeout = TimeSpan.FromMinutes(30);
+    options.Cookie.HttpOnly = true;
+    options.Cookie.IsEssential = true;
+});
 
 var app = builder.Build();
 
@@ -25,8 +37,10 @@ app.UseRouting();
 
 app.UseAuthorization();
 
+app.UseSession();
+
 app.MapControllerRoute(
     name: "default",
-    pattern: "{controller=Home}/{action=Index}/{id?}");
+    pattern: "{controller=Home}/{action=Login}/{id?}");
 
 app.Run();

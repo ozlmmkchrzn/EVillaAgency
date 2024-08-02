@@ -46,8 +46,9 @@ namespace EVillaAgency.WebAPI.Controllers
             }
             else
             {
-                dto.CreatedAt = DateTime.Now;
+                
                 var value = _mapper.Map<House>(dto);
+                value.CreatedAt = DateTime.Now;
                 await _houseService.InsertAsync(value);
                 return Ok("Ev Başarıyla Eklendi.");
             }
@@ -132,6 +133,13 @@ namespace EVillaAgency.WebAPI.Controllers
         public async Task<IActionResult> GetTotalHouseOwnerCount()
         {
             var values = await _houseService.GetTotalHouseOwnerCount();
+            return Ok(values);
+        }
+
+        [HttpGet("GetLatestHouseByHouseType")]
+        public async Task<IActionResult> GetLatestHouseByHouseType(int id)
+        {
+            var values = await _houseService.GetLatestHouseByHouseTypeAsync(id);
             return Ok(values);
         }
     }

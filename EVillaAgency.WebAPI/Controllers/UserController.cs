@@ -102,7 +102,7 @@ namespace EVillaAgency.WebAPI.Controllers
         [HttpGet("GetTotalUserCount")]
         public async Task<IActionResult> GetTotalUserCount()
         {
-            var values = await _userService.GetTotalUserCount();
+            var values = await _userService.GetTotalUserCountAsync();
             return Ok(values);
         }
     }

@@ -9,6 +9,7 @@
 <script src="~/lib/bootstrap/dist/js/bootstrap.bundle.min.js"></script>
 <script src="~/js/site.js" asp-append-version="true"></script>
 <script src="~/microsoft/signalr/dist/browser/signalr.min.js"></script>
+<script src="https://cdnjs.cloudflare.com/ajax/libs/microsoft-signalr/5.0.9/signalr.min.js"></script>
 
 <div class="main-banner">
     <div class="owl-carousel owl-banner">
@@ -16,10 +17,10 @@
         {
             <div class="item item-1">
                 <div class="header-text">
-                <span class="category">@house.DictrictName, <em>@house.CityName</em></span>
-                <h2>@house.Title</h2>
+                    <span class="category">@house.DictrictName, <em>@house.CityName</em></span>
+                    <h2>@house.Title</h2>
+                </div>
             </div>
-        </div>
         }
     </div>
 </div>
@@ -328,13 +329,15 @@
                             <li>Yıl: <span>@house.YearBuilt</span></li>
                         </ul>
                         <div class="main-button">
-                            <a href="/Home/HouseSingle/@house.HouseId">Schedule a visit</a>
+                            <a href="#" onclick="showproductid(@house.HouseId)">Sepete Ekle</a>
                         </div>
                     </div>
                 </div>
 
             }
+            
         </div>
+        
     </div>
 </div>
 
@@ -411,4 +414,29 @@
         </div>
     </div>
 </div>
+
+<script>
+    function showproductid(value) {
+        var id = value;
+        $.ajax({
+            type: 'POST',
+            url: "/Home/AddBasket/" + id, // Doğru URL'yi kullanın
+            data: JSON.stringify({ id: id }), // JSON formatında veri gönderin
+            contentType: 'application/json', // İçerik türünü belirtin
+            success: function () {
+                swal("Seçilen Ürün ID:" + id, "Seçtiğiniz Ürün Sepete Eklendi!", "success");
+            },
+            error: function (xhr, status, error) {
+                swal("Hata", "Bir hata oluştu: " + error, "error");
+            }
+        });
+    };
+</script>
+
+<script src="https://unpkg.com/sweetalert/dist/sweetalert.min.js"></script>
+
+
+
+
+
 

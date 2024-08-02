@@ -26,6 +26,8 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
+
+
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddScoped<AppDbContext>();
 builder.Services.AddScoped<IImageService,ImageManager>();
@@ -34,6 +36,10 @@ builder.Services.AddScoped<IHouseService,HouseManager>();
 builder.Services.AddScoped<IHouseImageService, HouseImageManager>();
 builder.Services.AddScoped<IHouseTypeService,HouseTypeManager>();
 builder.Services.AddScoped<IUserService,UserManager>();
+builder.Services.AddScoped<IDistrictService,DistrictManager>();
+builder.Services.AddScoped<ICityService,CityManager>();
+builder.Services.AddScoped<IBasketService,BasketManager>();
+builder.Services.AddScoped<IOrderService,OrderManager>();
 
 var app = builder.Build();
 

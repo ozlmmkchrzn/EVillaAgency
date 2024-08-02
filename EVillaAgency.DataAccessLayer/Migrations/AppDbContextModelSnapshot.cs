@@ -22,6 +22,32 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
+                {
+                    b.Property<int>("BasketId")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BasketId"));
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<int>("HouseId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("BasketId");
+
+                    b.HasIndex("HouseId");
+
+                    b.HasIndex("UserId");
+
+                    b.ToTable("Baskets");
+                });
+
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
                 {
                     b.Property<int>("CityId")
@@ -153,6 +179,9 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Property<int>("Size")
                         .HasColumnType("int");
 
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
                     b.Property<string>("Title")
                         .IsRequired()
                         .HasColumnType("nvarchar(max)");
@@ -233,6 +262,31 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Order", b =>
+                {
+                    b.Property<int>("OrderID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
+
+                    b.Property<int>("BasketId")
+                        .HasColumnType("int");
+
+                    b.Property<DateTime>("CreatedDate")
+                        .HasColumnType("datetime2");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.HasKey("OrderID");
+
+                    b.HasIndex("BasketId")
+                        .IsUnique();
+
+                    b.ToTable("Orders");
+                });
+
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.User", b =>
                 {
                     b.Property<int>("UserId")
@@ -267,6 +321,25 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.HasKey("UserId");
 
                     b.ToTable("Users");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
+                {
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
+                        .WithMany("Baskets")
+                        .HasForeignKey("HouseId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.User", "User")
+                        .WithMany("Baskets")
+                        .HasForeignKey("UserId")
+                        .OnDelete(DeleteBehavior.Restrict)
+                        .IsRequired();
+
+                    b.Navigation("House");
+
+                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
@@ -353,6 +426,23 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Navigation("Image");
                 });
 
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Order", b =>
+                {
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Basket", "Basket")
+                        .WithOne("Order")
+                        .HasForeignKey("EVillaAgency.EntityLayer.Concrete.Order", "BasketId")
+                        .OnDelete(DeleteBehavior.Cascade)
+                        .IsRequired();
+
+                    b.Navigation("Basket");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
+                {
+                    b.Navigation("Order")
+                        .IsRequired();
+                });
+
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
                 {
                     b.Navigation("Districts");
@@ -370,6 +460,8 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.House", b =>
                 {
+                    b.Navigation("Baskets");
+
                     b.Navigation("Favorites");
 
                     b.Navigation("HouseImages");
@@ -387,6 +479,8 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.User", b =>
                 {
+                    b.Navigation("Baskets");
+
                     b.Navigation("Favorites");
 
                     b.Navigation("Houses");

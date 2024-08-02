@@ -29,6 +29,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         // Sadece DistrictId tutulur
         public int DistrictId { get; set; }
 
+        public bool Status { get; set; }
         public User Owner { get; set; }
 
         public HeatingType HeatingType { get; set; }
@@ -36,6 +37,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         public HouseType HouseType { get; set; }
         public District District { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
+        public ICollection<Basket> Baskets { get; set; }
 
     }
 }

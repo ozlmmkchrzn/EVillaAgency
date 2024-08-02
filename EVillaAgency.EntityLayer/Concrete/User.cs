@@ -21,6 +21,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         //public ICollection<Message> SentMessages { get; set; }
         //public ICollection<Message> ReceivedMessages { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
+        public ICollection<Basket> Baskets { get; set; }
 
     }
 }

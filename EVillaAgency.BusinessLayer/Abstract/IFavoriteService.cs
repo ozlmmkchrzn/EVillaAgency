@@ -14,6 +14,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
         Task<List<ResultAllFavoritesWithNamesDto>> GetAllFavoritesWithNamesAsync();
         Task<List<ResultTop3FavoritedHousesDto>> GetTopFavoritedHousesAsync();
         Task<ResultTop3FavoritedHousesDto> GetMostFavoritedHouseAsync();
+        Task<int> GetFavoritedHouseCountAsync();
 
     }
 
