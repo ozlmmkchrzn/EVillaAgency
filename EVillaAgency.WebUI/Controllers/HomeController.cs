@@ -2,7 +2,7 @@
 using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebUI.Dtos.BasketDtos;
-using EVillaAgency.WebUI.Dtos.FovariteDtos;
+using EVillaAgency.WebUI.Dtos.FavoriteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
 using EVillaAgency.WebUI.Dtos.LoginDtos;
 using EVillaAgency.WebUI.Dtos.UserDtos;
@@ -38,7 +38,7 @@ namespace EVillaAgency.WebUI.Controllers
             var houseViewModel = new IndexHouseFavoriteModel();
 
             // Get Last 6 Houses
-            var responseMessage = await client.GetAsync("https://localhost:7037/api/House/GetLas6ActivetHouses");
+            var responseMessage = await client.GetAsync("https://localhost:7037/api/House/GetLast6ActiveHouses");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();

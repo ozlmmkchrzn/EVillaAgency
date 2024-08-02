@@ -1,4 +1,4 @@
-﻿namespace EVillaAgency.WebUI.Dtos.FovariteDtos
+﻿namespace EVillaAgency.WebUI.Dtos.FavoriteDtos
 {
     public class ResultFavoriteDto
     {

@@ -1,9 +1,11 @@
 ﻿
+using EVillaAgency.DtoLayer.CouponDtos;
 using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebUI.Dtos.BasketDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
+using System.Text;
 
 namespace EVillaAgency.WebUI.Controllers
 {
@@ -23,7 +25,6 @@ namespace EVillaAgency.WebUI.Controllers
             var client = _httpClientFactory.CreateClient();
             var responseMessage = await client.GetAsync($"https://localhost:7037/api/Basket/GetLastBasketbyUserId?id={userid}");
 
-            
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -48,6 +49,47 @@ namespace EVillaAgency.WebUI.Controllers
                 return RedirectToAction("Index", "Home");
             }
             return NoContent();
+        }
+
+        public async Task<IActionResult> ApplyCoupon(string couponCode)
+        {
+            if (string.IsNullOrWhiteSpace(couponCode))
+            {
+                ModelState.AddModelError("", "Kupon kodu boş olamaz.");
+                return View(); // Geriye dönüş: formu tekrar gösterir
+            }
+
+            var client = _httpClientFactory.CreateClient();
+            var responseMessage = await client.PostAsync(
+                "https://localhost:7037/api/Coupon/ApplyCoupon",
+                new StringContent(JsonConvert.SerializeObject(new { Code = couponCode }), Encoding.UTF8, "application/json")
+            );
+
+            if (responseMessage.IsSuccessStatusCode)
+            {
+                var jsonResponse = await responseMessage.Content.ReadAsStringAsync();
+                var result = JsonConvert.DeserializeObject<bool>(jsonResponse);
+                var coupon  = JsonConvert.DeserializeObject<ResultCouponDto>(jsonResponse);
+
+                if (result == true)
+                {
+                    // Kupon uygulaması başarılı
+                    ViewBag.DiscountRate = coupon.DiscountRate;
+                    return RedirectToAction("Index", "Basket"); // Sepet sayfasına yönlendir
+                }
+                else
+                {
+                    // Kupon geçersiz
+                    ModelState.AddModelError("", "Geçersiz kupon kodu.");
+                    return View(); // Geriye dönüş: formu tekrar gösterir
+                }
+            }
+            else
+            {
+                // API isteği başarısız
+                ModelState.AddModelError("", "Kupon uygulama işlemi sırasında bir hata oluştu.");
+                return View(); // Geriye dönüş: formu tekrar gösterir
+            }
         }
 
     }
