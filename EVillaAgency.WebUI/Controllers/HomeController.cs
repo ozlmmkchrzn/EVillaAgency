@@ -38,7 +38,7 @@ namespace EVillaAgency.WebUI.Controllers
             var houseViewModel = new IndexHouseFavoriteModel();
 
             // Get Last 6 Houses
-            var responseMessage = await client.GetAsync("https://localhost:7037/api/House/GetLast6Houses");
+            var responseMessage = await client.GetAsync("https://localhost:7037/api/House/GetLas6ActivetHouses");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -109,17 +109,31 @@ namespace EVillaAgency.WebUI.Controllers
         public async Task<IActionResult> Login(LoginDto model)
         {
             var user = await _userService.ValidateUserAsync(model.Email, model.Password);
+
             if (user != null)
             {
                 // Başarılı giriş
                 // Giriş işlemlerini yapabilirsiniz, örneğin: session ayarlamak
                 HttpContext.Session.SetInt32("UserId", user.UserId);
+                HttpContext.Session.SetString("Username", user.Username);
                 return RedirectToAction("Index", "Home");
             }
             // Başarısız giriş
             ModelState.AddModelError("", "Geçersiz kullanıcı adı veya şifre.");
             return View();
         }
+
+        // GET: /Account/Logout
+        [HttpGet]
+        public IActionResult Logout()
+        {
+            // Session'daki tüm verileri temizleyin
+            HttpContext.Session.Clear();
+
+            // Kullanıcıyı giriş sayfasına yönlendirin
+            return RedirectToAction("Index", "Home");
+        }
+
 
         [HttpPost]
         public async Task<IActionResult> AddBasket(int id)

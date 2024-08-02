@@ -142,5 +142,12 @@ namespace EVillaAgency.WebAPI.Controllers
             var values = await _houseService.GetLatestHouseByHouseTypeAsync(id);
             return Ok(values);
         }
+
+        [HttpGet("GetLas6ActivetHouses")]
+        public async Task<IActionResult> GetLas6ActivetHouses()
+        {
+            var values = await _houseService.GetLast6ActiveHouses();
+            return Ok(values);
+        }
     }
 }
