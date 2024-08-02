@@ -83,11 +83,11 @@
                             <li><a href="contact.html">Contact Us</a></li>
                             <li><a href="/Basket/Index/ViewBag.BasketId"><i class="fa-solid fa-cart-shopping"></i> Sepete Git</a></li>
 
-                            @if (HttpContext.Session.GetInt32("UserId") != null)
+                            @if (ViewBag.UserId) != null)
                             {
                                 <li class="nav-item">
                                     <a class="nav-link" href="#">
-                                        <i class="fa-solid fa-user"></i> @HttpContext.Session.GetString("Username")
+                                        <i class="fa-solid fa-user"></i> @ViewBag.Username
                                     </a>
                                 </li>
                                 <li class="nav-item">
