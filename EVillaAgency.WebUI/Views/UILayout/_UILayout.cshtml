@@ -80,9 +80,31 @@
                         <ul class="nav">
                             <li><a href="index.html" class="active">Home</a></li>
                             <li><a href="properties.html">Properties</a></li>
-                            <li><a href="property-details.html">Property Details</a></li>
                             <li><a href="contact.html">Contact Us</a></li>
-                            <li><a href="/Basket/Index/@ViewBag.BasketId"><i class="fa-solid fa-cart-shopping"></i> Sepete Git</a></li>
+                            <li><a href="/Basket/Index/ViewBag.BasketId"><i class="fa-solid fa-cart-shopping"></i> Sepete Git</a></li>
+
+                            @if (HttpContext.Session.GetInt32("UserId") != null)
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="#">
+                                        <i class="fa-solid fa-user"></i> @HttpContext.Session.GetString("Username")
+                                    </a>
+                                </li>
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Account/Logout">
+                                        <i class="fa-solid fa-sign-out-alt"></i> Çıkış Yap
+                                    </a>
+                                </li>
+                            }
+                            else
+                            {
+                                <li class="nav-item">
+                                    <a class="nav-link" href="/Home/Login">
+                                        <i class="fa-solid fa-user"></i> Giriş Yap
+                                    </a>
+                                </li>
+                            }
+                            
                         </ul>
                         <a class='menu-trigger'>
                             <span>Menu</span>
