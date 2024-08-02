@@ -38,7 +38,7 @@ namespace EVillaAgency.WebUI.Controllers
             var houseViewModel = new IndexHouseFavoriteModel();
 
             // Get Last 6 Houses
-            var responseMessage = await client.GetAsync("https://localhost:7037/api/House/GetLast6ActivesHouses");
+            var responseMessage = await client.GetAsync("https://localhost:7037/api/House/GetLast6ActiveHouses");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
