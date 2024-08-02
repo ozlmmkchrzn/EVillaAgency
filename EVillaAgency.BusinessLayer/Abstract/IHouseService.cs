@@ -21,5 +21,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
 
         Task CreateHouseAsync(CreateHouseDto dto);
 
+        Task<List<ResultHousesWithNames>> GetLast6ActiveHouses();
+
     }
 }

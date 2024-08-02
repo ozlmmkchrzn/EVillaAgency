@@ -54,5 +54,27 @@ namespace EVillaAgency.WebAPI.Controllers
             var values = await _basketService.GetLastBasketByUserId(id);
             return Ok(values);
         }
+
+        [HttpDelete("{id}")]
+        public async Task<IActionResult> Deletebasket(int id)
+        {
+            var values = await _basketService.GetByIDAsync(id);
+            if (values == null)
+            {
+                return NotFound();
+            }
+            else
+            {
+                try
+                {
+                    await _basketService.DeleteAsync(values); // Veritabanından silme işlemi
+                    return Ok("Sepet Başarıyla Silindi.");
+                }
+                catch (Exception ex)
+                {
+                    return StatusCode(StatusCodes.Status500InternalServerError, $"Error deleting image: {ex.Message}");
+                }
+            }
+        }
     }
 }
