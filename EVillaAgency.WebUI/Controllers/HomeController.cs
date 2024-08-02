@@ -18,7 +18,7 @@ using System.Text;
 
 namespace EVillaAgency.WebUI.Controllers
 {
-    public class HomeController : Controller
+    public class HomeController : BaseController
     {
         private readonly IHttpClientFactory _httpClientFactory;
         private readonly IUserService _userService;

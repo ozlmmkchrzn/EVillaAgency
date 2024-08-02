@@ -5,7 +5,7 @@ using System.Text;
 
 namespace EVillaAgency.WebUI.Controllers
 {
-    public class OrderController : Controller
+    public class OrderController : BaseController
     {
         private readonly IHttpClientFactory _httpClientFactory;
 

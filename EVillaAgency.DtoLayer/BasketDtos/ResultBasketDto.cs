@@ -14,5 +14,6 @@ namespace EVillaAgency.DtoLayer.BasketDtos
         public string OwnerName { get; set; }
         public string HouseTypeName { get; set; }
         public decimal HousePrice { get; set; }
+        public bool Status { get; set; }
     }
 }

@@ -28,7 +28,8 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 {
                     HouseId = dto.HouseId,
                     UserId = dto.UserId,
-                    CreatedDate = DateTime.Now
+                    CreatedDate = DateTime.Now,
+                    Status = true
                 };
 
                 // Add the new Basket to the database context

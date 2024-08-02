@@ -7,7 +7,7 @@ using Newtonsoft.Json;
 
 namespace EVillaAgency.WebUI.Controllers
 {
-    public class BasketController : Controller
+    public class BasketController : BaseController
     {
         private readonly IHttpClientFactory _httpClientFactory;
 
