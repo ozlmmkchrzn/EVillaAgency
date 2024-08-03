@@ -2,16 +2,20 @@
 @{
     Layout = "~/Views/Shared/_UILayout.cshtml";
 
-    var tax = Model.HousePrice * 0.20m; // Vergi oranı %20
+    var tax = Model.HousePrice * 0.20f; // Vergi oranı %20
     var priceWithoutTax = Model.HousePrice - tax; // Vergisiz fiyat
-
-    var discount = 0m; // Varsayılan indirim
-    if (ViewBag.DiscountRate != null)
+    var discount = 0.0f;
+    var discountRateString = ViewBag.Discount;
+    if(discountRateString == null)
     {
-        discount = (decimal)ViewBag.DiscountRate * Model.HousePrice; // İndirim oranını uygula
+        discount = 0.0f;
     }
-
-    var priceWithDiscount = Model.HousePrice - discount; // İndirim uygulanmış fiyat
+    else
+    {
+        discount = Model.HousePrice - float.Parse(ViewBag.Discount);
+    }
+    
+    var totalprice = Model.HousePrice - discount;
 }
 
 <!DOCTYPE html>
@@ -64,7 +68,7 @@
             <div class="col-log-4">
                 <form id="applyCouponForm" method="post" action="/Basket/ApplyCoupon">
                     <div class="input-group">
-                        <input type="text" id="couponcode" name="couponCode" class="form-control border-1 p-4" placeholder="Kupon Kodunuz" />
+                        <input type="text" id="couponcode" name="couponCode" class="form-control border-1 p-4" placeholder="Kupon Kodunuz"/>
                         <div>
                             <button type="submit" style="height:48px;padding-top:11px; margin-left:5px;" class="btn btn-warning" id="btncouponcode">Kuponu Uygula</button>
                         </div>
@@ -93,8 +97,8 @@
                         </div>
                         <br />
                         <div class="d-flex justify-content-between mt-2">
-                            <h5>Toplam Tutar (İndirimli)</h5>
-                            <h5><span id="totalpricewithdiscount">@priceWithDiscount</span>₺</h5>
+                            <h5>Toplam Tutar</h5>
+                            <h5><span id="totalpricewithdiscount">@totalprice</span>₺</h5>
                         </div>
                         <br />
                         <a class="btn btn-outline-info" href="javascript:void(0);" onclick="confirmOrder('@Model.BasketId')">Siparişi Tamamla</a>
