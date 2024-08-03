@@ -29,15 +29,6 @@
                     <div class="card-header">
                         <div class="d-flex justify-content-between align-items-center">
                             <div class="card-title">Ev Listesi</div>
-                            <form method="get" asp-action="Index">
-                                <select id="houseType" name="houseTypeId" class="form-control" onchange="this.form.submit()">
-                                    <option value="">--Ev Tipi Seç--</option>
-                                    @foreach (var item in ViewBag.HouseTypes as List<SelectListItem>)
-                                    {
-                                        <option value="@item.Value">@item.Text</option>
-                                    }
-                                </select>
-                            </form>
                         </div>
                     </div>
                     <div class="card-body">
@@ -80,7 +71,7 @@
                                         <td>@item.Bedrooms</td>
                                         <td>@item.Bathrooms</td>
                                         <td>@item.CreatedAt</td>
-                                        <td>@(item.UpdatedAt?.ToString("yyyy-MM-dd") ?? "Güncellenmedi")</td>
+                                        <td>@(item.UpdatedAt?.ToString("yyyy-MM-dd HH:mm:ss.fff") ?? "Güncellenmedi")</td>
                                         <td><a href="/UserAdmin/UserUpdateHouse/@item.HouseId" class="btn btn-outline-success">Güncelle</a></td>
                                         <td><a href="/UserAdmin/UserDeleteHouse/@item.HouseId" class="btn btn-outline-danger">Sil</a></td>
                                     </tr>

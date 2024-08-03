@@ -41,6 +41,7 @@ builder.Services.AddScoped<ICityService,CityManager>();
 builder.Services.AddScoped<IBasketService,BasketManager>();
 builder.Services.AddScoped<IOrderService,OrderManager>();
 builder.Services.AddScoped<ICouponService,CouponManager>();
+builder.Services.AddScoped<IHeatingTypeService,HeatingTypeManager>();
 
 var app = builder.Build();
 

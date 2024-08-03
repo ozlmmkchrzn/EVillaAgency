@@ -23,5 +23,7 @@ namespace EVillaAgency.BusinessLayer.Abstract
 
         Task<List<ResultHousesWithNames>> GetLast6ActiveHouses();
 
+     Task<List<ResultHousesWithNames>> GetHouseWithNamesByOwnerIdAsync(int ownerId);
+
     }
 }

@@ -63,6 +63,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Bathrooms = h.Bathrooms,
                 Bedrooms = h.Bedrooms,
                 CreatedAt = h.CreatedAt,
+                UpdatedAt = h.UpdatedAt,
                 Description = h.Description,
                 Garage = h.Garage,
                 Garden = h.Garden,
@@ -102,6 +103,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Bathrooms = h.Bathrooms,
                 Bedrooms = h.Bedrooms,
                 CreatedAt = h.CreatedAt,
+                UpdatedAt = h.UpdatedAt,
                 Description = h.Description,
                 Garage = h.Garage,
                 Garden = h.Garden,
@@ -139,6 +141,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     Bathrooms = h.Bathrooms,
                     Bedrooms = h.Bedrooms,
                     CreatedAt = h.CreatedAt,
+                    UpdatedAt = h.UpdatedAt,
                     Description = h.Description,
                     Garage = h.Garage,
                     Garden = h.Garden,
@@ -176,6 +179,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Bathrooms = h.Bathrooms,
                 Bedrooms = h.Bedrooms,
                 CreatedAt = h.CreatedAt,
+                UpdatedAt = h.UpdatedAt,
                 Description = h.Description,
                 Garage = h.Garage,
                 Garden = h.Garden,
@@ -214,6 +218,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 Bathrooms = h.Bathrooms,
                 Bedrooms = h.Bedrooms,
                 CreatedAt = h.CreatedAt,
+                UpdatedAt = h.UpdatedAt,
                 Description = h.Description,
                 Garage = h.Garage,
                 Garden = h.Garden,
@@ -253,7 +258,8 @@ namespace EVillaAgency.BusinessLayer.Concrete
                    Bathrooms = h.Bathrooms,
                    Bedrooms = h.Bedrooms,
                    CreatedAt = h.CreatedAt,
-                   Description = h.Description,
+                    UpdatedAt = h.UpdatedAt,
+                    Description = h.Description,
                    Garage = h.Garage,
                    Garden = h.Garden,
                    HeatingType = h.HeatingType.Name,
@@ -294,5 +300,42 @@ namespace EVillaAgency.BusinessLayer.Concrete
                 throw new Exception($"Error getting total houses count: {ex.Message}", ex);
             }
         }
+
+        public async Task<List<ResultHousesWithNames>> GetHouseWithNamesByOwnerIdAsync(int ownerId)
+        {
+            var values = await _appDbContext.Houses
+                .Include(x => x.HouseType)
+                .Include(y => y.Owner)
+                .Include(z => z.HeatingType)
+                .Include(a => a.District)
+                .ThenInclude(b => b.City)
+                .Where(h => h.OwnerId == ownerId)
+                .Select(h => new ResultHousesWithNames
+                {
+                    Bathrooms = h.Bathrooms,
+                    Bedrooms = h.Bedrooms,
+                    CreatedAt = h.CreatedAt,
+                    UpdatedAt = h.UpdatedAt,
+                    Description = h.Description,
+                    Garage = h.Garage,
+                    Garden = h.Garden,
+                    HeatingType = h.HeatingType.Name,
+                    HouseId = h.HouseId,
+                    HouseTypeName = h.HouseType.Name,
+                    OwnerName = h.Owner.Username,
+                    CityName = h.District.City.Name,
+                    DictrictName = h.District.Name,
+                    ImageUrl = h.HouseImages.Select(hi => hi.Image.Url).FirstOrDefault(),
+                    Location = h.Location,
+                    Pool = h.Pool,
+                    Price = h.Price,
+                    Size = h.Size,
+                    Title = h.Title,
+                    YearBuilt = h.YearBuilt,
+                    Status = h.Status
+                }).ToListAsync();
+            return values;
+        }
+
     }
 }

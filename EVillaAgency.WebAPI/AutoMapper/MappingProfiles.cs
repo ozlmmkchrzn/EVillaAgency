@@ -2,6 +2,7 @@
 using EVillaAgency.DtoLayer.BasketDtos;
 using EVillaAgency.DtoLayer.CouponDtos;
 using EVillaAgency.DtoLayer.FavoriteDtos;
+using EVillaAgency.DtoLayer.HeatingTypeDtos;
 using EVillaAgency.DtoLayer.HouseDtos;
 using EVillaAgency.DtoLayer.HouseImageDtos;
 using EVillaAgency.DtoLayer.HouseTypeDtos;
@@ -55,6 +56,9 @@ namespace EVillaAgency.WebAPI.AutoMapper
             CreateMap<Coupon, CreateCouponDto>().ReverseMap();
             CreateMap<Coupon, UpdateCouponDto>().ReverseMap();
             CreateMap<Coupon, ApplyCouponDto>().ReverseMap();
+
+            CreateMap<HeatingType, ResultHeatingTypeDto>().ReverseMap();
+
         }
     }
 }
