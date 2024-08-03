@@ -29,8 +29,54 @@ namespace EVillaAgency.WebUI.Controllers
         }
 
 
+		[HttpGet]
+		public async Task<IActionResult> ListHouses(int? houseTypeId,int userId)
+		{
+			var client = _httpClientFactory.CreateClient();
 
-        [HttpGet]
+			// Ev Türlerini Getir
+			var responseMessage = await client.GetAsync("https://localhost:7037/api/HouseType");
+			if (!responseMessage.IsSuccessStatusCode)
+			{
+				return View();
+			}
+
+			var jsonData = await responseMessage.Content.ReadAsStringAsync();
+			var houseTypes = JsonConvert.DeserializeObject<List<ResultHouseTypeDto>>(jsonData);
+
+			// Dropdown için SelectListItem listesi oluştur
+			var houseTypeSelectList = houseTypes.Select(ht => new SelectListItem
+			{
+				Value = ht.Id.ToString(),
+				Text = ht.Name
+			}).ToList();
+
+			// "Bütün Evler" seçeneğini ekle
+			houseTypeSelectList.Insert(0, new SelectListItem
+			{
+				Value = "",
+				Text = "Bütün Evler"
+			});
+
+			ViewBag.HouseTypes = houseTypeSelectList;
+
+			// Evleri Getir
+			responseMessage = houseTypeId.HasValue
+				? await client.GetAsync($"https://localhost:7037/api/House/GetHousesByHouseTypeId?id={houseTypeId}")
+				: await client.GetAsync("https://localhost:7037/api/House");
+
+			if (responseMessage.IsSuccessStatusCode)
+			{
+				jsonData = await responseMessage.Content.ReadAsStringAsync();
+				var houses = JsonConvert.DeserializeObject<List<ResultHousesWithNamesDto>>(jsonData);
+				return View(houses);
+			}
+
+			return View(new List<ResultHousesWithNamesDto>());
+		}
+
+
+		[HttpGet]
         public async Task<IActionResult> UserCreateHouse()
         {
             var client = _httpClientFactory.CreateClient();
