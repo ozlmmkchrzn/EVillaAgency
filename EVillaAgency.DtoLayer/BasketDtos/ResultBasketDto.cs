@@ -15,5 +15,6 @@ namespace EVillaAgency.DtoLayer.BasketDtos
         public string HouseTypeName { get; set; }
         public decimal HousePrice { get; set; }
         public bool Status { get; set; }
+        public int? CouponId { get; set; }
     }
 }

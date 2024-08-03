@@ -2,6 +2,7 @@
 {
     public class ResultCouponDto
     {
-        public int Code { get; set; }
+        public bool IsValid { get; set; }
+        public float DiscountRate { get; set; }
     }
 }

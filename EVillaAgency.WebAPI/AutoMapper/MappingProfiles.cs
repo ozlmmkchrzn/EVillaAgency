@@ -54,6 +54,7 @@ namespace EVillaAgency.WebAPI.AutoMapper
             CreateMap<Coupon, ResultCouponDto>().ReverseMap();
             CreateMap<Coupon, CreateCouponDto>().ReverseMap();
             CreateMap<Coupon, UpdateCouponDto>().ReverseMap();
+            CreateMap<Coupon, ApplyCouponDto>().ReverseMap();
         }
     }
 }

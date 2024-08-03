@@ -16,6 +16,6 @@ namespace EVillaAgency.BusinessLayer.Abstract
 
         Task UpdateExpiredCouponsAsync();
 
-        Task<bool> ApplyCoupon(string couponcode);
+        Task<bool> CheckCouponAsync(string coupon);
     }
 }

@@ -19,19 +19,18 @@ namespace EVillaAgency.BusinessLayer.Concrete
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
 
-        public async Task<bool> ApplyCoupon(string couponcode)
+        public async Task<bool> CheckCouponAsync(string coupon)
         {
-            var coupon = await _appDbContext.Coupons
-                .Where(c => c.Code == couponcode &&
-                    c.StartedDate <= DateTime.Now &&
-                    c.EndedDate >= DateTime.Now &&
-                    c.Status == true)
-                .FirstOrDefaultAsync();
-            if (coupon != null) 
+            var values = await _appDbContext.Coupons
+                .Where(x=>x.Code == coupon && x.StartedDate< DateTime.Now && x.EndedDate > DateTime.Now).FirstOrDefaultAsync();
+            if (values == null)
+            {
+                return false;
+            }
+            else
             {
                 return true;
             }
-            return false;
         }
 
         public async Task CreateCoupon(CreateCouponDto dto)

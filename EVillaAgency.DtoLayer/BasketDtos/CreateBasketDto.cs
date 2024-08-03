@@ -14,6 +14,7 @@ namespace EVillaAgency.DtoLayer.BasketDtos
         public int UserId { get; set; }
 
         public bool Status { get; set; }
+        public int? CouponId { get; set; }
 
     }
 }

@@ -55,11 +55,18 @@ namespace EVillaAgency.WebAPI.Controllers
             return Ok("Kupon Başarıyla Silindi.");
         }
 
-        [HttpPost("ApplyCoupon")]
-        public async Task<IActionResult> ApplyCoupon(string code)
+        [HttpPost("CheckCoupon")]
+        public async Task<IActionResult> CheckCoupon(string coupon)
         {
-           var result = await _couponService.ApplyCoupon(code);
-           return Ok(result);
+            var result = await _couponService.CheckCouponAsync(coupon);
+            if (result == true)
+            {
+                return Ok(true);
+            }
+            else 
+            {
+                return Ok(false);
+            }
         }
     }
 }
