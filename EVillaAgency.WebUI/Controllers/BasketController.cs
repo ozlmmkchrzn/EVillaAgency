@@ -1,7 +1,6 @@
-﻿
-using EVillaAgency.DtoLayer.CouponDtos;
-using EVillaAgency.EntityLayer.Concrete;
+﻿using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebUI.Dtos.BasketDtos;
+using EVillaAgency.WebUI.Dtos.CouponDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Newtonsoft.Json;
@@ -56,39 +55,45 @@ namespace EVillaAgency.WebUI.Controllers
             if (string.IsNullOrWhiteSpace(couponCode))
             {
                 ModelState.AddModelError("", "Kupon kodu boş olamaz.");
-                return View(); // Geriye dönüş: formu tekrar gösterir
+                return View("Index"); // Sepet sayfasını tekrar gösterir
             }
 
-            var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.PostAsync(
-                "https://localhost:7037/api/Coupon/ApplyCoupon",
-                new StringContent(JsonConvert.SerializeObject(new { Code = couponCode }), Encoding.UTF8, "application/json")
-            );
-
-            if (responseMessage.IsSuccessStatusCode)
+            try
             {
-                var jsonResponse = await responseMessage.Content.ReadAsStringAsync();
-                var result = JsonConvert.DeserializeObject<bool>(jsonResponse);
-                var coupon  = JsonConvert.DeserializeObject<ResultCouponDto>(jsonResponse);
+                var client = _httpClientFactory.CreateClient();
+                var responseMessage = await client.GetAsync($"https://localhost:7037/api/Coupon/CheckCoupon?coupon={couponCode}");
 
-                if (result == true)
+
+                if (responseMessage.IsSuccessStatusCode)
                 {
-                    // Kupon uygulaması başarılı
-                    ViewBag.DiscountRate = coupon.DiscountRate;
-                    return RedirectToAction("Index", "Basket"); // Sepet sayfasına yönlendir
+                    var jsonResponse = await responseMessage.Content.ReadAsStringAsync();
+                    var result = JsonConvert.DeserializeObject<ResultCouponDto>(jsonResponse);
+
+                    if (result != null && result.IsValid)
+                    {
+                        // Kupon uygulaması başarılı
+                        ViewBag.DiscountRate = result.DiscountRate;
+                        return RedirectToAction("Index", "Basket"); // Sepet sayfasına yönlendir
+                    }
+                    else
+                    {
+                        // Kupon geçersiz
+                        ModelState.AddModelError("", "Geçersiz kupon kodu.");
+                        return View("Index"); // Sepet sayfasını tekrar gösterir
+                    }
                 }
                 else
                 {
-                    // Kupon geçersiz
-                    ModelState.AddModelError("", "Geçersiz kupon kodu.");
-                    return View(); // Geriye dönüş: formu tekrar gösterir
+                    // API isteği başarısız
+                    ModelState.AddModelError("", "Kupon uygulama işlemi sırasında bir hata oluştu.");
+                    return View("Index"); // Sepet sayfasını tekrar gösterir
                 }
             }
-            else
+            catch (Exception ex)
             {
-                // API isteği başarısız
-                ModelState.AddModelError("", "Kupon uygulama işlemi sırasında bir hata oluştu.");
-                return View(); // Geriye dönüş: formu tekrar gösterir
+                // Hata yönetimi
+                ModelState.AddModelError("", $"Bir hata oluştu: {ex.Message}");
+                return View("Index"); // Sepet sayfasını tekrar gösterir
             }
         }
 

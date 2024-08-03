@@ -9,5 +9,6 @@
         public string OwnerName { get; set; }
         public string HouseTypeName { get; set; }
         public decimal HousePrice { get; set; }
+        public string? CouponCode { get; set; }
     }
 }

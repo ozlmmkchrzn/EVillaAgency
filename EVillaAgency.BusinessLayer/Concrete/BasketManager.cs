@@ -60,6 +60,8 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     HouseTypeName = h.House.HouseType.Name,
                     OwnerName = h.House.Owner.Username,
                     UserName = h.User.Username,
+                    Status = h.Status,
+                    CouponId = h.CouponId,
                 }).ToListAsync();
             return values;
         }
@@ -76,7 +78,9 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     HouseTitle= h.House.Title,
                     HouseTypeName= h.House.HouseType.Name,
                     OwnerName= h.House.Owner.Username,
-                    UserName = h.User.Username
+                    UserName = h.User.Username,
+                    Status = h.Status,
+                    CouponId = h.CouponId,
                 }).FirstOrDefaultAsync();
             return values;
         }
@@ -96,7 +100,9 @@ namespace EVillaAgency.BusinessLayer.Concrete
                     HouseTitle = h.House.Title,
                     HouseTypeName = h.House.HouseType.Name,
                     OwnerName = h.House.Owner.Username,
-                    UserName = h.User.Username
+                    UserName = h.User.Username,
+                    Status = h.Status,
+                    CouponId = h.CouponId,
                 }).FirstOrDefaultAsync();
             return values;
         }
