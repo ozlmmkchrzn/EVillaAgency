@@ -8,7 +8,7 @@
         public string UserName { get; set; }
         public string OwnerName { get; set; }
         public string HouseTypeName { get; set; }
-        public decimal HousePrice { get; set; }
+        public float HousePrice { get; set; }
         public string? CouponCode { get; set; }
     }
 }

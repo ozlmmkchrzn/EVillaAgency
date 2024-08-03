@@ -14,5 +14,7 @@ namespace EVillaAgency.DtoLayer.CouponDtos
         public DateTime EndedDate { get; set; }
         public float DiscountRate { get; set; }
         public bool Status { get; set; }
+        public bool IsValid { get; set; }
+
     }
 }

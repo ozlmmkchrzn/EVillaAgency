@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EVillaAgency.BusinessLayer.Abstract;
+using EVillaAgency.DataAccessLayer.Context;
 using EVillaAgency.DtoLayer.CouponDtos;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
@@ -55,18 +56,16 @@ namespace EVillaAgency.WebAPI.Controllers
             return Ok("Kupon Başarıyla Silindi.");
         }
 
-        [HttpPost("CheckCoupon")]
-        public async Task<IActionResult> CheckCoupon(string coupon)
+        [HttpGet("CheckCoupon")]
+        public async Task<IActionResult> CheckCoupon([FromQuery] string coupon)
         {
+            if (string.IsNullOrWhiteSpace(coupon))
+            {
+                return BadRequest("Geçersiz kupon kodu.");
+            }
+
             var result = await _couponService.CheckCouponAsync(coupon);
-            if (result == true)
-            {
-                return Ok(true);
-            }
-            else 
-            {
-                return Ok(false);
-            }
+            return Ok(result);
         }
     }
 }
