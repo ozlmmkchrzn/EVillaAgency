@@ -14,5 +14,7 @@ namespace EVillaAgency.EntityLayer.Concrete
         public DateTime EndedDate { get; set; }
         public float DiscountRate { get; set; }
         public bool Status { get; set; }
+
+        public ICollection<Basket> Baskets { get; set; }
     }
 }

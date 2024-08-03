@@ -18,6 +18,9 @@ namespace EVillaAgency.EntityLayer.Concrete
 
         public bool Status { get; set; }
 
+        public int? CouponId { get; set; }
+        public Coupon Coupon { get; set; }
+
         public DateTime CreatedDate { get; set; }
 
         public Order Order { get; set; }
