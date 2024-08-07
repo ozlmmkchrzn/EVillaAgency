@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240802184205_mig_add_table_coupon")]
-    partial class mig_add_table_coupon
+    [Migration("20240807185058_addNotifications")]
+    partial class addNotifications
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -33,6 +33,9 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BasketId"));
 
+                    b.Property<int?>("CouponId")
+                        .HasColumnType("int");
+
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
@@ -46,6 +49,8 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .HasColumnType("int");
 
                     b.HasKey("BasketId");
+
+                    b.HasIndex("CouponId");
 
                     b.HasIndex("HouseId");
 
@@ -86,7 +91,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Property<float>("DiscountRate")
                         .HasColumnType("real");
 
-                    b.Property<DateTime?>("EndedDate")
+                    b.Property<DateTime>("EndedDate")
                         .HasColumnType("datetime2");
 
                     b.Property<DateTime>("StartedDate")
@@ -297,6 +302,37 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.ToTable("Images");
                 });
 
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Notification", b =>
+                {
+                    b.Property<int>("NotificationID")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
+
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("NotificationID"));
+
+                    b.Property<DateTime>("Date")
+                        .HasColumnType("datetime2");
+
+                    b.Property<string>("Description")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Icon")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("Status")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("Type")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("NotificationID");
+
+                    b.ToTable("Notifications");
+                });
+
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Order", b =>
                 {
                     b.Property<int>("OrderID")
@@ -357,6 +393,10 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
                 {
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Coupon", "Coupon")
+                        .WithMany("Baskets")
+                        .HasForeignKey("CouponId");
+
                     b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
                         .WithMany("Baskets")
                         .HasForeignKey("HouseId")
@@ -368,6 +408,8 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .HasForeignKey("UserId")
                         .OnDelete(DeleteBehavior.Restrict)
                         .IsRequired();
+
+                    b.Navigation("Coupon");
 
                     b.Navigation("House");
 
@@ -478,6 +520,11 @@ namespace EVillaAgency.DataAccessLayer.Migrations
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
                 {
                     b.Navigation("Districts");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Coupon", b =>
+                {
+                    b.Navigation("Baskets");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>

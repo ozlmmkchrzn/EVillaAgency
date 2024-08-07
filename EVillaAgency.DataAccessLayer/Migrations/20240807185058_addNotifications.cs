@@ -6,26 +6,26 @@ using Microsoft.EntityFrameworkCore.Migrations;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     /// <inheritdoc />
-    public partial class mig_add_table_coupon : Migration
+    public partial class addNotifications : Migration
     {
         /// <inheritdoc />
         protected override void Up(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.CreateTable(
-                name: "Coupons",
+                name: "Notifications",
                 columns: table => new
                 {
-                    CouponId = table.Column<int>(type: "int", nullable: false)
+                    NotificationID = table.Column<int>(type: "int", nullable: false)
                         .Annotation("SqlServer:Identity", "1, 1"),
-                    Code = table.Column<string>(type: "nvarchar(max)", nullable: false),
-                    StartedDate = table.Column<DateTime>(type: "datetime2", nullable: false),
-                    EndedDate = table.Column<DateTime>(type: "datetime2", nullable: true),
-                    DiscountRate = table.Column<float>(type: "real", nullable: false),
+                    Type = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Icon = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Description = table.Column<string>(type: "nvarchar(max)", nullable: false),
+                    Date = table.Column<DateTime>(type: "datetime2", nullable: false),
                     Status = table.Column<bool>(type: "bit", nullable: false)
                 },
                 constraints: table =>
                 {
-                    table.PrimaryKey("PK_Coupons", x => x.CouponId);
+                    table.PrimaryKey("PK_Notifications", x => x.NotificationID);
                 });
         }
 
@@ -33,7 +33,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
         protected override void Down(MigrationBuilder migrationBuilder)
         {
             migrationBuilder.DropTable(
-                name: "Coupons");
+                name: "Notifications");
         }
     }
 }
