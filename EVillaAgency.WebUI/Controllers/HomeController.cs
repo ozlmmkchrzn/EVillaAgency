@@ -22,14 +22,16 @@ namespace EVillaAgency.WebUI.Controllers
     public class HomeController : BaseController
     {
         private readonly IHttpClientFactory _httpClientFactory;
+        private readonly IAppUserService _appUserService;
         private readonly UserManager<AppUser> _userManager;
         private readonly SignInManager<AppUser> _signInManager;
 
-        public HomeController(IHttpClientFactory httpClientFactory, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
+        public HomeController(IHttpClientFactory httpClientFactory, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager, IAppUserService appUserService)
         {
             _httpClientFactory = httpClientFactory;
             _userManager = userManager;
             _signInManager = signInManager;
+            _appUserService = appUserService;
         }
 
 
@@ -114,12 +116,19 @@ namespace EVillaAgency.WebUI.Controllers
         [ValidateAntiForgeryToken]
         public async Task<IActionResult> Login(LoginDto dto)
         {
-            var user = await _signInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
+            var result = await _signInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
 
-            if (user.Succeeded)
+            if (result.Succeeded)
             {
-                HttpContext.Session.SetString("UserName", dto.UserName);
-                return RedirectToAction("Index");
+                var user = await _userManager.FindByNameAsync(dto.UserName);
+
+                if (user != null)
+                {
+                    // Kullanıcının ID ve Adını oturuma kaydet
+                    HttpContext.Session.SetInt32("Id", user.Id);
+                    HttpContext.Session.SetString("Name", user.Name);
+                    return RedirectToAction("Index");
+                }
             }
             // Başarısız giriş
             ModelState.AddModelError("", "Geçersiz kullanıcı adı veya şifre.");

@@ -9,8 +9,8 @@ namespace EVillaAgency.WebUI.Controllers
         {
             base.OnActionExecuting(context);
 
-            ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
-            ViewBag.Username = HttpContext.Session.GetString("Username");
+            ViewBag.Id = HttpContext.Session.GetInt32("Id");
+            ViewBag.Name = HttpContext.Session.GetString("Name");
         }
     }
 }
