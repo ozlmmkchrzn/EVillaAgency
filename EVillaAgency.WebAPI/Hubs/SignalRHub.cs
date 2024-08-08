@@ -7,11 +7,11 @@ namespace EVillaAgency.WebAPI.Hubs
 	{
         private readonly IHouseService _houseService;
         private readonly IFavoriteService _favoriteService;
-        private readonly IUserService _userService;
-        private readonly IDistrictService _districtService;
+        private readonly IAppUserService _userService;
         private readonly ICityService _cityService;
+        private readonly IDistrictService _districtService;
 
-        public SignalRHub(IHouseService houseService, IFavoriteService favoriteService, IUserService userService, IDistrictService districtService, ICityService cityService)
+        public SignalRHub(IHouseService houseService, IFavoriteService favoriteService, IAppUserService userService, IDistrictService districtService, ICityService cityService)
         {
             _houseService = houseService;
             _favoriteService = favoriteService;

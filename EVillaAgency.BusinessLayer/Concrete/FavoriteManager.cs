@@ -33,12 +33,12 @@ namespace EVillaAgency.BusinessLayer.Concrete
         {
             var values = await _appDbContext.Favorites
                 .Include(x => x.House)
-                .Include(y => y.User)
+                .Include(y => y.AppUser)
                 .Select(z => new ResultAllFavoritesWithNamesDto
                 {
                     FavoriteId = z.FavoriteId,
                     HouseTitle = z.House.Title,
-                    Username = z.User.Username
+                    Username = z.AppUser.Name
                 }).ToListAsync();
             return values;
         }
@@ -47,13 +47,13 @@ namespace EVillaAgency.BusinessLayer.Concrete
         {
             var values = await _appDbContext.Favorites
                 .Include(x => x.House)
-                .Include(y => y.User)
+                .Include(y => y.AppUser)
                 .Where(a => a.FavoriteId == id)
                 .Select(z => new ResultHouseNameAndUsernameByFavoriteIdDto
                 {
                     FavoriteId = id,
                     HouseName = z.House.Title,
-                    UserName = z.User.Username
+                    UserName = z.AppUser.Name
                 }).FirstOrDefaultAsync();
             return values;
         }
@@ -88,7 +88,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                       Garden = h.Garden,
                       HeatingTypeName = h.HeatingType.Name,
                       HouseTypeName = h.HouseType.Name,
-                      OwnerName = h.Owner.Username,
+                      OwnerName = h.Owner.Name,
                       Pool = h.Pool,
                       Size = h.Size,
                       YearBuilt = h.YearBuilt
@@ -131,7 +131,7 @@ namespace EVillaAgency.BusinessLayer.Concrete
                       Garden = h.Garden,
                       HeatingTypeName = h.HeatingType.Name,
                       HouseTypeName = h.HouseType.Name,
-                      OwnerName = h.Owner.Username,
+                      OwnerName = h.Owner.Name,
                       Pool = h.Pool,
                       Size = h.Size,
                       YearBuilt = h.YearBuilt

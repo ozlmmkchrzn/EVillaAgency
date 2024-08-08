@@ -1,5 +1,6 @@
 ﻿using AutoMapper;
 using EVillaAgency.BusinessLayer.Abstract;
+using EVillaAgency.DtoLayer.AppUserDtos;
 using EVillaAgency.DtoLayer.HouseTypeDtos;
 using EVillaAgency.DtoLayer.UserDtos;
 using EVillaAgency.EntityLayer.Concrete;
@@ -10,12 +11,12 @@ namespace EVillaAgency.WebAPI.Controllers
 {
     [Route("api/[controller]")]
     [ApiController]
-    public class UserController : ControllerBase
+    public class AppUserController : ControllerBase
     {
-        private readonly IUserService _userService;
+        private readonly IAppUserService _userService;
         private readonly IMapper _mapper;
 
-        public UserController(IUserService userService, IMapper mapper)
+        public AppUserController(IAppUserService userService, IMapper mapper)
         {
             _userService = userService;
             _mapper = mapper;
@@ -25,7 +26,7 @@ namespace EVillaAgency.WebAPI.Controllers
         public async Task<IActionResult> GetAllUsers()
         {
             var values = await _userService.GetListAsync();
-            var result = _mapper.Map<List<ResultUserDto>>(values);
+            var result = _mapper.Map<List<ResultAppUserDto>>(values);
             return Ok(result);
         }
 
@@ -33,12 +34,12 @@ namespace EVillaAgency.WebAPI.Controllers
         public async Task<IActionResult> GetUserByID(int id)
         {
             var values = await _userService.GetByIDAsync(id);
-            var result = _mapper.Map<ResultUserDto>(values);
+            var result = _mapper.Map<ResultAppUserDto>(values);
             return Ok(result);
         }
 
         [HttpPost]
-        public async Task<IActionResult> InsertUser(CreateUserDto dto)
+        public async Task<IActionResult> InsertUser(CreateAppUserDto dto)
         {
             if (!ModelState.IsValid)
             {
@@ -47,14 +48,14 @@ namespace EVillaAgency.WebAPI.Controllers
             else
             {
                 dto.CreatedAt = DateTime.Now;
-                var value = _mapper.Map<User>(dto);
+                var value = _mapper.Map<AppUser>(dto);
                 await _userService.InsertAsync(value);
                 return Ok("Kullanıcı Başarıyla Eklendi.");
             }
         }
 
         [HttpPut]
-        public async Task<IActionResult> UpdateUser(UpdateUserDto dto)
+        public async Task<IActionResult> UpdateUser(UpdateAppUserDto dto)
         {
             var existingImage = await _userService.GetByIDAsync(dto.UserId);
 

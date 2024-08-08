@@ -15,8 +15,8 @@ namespace EVillaAgency.EntityLayer.Concrete
         public string Content { get; set; }
         public DateTime SentAt { get; set; }
 
-        public User Sender { get; set; }
-        public User Receiver { get; set; }
+        public AppUser Sender { get; set; }
+        public AppUser Receiver { get; set; }
         public House House { get; set; }
 
     }

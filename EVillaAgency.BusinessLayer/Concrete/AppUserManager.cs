@@ -10,11 +10,11 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.BusinessLayer.Concrete
 {
-    public class UserManager : GenericRepository<User>, IUserService
+    public class AppUserManager : GenericRepository<AppUser>, IAppUserService
     {
         private readonly AppDbContext _appDbContext;
 
-        public UserManager(AppDbContext dbContext) : base(dbContext)
+        public AppUserManager(AppDbContext dbContext) : base(dbContext)
         {
             _appDbContext = dbContext ?? throw new ArgumentNullException(nameof(dbContext));
         }
@@ -31,9 +31,9 @@ namespace EVillaAgency.BusinessLayer.Concrete
             }
         }
 
-        public async Task<User> ValidateUserAsync(string email, string password)
+        public Task<AppUser> ValidateUserAsync(string email, string password)
         {
-            return await _appDbContext.Users.SingleOrDefaultAsync(u => u.Email == email && u.Password == password);
+            throw new NotImplementedException();
         }
     }
 }

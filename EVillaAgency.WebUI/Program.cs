@@ -1,6 +1,9 @@
 using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.BusinessLayer.Concrete;
 using EVillaAgency.DataAccessLayer.Context;
+using EVillaAgency.EntityLayer.Concrete;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -8,8 +11,9 @@ var builder = WebApplication.CreateBuilder(args);
 builder.Services.AddControllersWithViews();
 
 builder.Services.AddDbContext<AppDbContext>();
-builder.Services.AddScoped<IUserService, UserManager>();
+builder.Services.AddScoped<IAppUserService, AppUserManager>();
 builder.Services.AddHttpClient();
+
 
 builder.Services.AddDistributedMemoryCache();
 
@@ -19,6 +23,11 @@ builder.Services.AddSession(options =>
     options.Cookie.HttpOnly = true;
     options.Cookie.IsEssential = true;
 });
+
+
+builder.Services.AddIdentity<AppUser, IdentityRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 var app = builder.Build();
 

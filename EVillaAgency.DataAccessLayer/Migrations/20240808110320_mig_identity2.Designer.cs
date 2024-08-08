@@ -12,8 +12,8 @@ using Microsoft.EntityFrameworkCore.Storage.ValueConversion;
 namespace EVillaAgency.DataAccessLayer.Migrations
 {
     [DbContext(typeof(AppDbContext))]
-    [Migration("20240807185058_addNotifications")]
-    partial class addNotifications
+    [Migration("20240808110320_mig_identity2")]
+    partial class mig_identity2
     {
         /// <inheritdoc />
         protected override void BuildTargetModel(ModelBuilder modelBuilder)
@@ -25,38 +25,89 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             SqlServerModelBuilderExtensions.UseIdentityColumns(modelBuilder);
 
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.AppRole", b =>
                 {
-                    b.Property<int>("BasketId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("BasketId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int?>("CouponId")
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("NormalizedName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppRole");
+                });
+
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.AppUser", b =>
+                {
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    b.Property<DateTime>("CreatedDate")
-                        .HasColumnType("datetime2");
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<int>("HouseId")
+                    b.Property<int>("AccessFailedCount")
                         .HasColumnType("int");
 
-                    b.Property<bool>("Status")
+                    b.Property<string>("ConcurrencyStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("Email")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("EmailConfirmed")
                         .HasColumnType("bit");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
+                    b.Property<string>("ImageUrl")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasKey("BasketId");
+                    b.Property<bool>("LockoutEnabled")
+                        .HasColumnType("bit");
 
-                    b.HasIndex("CouponId");
+                    b.Property<DateTimeOffset?>("LockoutEnd")
+                        .HasColumnType("datetimeoffset");
 
-                    b.HasIndex("HouseId");
+                    b.Property<string>("Name")
+                        .IsRequired()
+                        .HasColumnType("nvarchar(max)");
 
-                    b.HasIndex("UserId");
+                    b.Property<string>("NormalizedEmail")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.ToTable("Baskets");
+                    b.Property<string>("NormalizedUserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PasswordHash")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<string>("PhoneNumber")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("PhoneNumberConfirmed")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("SecurityStamp")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<bool>("TwoFactorEnabled")
+                        .HasColumnType("bit");
+
+                    b.Property<string>("UserName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("Id");
+
+                    b.ToTable("AppUser");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
@@ -74,35 +125,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.HasKey("CityId");
 
                     b.ToTable("Cities");
-                });
-
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Coupon", b =>
-                {
-                    b.Property<int>("CouponId")
-                        .ValueGeneratedOnAdd()
-                        .HasColumnType("int");
-
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("CouponId"));
-
-                    b.Property<string>("Code")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.Property<float>("DiscountRate")
-                        .HasColumnType("real");
-
-                    b.Property<DateTime>("EndedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<DateTime>("StartedDate")
-                        .HasColumnType("datetime2");
-
-                    b.Property<bool>("Status")
-                        .HasColumnType("bit");
-
-                    b.HasKey("CouponId");
-
-                    b.ToTable("Coupons");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
@@ -138,14 +160,9 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Property<int>("HouseId")
                         .HasColumnType("int");
 
-                    b.Property<int>("UserId")
-                        .HasColumnType("int");
-
                     b.HasKey("FavoriteId");
 
                     b.HasIndex("HouseId");
-
-                    b.HasIndex("UserId");
 
                     b.ToTable("Favorites");
                 });
@@ -341,79 +358,107 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
                     SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("OrderID"));
 
-                    b.Property<int>("BasketId")
-                        .HasColumnType("int");
-
                     b.Property<DateTime>("CreatedDate")
                         .HasColumnType("datetime2");
 
                     b.HasKey("OrderID");
 
-                    b.HasIndex("BasketId")
-                        .IsUnique();
-
                     b.ToTable("Orders");
                 });
 
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.User", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityRoleClaim<int>", b =>
                 {
-                    b.Property<int>("UserId")
+                    b.Property<int>("Id")
                         .ValueGeneratedOnAdd()
                         .HasColumnType("int");
 
-                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("UserId"));
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.Property<DateTime>("CreatedAt")
-                        .HasColumnType("datetime2");
-
-                    b.Property<string>("Email")
-                        .IsRequired()
+                    b.Property<string>("ClaimType")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("ImageUrl")
-                        .IsRequired()
+                    b.Property<string>("ClaimValue")
                         .HasColumnType("nvarchar(max)");
 
-                    b.Property<string>("Password")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
 
-                    b.Property<string>("Phone")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
+                    b.HasKey("Id");
 
-                    b.Property<string>("Username")
-                        .IsRequired()
-                        .HasColumnType("nvarchar(max)");
-
-                    b.HasKey("UserId");
-
-                    b.ToTable("Users");
+                    b.ToTable("RoleClaims");
                 });
 
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserClaim<int>", b =>
                 {
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Coupon", "Coupon")
-                        .WithMany("Baskets")
-                        .HasForeignKey("CouponId");
+                    b.Property<int>("Id")
+                        .ValueGeneratedOnAdd()
+                        .HasColumnType("int");
 
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.House", "House")
-                        .WithMany("Baskets")
-                        .HasForeignKey("HouseId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    SqlServerPropertyBuilderExtensions.UseIdentityColumn(b.Property<int>("Id"));
 
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.User", "User")
-                        .WithMany("Baskets")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
+                    b.Property<string>("ClaimType")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Navigation("Coupon");
+                    b.Property<string>("ClaimValue")
+                        .HasColumnType("nvarchar(max)");
 
-                    b.Navigation("House");
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
 
-                    b.Navigation("User");
+                    b.HasKey("Id");
+
+                    b.ToTable("UserClaims");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserLogin<int>", b =>
+                {
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderKey")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("ProviderDisplayName")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.HasKey("LoginProvider", "ProviderKey");
+
+                    b.ToTable("UserLogins");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserRole<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<int>("RoleId")
+                        .HasColumnType("int");
+
+                    b.HasKey("UserId", "RoleId");
+
+                    b.ToTable("UserRoles");
+                });
+
+            modelBuilder.Entity("Microsoft.AspNetCore.Identity.IdentityUserToken<int>", b =>
+                {
+                    b.Property<int>("UserId")
+                        .HasColumnType("int");
+
+                    b.Property<string>("LoginProvider")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Name")
+                        .HasColumnType("nvarchar(450)");
+
+                    b.Property<string>("Value")
+                        .HasColumnType("nvarchar(max)");
+
+                    b.HasKey("UserId", "LoginProvider", "Name");
+
+                    b.ToTable("UserTokens");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
@@ -435,15 +480,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.User", "User")
-                        .WithMany("Favorites")
-                        .HasForeignKey("UserId")
-                        .OnDelete(DeleteBehavior.Restrict)
-                        .IsRequired();
-
                     b.Navigation("House");
-
-                    b.Navigation("User");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.House", b =>
@@ -466,7 +503,7 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                         .OnDelete(DeleteBehavior.Cascade)
                         .IsRequired();
 
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.User", "Owner")
+                    b.HasOne("EVillaAgency.EntityLayer.Concrete.AppUser", "Owner")
                         .WithMany("Houses")
                         .HasForeignKey("OwnerId")
                         .OnDelete(DeleteBehavior.Cascade)
@@ -500,31 +537,14 @@ namespace EVillaAgency.DataAccessLayer.Migrations
                     b.Navigation("Image");
                 });
 
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Order", b =>
+            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.AppUser", b =>
                 {
-                    b.HasOne("EVillaAgency.EntityLayer.Concrete.Basket", "Basket")
-                        .WithOne("Order")
-                        .HasForeignKey("EVillaAgency.EntityLayer.Concrete.Order", "BasketId")
-                        .OnDelete(DeleteBehavior.Cascade)
-                        .IsRequired();
-
-                    b.Navigation("Basket");
-                });
-
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Basket", b =>
-                {
-                    b.Navigation("Order")
-                        .IsRequired();
+                    b.Navigation("Houses");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.City", b =>
                 {
                     b.Navigation("Districts");
-                });
-
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Coupon", b =>
-                {
-                    b.Navigation("Baskets");
                 });
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.District", b =>
@@ -539,8 +559,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
 
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.House", b =>
                 {
-                    b.Navigation("Baskets");
-
                     b.Navigation("Favorites");
 
                     b.Navigation("HouseImages");
@@ -554,15 +572,6 @@ namespace EVillaAgency.DataAccessLayer.Migrations
             modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.Image", b =>
                 {
                     b.Navigation("HouseImages");
-                });
-
-            modelBuilder.Entity("EVillaAgency.EntityLayer.Concrete.User", b =>
-                {
-                    b.Navigation("Baskets");
-
-                    b.Navigation("Favorites");
-
-                    b.Navigation("Houses");
                 });
 #pragma warning restore 612, 618
         }

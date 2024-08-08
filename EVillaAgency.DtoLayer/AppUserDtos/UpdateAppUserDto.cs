@@ -4,9 +4,9 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 
-namespace EVillaAgency.DtoLayer.UserDtos
+namespace EVillaAgency.DtoLayer.AppUserDtos
 {
-    public class UpdateUserDto
+    public class UpdateAppUserDto
     {
         public int UserId { get; set; }
         public string Username { get; set; }

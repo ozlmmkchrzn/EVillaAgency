@@ -7,9 +7,9 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.BusinessLayer.Abstract
 {
-    public interface IUserService : IGenericService<User>
+    public interface IAppUserService : IGenericService<AppUser>
     {
         Task<int> GetTotalUserCountAsync();
-        Task<User> ValidateUserAsync(string email, string password);
+        Task<AppUser> ValidateUserAsync(string email, string password);
     }
 }

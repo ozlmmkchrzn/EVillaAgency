@@ -1,12 +1,13 @@
 ﻿
 using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.EntityLayer.Concrete;
-using EVillaAgency.WebUI.Dtos.BasketDtos;
 using EVillaAgency.WebUI.Dtos.FavoriteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
-using EVillaAgency.WebUI.Dtos.LoginDtos;
+using EVillaAgency.WebUI.Dtos.IdentityDtos;
 using EVillaAgency.WebUI.Dtos.UserDtos;
 using EVillaAgency.WebUI.Models;
+using Microsoft.AspNetCore.Authorization;
+using Microsoft.AspNetCore.Identity;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.DotNet.Scaffolding.Shared.CodeModifier.CodeChange;
 using Microsoft.EntityFrameworkCore;
@@ -21,17 +22,20 @@ namespace EVillaAgency.WebUI.Controllers
     public class HomeController : BaseController
     {
         private readonly IHttpClientFactory _httpClientFactory;
-        private readonly IUserService _userService;
+        private readonly UserManager<AppUser> _userManager;
+        private readonly SignInManager<AppUser> _signInManager;
 
-        public HomeController(IHttpClientFactory httpClientFactory, IUserService userService)
+        public HomeController(IHttpClientFactory httpClientFactory, UserManager<AppUser> userManager, SignInManager<AppUser> signInManager)
         {
             _httpClientFactory = httpClientFactory;
-            _userService = userService;
+            _userManager = userManager;
+            _signInManager = signInManager;
         }
 
 
 
         [HttpGet]
+        [AllowAnonymous]
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
@@ -64,7 +68,7 @@ namespace EVillaAgency.WebUI.Controllers
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
-                var houseDetail = JsonConvert.DeserializeObject <ResultHousesWithNamesDto>(jsonData);
+                var houseDetail = JsonConvert.DeserializeObject<ResultHousesWithNamesDto>(jsonData);
                 return View(houseDetail);
             }
             return View("Error");
@@ -78,24 +82,26 @@ namespace EVillaAgency.WebUI.Controllers
         // POST: /Account/Register
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Register(CreateUserDto model)
+        public async Task<IActionResult> Register(RegisterDto dto)
         {
-            if (ModelState.IsValid)
+            var user = new AppUser()
             {
-                User user = new User
-                {
-                    Username = model.Username,
-                    Email = model.Email,
-                    CreatedAt = DateTime.Now,
-                    ImageUrl = model.ImageUrl,
-                    Password = model.Password,
-                    Phone = model.Phone
-                };
-              await _userService.InsertAsync(user);
-                
+                Name = dto.Name,
+                Email = dto.Email,
+                UserName = dto.UserName,
+                PhoneNumber = dto.PhoneNumber,
+                ImageUrl = dto.ImageUrl,
+            };
+            var result = await _userManager.CreateAsync(user, dto.Password);
+            if (result.Succeeded)
+            {
                 return RedirectToAction("Login");
             }
-            return View(model);
+            else
+            {
+                return View();
+            }
+
         }
 
         public IActionResult Login()
@@ -106,17 +112,14 @@ namespace EVillaAgency.WebUI.Controllers
         // POST: /Account/Login
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public async Task<IActionResult> Login(LoginDto model)
+        public async Task<IActionResult> Login(LoginDto dto)
         {
-            var user = await _userService.ValidateUserAsync(model.Email, model.Password);
+            var user = await _signInManager.PasswordSignInAsync(dto.UserName, dto.Password, false, false);
 
-            if (user != null)
+            if (user.Succeeded)
             {
-                // Başarılı giriş
-                // Giriş işlemlerini yapabilirsiniz, örneğin: session ayarlamak
-                HttpContext.Session.SetInt32("UserId", user.UserId);
-                HttpContext.Session.SetString("Username", user.Username);
-                return RedirectToAction("Index", "Home");
+                HttpContext.Session.SetString("UserName", dto.UserName);
+                return RedirectToAction("Index");
             }
             // Başarısız giriş
             ModelState.AddModelError("", "Geçersiz kullanıcı adı veya şifre.");
@@ -133,52 +136,6 @@ namespace EVillaAgency.WebUI.Controllers
             // Kullanıcıyı giriş sayfasına yönlendirin
             return RedirectToAction("Index", "Home");
         }
-
-
-        [HttpPost]
-        public async Task<IActionResult> AddBasket(int id)
-        {
-            var userId = HttpContext.Session.GetInt32("UserId");
-            if (!userId.HasValue)
-            {
-                return Json(new { success = false, message = "Kullanıcı kimliği bulunamadı." });
-            }
-
-            CreateBasketDto createBasketDto = new CreateBasketDto
-            {
-                HouseId = id,
-                UserId = userId.Value
-            };
-
-            var client = _httpClientFactory.CreateClient();
-            var jsonData = JsonConvert.SerializeObject(createBasketDto);
-            var stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-
-            try
-            {
-                var responseMessage = await client.PostAsync("https://localhost:7037/api/Basket", stringContent);
-                if (responseMessage.IsSuccessStatusCode)
-                {
-                    var responseContent = await responseMessage.Content.ReadAsStringAsync();
-                    var basketId = JsonConvert.DeserializeObject<int>(responseContent);
-
-                    
-
-                    return Json(new { basketId = basketId });
-                }
-                else
-                {
-                    var errorMessage = await responseMessage.Content.ReadAsStringAsync();
-                    return Json(new { success = false, message = string.IsNullOrEmpty(errorMessage) ? "Bir hata oluştu." : errorMessage });
-                }
-            }
-            catch (Exception ex)
-            {
-                return Json(new { success = false, message = $"Bir hata oluştu: {ex.Message}" });
-            }
-        }
-
-
 
 
         public IActionResult Privacy()

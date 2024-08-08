@@ -11,8 +11,6 @@ namespace EVillaAgency.WebUI.Controllers
 
             ViewBag.UserId = HttpContext.Session.GetInt32("UserId");
             ViewBag.Username = HttpContext.Session.GetString("Username");
-            ViewBag.Discount = HttpContext.Session.GetString("DiscountRate");
-            ViewBag.BasketId = HttpContext.Session.GetInt32("BasketId");
         }
     }
 }

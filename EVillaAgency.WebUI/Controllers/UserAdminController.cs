@@ -70,7 +70,7 @@ namespace EVillaAgency.WebUI.Controllers
             ViewBag.HouseTypes = houseTypeSelectList;
 
             // Users
-            responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (!responseMessage.IsSuccessStatusCode)
             {
                 return View();
@@ -162,7 +162,7 @@ namespace EVillaAgency.WebUI.Controllers
             ViewBag.HouseTypes = houseTypeSelectList;
 
             // Kullanıcıları Getir
-            responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (!responseMessage.IsSuccessStatusCode)
             {
                 return View();
@@ -234,7 +234,7 @@ namespace EVillaAgency.WebUI.Controllers
             }
 
             // Kullanıcıları tekrar yükle
-            responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (responseMessage.IsSuccessStatusCode)
             {
                 jsonData = await responseMessage.Content.ReadAsStringAsync();

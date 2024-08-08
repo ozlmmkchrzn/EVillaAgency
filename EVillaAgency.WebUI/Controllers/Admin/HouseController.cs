@@ -55,7 +55,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             // Evleri Getir
             responseMessage = houseTypeId.HasValue
                 ? await client.GetAsync($"https://localhost:7037/api/House/GetHousesByHouseTypeId?id={houseTypeId}")
-                : await client.GetAsync("https://localhost:7037/api/House");
+                : await client.GetAsync("https://localhost:7037/api/House/GetHousesWithNames");
 
             if (responseMessage.IsSuccessStatusCode)
             {
@@ -90,14 +90,14 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             ViewBag.HouseTypes = houseTypeSelectList;
 
             // Get Users
-            responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (!responseMessage.IsSuccessStatusCode)
             {
                 return View();
             }
 
             jsonData = await responseMessage.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<List<ResultUserDto>>(jsonData);
+            var users = JsonConvert.DeserializeObject<List<ResultAppUserDto>>(jsonData);
 
             var userSelectList = users.Select(u => new SelectListItem
             {
@@ -155,14 +155,14 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             ViewBag.HouseTypes = houseTypeSelectList;
 
             // Kullanıcıları Getir
-            responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (!responseMessage.IsSuccessStatusCode)
             {
                 return View();
             }
 
             jsonData = await responseMessage.Content.ReadAsStringAsync();
-            var users = JsonConvert.DeserializeObject<List<ResultUserDto>>(jsonData);
+            var users = JsonConvert.DeserializeObject<List<ResultAppUserDto>>(jsonData);
 
             var userSelectList = users.Select(u => new SelectListItem
             {

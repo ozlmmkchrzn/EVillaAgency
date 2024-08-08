@@ -1,4 +1,5 @@
-﻿using Microsoft.EntityFrameworkCore.Metadata.Internal;
+﻿using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore.Metadata.Internal;
 using System;
 using System.Collections.Generic;
 using System.Linq;
@@ -7,13 +8,9 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.EntityLayer.Concrete
 {
-    public class User
+    public class AppUser : IdentityUser<int>
     {
-        public int UserId { get; set; }
-        public string Username { get; set; }
-        public string Password { get; set; }
-        public string Email { get; set; }
-        public string Phone { get; set; }
+        public string Name { get; set; }
         public string ImageUrl { get; set; }
         public DateTime CreatedAt { get; set; }
 
@@ -21,7 +18,6 @@ namespace EVillaAgency.EntityLayer.Concrete
         //public ICollection<Message> SentMessages { get; set; }
         //public ICollection<Message> ReceivedMessages { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<Basket> Baskets { get; set; }
 
     }
 }

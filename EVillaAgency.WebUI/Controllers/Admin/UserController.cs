@@ -17,7 +17,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
         public async Task<IActionResult> Index()
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            var responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -39,7 +39,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(dto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PostAsync("https://localhost:7037/api/User", stringContent);
+            var responseMessage = await client.PostAsync("https://localhost:7037/api/AppUser", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -51,7 +51,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
         public async Task<IActionResult> UpdateUser(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.GetAsync($"https://localhost:7037/api/User/{id}");
+            var responseMessage = await client.GetAsync($"https://localhost:7037/api/AppUser/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 var jsonData = await responseMessage.Content.ReadAsStringAsync();
@@ -67,7 +67,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             var client = _httpClientFactory.CreateClient();
             var jsonData = JsonConvert.SerializeObject(dto);
             StringContent stringContent = new StringContent(jsonData, Encoding.UTF8, "application/json");
-            var responseMessage = await client.PutAsync("https://localhost:7037/api/User/", stringContent);
+            var responseMessage = await client.PutAsync("https://localhost:7037/api/AppUser/", stringContent);
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");
@@ -78,7 +78,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
         public async Task<IActionResult> DeleteUser(int id)
         {
             var client = _httpClientFactory.CreateClient();
-            var responseMessage = await client.DeleteAsync($"https://localhost:7037/api/User/{id}");
+            var responseMessage = await client.DeleteAsync($"https://localhost:7037/api/AppUser/{id}");
             if (responseMessage.IsSuccessStatusCode)
             {
                 return RedirectToAction("Index");

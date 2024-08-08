@@ -6,7 +6,7 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.DtoLayer.UserDtos
 {
-    public class CreateUserDto
+    public class CreateAppUserDto
     {
         public string Username { get; set; }
         public string Password { get; set; }

@@ -1,8 +1,11 @@
 using EVillaAgency.BusinessLayer.Abstract;
 using EVillaAgency.BusinessLayer.Concrete;
 using EVillaAgency.DataAccessLayer.Context;
+using EVillaAgency.EntityLayer.Concrete;
 using EVillaAgency.WebAPI.AutoMapper;
 using EVillaAgency.WebAPI.Hubs;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.EntityFrameworkCore;
 using System;
 
 var builder = WebApplication.CreateBuilder(args);
@@ -26,7 +29,9 @@ builder.Services.AddControllers();
 builder.Services.AddEndpointsApiExplorer();
 builder.Services.AddSwaggerGen();
 
-
+builder.Services.AddIdentity<AppUser, AppRole>()
+    .AddEntityFrameworkStores<AppDbContext>()
+    .AddDefaultTokenProviders();
 
 builder.Services.AddAutoMapper(typeof(MappingProfiles).Assembly);
 builder.Services.AddScoped<AppDbContext>();
@@ -35,14 +40,11 @@ builder.Services.AddScoped<IFavoriteService,FavoriteManager>();
 builder.Services.AddScoped<IHouseService,HouseManager>();
 builder.Services.AddScoped<IHouseImageService, HouseImageManager>();
 builder.Services.AddScoped<IHouseTypeService,HouseTypeManager>();
-builder.Services.AddScoped<IUserService,UserManager>();
 builder.Services.AddScoped<IDistrictService,DistrictManager>();
 builder.Services.AddScoped<ICityService,CityManager>();
-builder.Services.AddScoped<IBasketService,BasketManager>();
-builder.Services.AddScoped<IOrderService,OrderManager>();
-builder.Services.AddScoped<ICouponService,CouponManager>();
 builder.Services.AddScoped<IHeatingTypeService,HeatingTypeManager>();
 builder.Services.AddScoped<INotificationService,NotificationManager>();
+builder.Services.AddScoped<IAppUserService,AppUserManager>();
 
 var app = builder.Build();
 

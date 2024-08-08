@@ -2,6 +2,8 @@
 using EVillaAgency.WebUI.Dtos.FavoriteDtos;
 using EVillaAgency.WebUI.Dtos.HouseDtos;
 using EVillaAgency.WebUI.Dtos.UserDtos;
+
+//using EVillaAgency.WebUI.Dtos.UserDtos;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
 using Newtonsoft.Json;
@@ -54,7 +56,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             ViewBag.Houses = housesSelectList;
 
             // Get users
-            responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (!responseMessage.IsSuccessStatusCode)
             {
                 return View();
@@ -119,7 +121,7 @@ namespace EVillaAgency.WebUI.Controllers.Admin
             ViewBag.Houses = houseSelectList;
 
             // Kullanıcıları Getir
-            responseMessage = await client.GetAsync("https://localhost:7037/api/User");
+            responseMessage = await client.GetAsync("https://localhost:7037/api/AppUser");
             if (!responseMessage.IsSuccessStatusCode)
             {
                 return View();

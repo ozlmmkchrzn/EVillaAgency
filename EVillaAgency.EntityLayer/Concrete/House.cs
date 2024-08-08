@@ -30,14 +30,13 @@ namespace EVillaAgency.EntityLayer.Concrete
         public int DistrictId { get; set; }
 
         public bool Status { get; set; }
-        public User Owner { get; set; }
+        public AppUser Owner { get; set; }
 
         public HeatingType HeatingType { get; set; }
         public ICollection<HouseImage> HouseImages { get; set; }
         public HouseType HouseType { get; set; }
         public District District { get; set; }
         public ICollection<Favorite> Favorites { get; set; }
-        public ICollection<Basket> Baskets { get; set; }
 
     }
 }

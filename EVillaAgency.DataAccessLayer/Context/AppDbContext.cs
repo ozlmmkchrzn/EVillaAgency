@@ -1,4 +1,6 @@
 ﻿using EVillaAgency.EntityLayer.Concrete;
+using Microsoft.AspNetCore.Identity;
+using Microsoft.AspNetCore.Identity.EntityFrameworkCore;
 using Microsoft.EntityFrameworkCore;
 using System;
 using System.Collections.Generic;
@@ -8,13 +10,12 @@ using System.Threading.Tasks;
 
 namespace EVillaAgency.DataAccessLayer.Context
 {
-    public class AppDbContext : DbContext
+    public class AppDbContext : IdentityDbContext<AppUser, AppRole, int>
     {
         protected override void OnConfiguring(DbContextOptionsBuilder optionsBuilder)
         {
             optionsBuilder.UseSqlServer("server= ABYSSISS\\SQLEXPRESS; initial catalog = EVillaAgencyDb;integrated security = true; TrustServerCertificate=True");
         }
-        public DbSet<User> Users { get; set; }
         public DbSet<House> Houses { get; set; }
         //public DbSet<Message> Messages { get; set; }
         public DbSet<Favorite> Favorites { get; set; }
@@ -24,10 +25,9 @@ namespace EVillaAgency.DataAccessLayer.Context
         public DbSet<City> Cities { get; set; }
         public DbSet<District> Districts { get; set; }
         public DbSet<HeatingType> HeatingTypes { get; set; }
-        public DbSet<Basket> Baskets { get; set; }
-        public DbSet<Order> Orders { get; set; }
-        public DbSet<Coupon> Coupons { get; set; }
         public DbSet<Notification> Notifications { get; set; }
+        public DbSet<AppUser> AppUsers { get; set; }
+        public DbSet<AppRole> AppRoles { get; set; }
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
@@ -45,28 +45,14 @@ namespace EVillaAgency.DataAccessLayer.Context
                 .HasForeignKey(cb => cb.ImageId); // ImageId yabancı anahtar olarak tanımlandı ve Image tablosuyla ilişkilendirildi.
 
             modelBuilder.Entity<Favorite>()
-                .HasOne(f => f.User)
+                .HasOne(f => f.AppUser)
                 .WithMany(u => u.Favorites)
-                .HasForeignKey(f => f.UserId)
+                .HasForeignKey(f => f.AppUserId)
                 .OnDelete(DeleteBehavior.Restrict); // veya .OnDelete(DeleteBehavior.NoAction);
 
-            //Basket
-            modelBuilder.Entity<Basket>()
-                .HasOne(b => b.House)
-                .WithMany(h => h.Baskets)
-                .HasForeignKey(b => b.HouseId)
-                .OnDelete(DeleteBehavior.Restrict); // Cascade yerine Restrict kullan
-
-            modelBuilder.Entity<Basket>()
-                .HasOne(b => b.User)
-                .WithMany(u => u.Baskets)
-                .HasForeignKey(b => b.UserId)
-                .OnDelete(DeleteBehavior.Restrict);
-
-            modelBuilder.Entity<Basket>()
-                .HasOne(b => b.Order)
-                .WithOne(o => o.Basket)
-                .HasForeignKey<Order>(o => o.BasketId);modelBuilder.Entity<Basket>();
+            modelBuilder.Entity<IdentityUserLogin<int>>().HasKey(l => new { l.LoginProvider, l.ProviderKey });
+            modelBuilder.Entity<IdentityUserRole<int>>().HasKey(r => new { r.UserId, r.RoleId });
+            modelBuilder.Entity<IdentityUserToken<int>>().HasKey(t => new { t.UserId, t.LoginProvider, t.Name });
         }
 
     }
