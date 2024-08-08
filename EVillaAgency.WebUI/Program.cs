@@ -25,7 +25,7 @@ builder.Services.AddSession(options =>
 });
 
 
-builder.Services.AddIdentity<AppUser, IdentityRole>()
+builder.Services.AddIdentity<AppUser, AppRole>()
     .AddEntityFrameworkStores<AppDbContext>()
     .AddDefaultTokenProviders();
 
