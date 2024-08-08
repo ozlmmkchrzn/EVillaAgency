@@ -55,6 +55,8 @@ namespace EVillaAgency.BusinessLayer.Concrete
             var values = await _appDbContext.Houses
             .Include(x => x.HouseType)
             .Include(y => y.Owner)
+            .Include(k=>k.District)
+            .ThenInclude(d => d.City)
             .Include(a => a.HouseImages)
             .ThenInclude(ai => ai.Image)
             .Where(z => z.HouseTypeId == id)
@@ -93,11 +95,10 @@ namespace EVillaAgency.BusinessLayer.Concrete
             var values = await _appDbContext.Houses
             .Include(x => x.HouseType)
             .Include(y => y.Owner)
-            .Include(h => h.HouseImages)
-            .ThenInclude(a => a.Image)
-            .Include(z => z.HeatingType)
-            .Include(a => a.District)
-            .ThenInclude(b => b.City)
+            .Include(k => k.District)
+            .ThenInclude(d => d.City)
+            .Include(a => a.HouseImages)
+            .ThenInclude(ai => ai.Image)
             .Select(h => new ResultHousesWithNames
             {
                 Bathrooms = h.Bathrooms,
