@@ -51,4 +51,10 @@
     <ProjectReference Include="..\EVillaAgency.DtoLayer\EVillaAgency.DtoLayer.csproj" />
   </ItemGroup>
 
+  <ItemGroup>
+    <Reference Include="QRCoder">
+      <HintPath>..\..\QRCoder.dll</HintPath>
+    </Reference>
+  </ItemGroup>
+
 </Project>
